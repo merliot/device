@@ -1,4 +1,4 @@
-package common
+package device
 
 import (
 	"html"
@@ -10,38 +10,38 @@ import (
 // key: ssid; value: passphrase
 type WifiAuth map[string]string
 
-type Commoner interface {
+type Devicer interface {
 	Load()
 	SetWifiAuth(WifiAuth)
 }
 
-type Common struct {
+type Device struct {
 	dean.Thing
 	Targets      `json:"-"`
 	WifiAuth     `json:"-"`
 	DeployParams string
-	commonOS
+	deviceOS
 }
 
 func New(id, model, name string, targets []string) dean.Thinger {
 	println("NEW COMMON")
-	c := &Common{}
-	c.Thing = dean.NewThing(id, model, name)
-	c.Targets = makeTargets(targets)
-	c.WifiAuth = make(WifiAuth)
-	c.commonOSInit()
+	d := &Device{}
+	d.Thing = dean.NewThing(id, model, name)
+	d.Targets = makeTargets(targets)
+	d.WifiAuth = make(WifiAuth)
+	d.deviceOSInit()
 	return c
 }
 
-func (c *Common) ParseDeployParams() url.Values {
-	values, _ := url.ParseQuery(c.DeployParams)
+func (d *Device) ParseDeployParams() url.Values {
+	values, _ := url.ParseQuery(d.DeployParams)
 	return values
 }
 
-func (c *Common) SetDeployParams(params string) {
-       c.DeployParams = html.UnescapeString(params)
+func (d *Device) SetDeployParams(params string) {
+       d.DeployParams = html.UnescapeString(params)
 }
 
-func (c *Common) SetWifiAuth(auth WifiAuth) {
-	c.WifiAuth = auth
+func (d *Device) SetWifiAuth(auth WifiAuth) {
+	d.WifiAuth = auth
 }
