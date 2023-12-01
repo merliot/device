@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	"github.com/merliot/dean"
+	"github.com/merliot/target"
 )
 
 // key: ssid; value: passphrase
@@ -17,7 +18,7 @@ type Devicer interface {
 
 type Device struct {
 	dean.Thing
-	Targets      `json:"-"`
+	target.Targets      `json:"-"`
 	WifiAuth     `json:"-"`
 	DeployParams string
 	deviceOS

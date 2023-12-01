@@ -1,6 +1,6 @@
 //go:build !tinygo
 
-package common
+package device
 
 import (
 	"os"

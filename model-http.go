@@ -1,6 +1,6 @@
 //go:build !https
 
-package common
+package device
 
 var scheme = "http://"
 var wsScheme = "ws://"
