@@ -1,0 +1,67 @@
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f4f4f4;
+	margin: 0px;
+	justify-content: center;
+	max-width: 600px;
+}
+
+#header {
+	padding: 15px;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#header div {
+	align-items: center;
+}
+
+#device-icon {
+	width: 40px;
+	height: 40px;
+}
+
+#title {
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: large;
+	font-weight: bold;
+}
+
+#status {
+	border-radius: 15px;
+	padding: 5px 10px;
+}
+
+.icon {
+	width: 20px;
+	height: 20px;
+	padding: 0px 10px;
+}
+
+.panel {
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin: 0px 15px 15px 15px;
+	box-sizing: border-box;
+}
+
+.back {
+	margin-bottom: 25px;
+}
+
+.divFlexRow {
+	display: flex;
+}
+
+.divFlexCol {
+	display: flex;
+	flex-direction: column;
+}
+
+hr {
+  margin-left: 0;
+  margin-right: 0;
+}

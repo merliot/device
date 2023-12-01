@@ -1,0 +1,77 @@
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>Deploy {{.Model}}</title>
+
+		<link rel="stylesheet" type="text/css" href="css/common.css">
+		<link rel="stylesheet" type="text/css" href="css/download.css">
+
+	</head>
+
+	<body class="divFlexCol">
+
+		<div id="header" class="divFlexRow">
+			<div class="divFlexRow">
+				<img id="device-icon" src="images/icon.png"></img>
+				<span id="title">{{.Name}}</span>
+			</div>
+		</div>
+
+		<div class="panel divFlexCol">
+			<div class="back divFlexRow">
+				<a href="javascript:window.history.back()">
+					<img class="icon" src="images/back-icon.png">
+				</a>
+				<span>Download</span>
+			</div>
+
+			<form id="deploy-form">
+				<div class="divFlexCol">
+					<div class="divFlexRow">
+						<label for="deploy-target">Target:</label>
+						<select name="target" id="deploy-target">
+{{ range $key, $value := .Targets }}
+							<option value="{{ $key }}">{{ $value.FullName }}</option>
+{{ end }}
+						</select>
+					</div>
+					<div class="divFlexRow" id="deploy-ssid-div">
+						<label for="deploy-ssid">Wifi SSID:</label>
+						<select name="ssid" id="deploy-ssid">
+{{ range $key, $value := .WifiAuth }}
+							<option value="{{ $key }}">{{ $key }}</option>
+{{ end }}
+						</select>
+					</div>
+					<div class="divFlexRow" id="deploy-http-div">
+						<label for="deploy-http">Run local Web Server:</label>
+						<input type="checkbox" id="deploy-http">
+						<label for="deploy-port">Port:</label>
+						<input type="text" name="port" id="deploy-port">
+					</div>
+					<div class="divFlexRow">
+						<label for="deploy-backup">Backup Hub:</label>
+						<input type="checkbox" id="deploy-backup">
+						<label for="deploy-backuphub">URL:</label>
+						<input type="text" name="backuphub" id="deploy-backuphub">
+					</div>
+{{template "deploy-body.tmpl" .}}
+					<div class="divFlexCol">
+						<div class="divFlexRow">
+							<img id="gopher" src="images/gopher-workout.gif" style="display:none" width=30px>
+						</div>
+						<button id="download-btn">Download</button>
+						<span id="download-response"></span>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<script type="module">
+			import { stageDeploy } from "./js/download.js"
+			stageDeploy("{{.DeployParams}}")
+		</script>
+
+	</body>
+</html>

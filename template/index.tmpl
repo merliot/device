@@ -1,0 +1,38 @@
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>{{.Model}} - {{.Name}}</title>
+
+		<link rel="stylesheet" type="text/css" href="css/common.css">
+		<link rel="stylesheet" type="text/css" href="css/{{.Model}}.css">
+
+{{template "index-head.tmpl" .}}
+
+	</head>
+
+	<body class="divFlexCol">
+
+		<div id="header" class="divFlexRow">
+			<div class="divFlexRow">
+				<img id="device-icon" src="images/icon.png"></img>
+				<span id="title">{{.Name}}</span>
+			</div>
+			<div class="divFlexRow">
+				<span id="status"></span>
+			</div>
+			<div class="divFlexRow">
+				<a href="download"><img class="icon" src="images/download-icon.png"></a>
+				<a href="info"><img class="icon" src="images/info-icon.png"></a>
+			</div>
+		</div>
+
+{{template "index-body.tmpl" .}}
+
+		<script type="module">
+			import { run } from "./js/{{.Model}}.js"
+			run("[{{.Model}} {{.Id}}]", "{{.WebSocket}}")
+		</script>
+
+	</body>
+</html>
