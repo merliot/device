@@ -1,10 +1,10 @@
-module github.com/merliot/model
+module github.com/merliot/device
 
 go 1.19
 
 require (
-	github.com/gomarkdown/markdown v0.0.0-20231115200524-a660076da3fd
 	github.com/merliot/dean v0.0.0-20231201053006-c27f801c0c3b
+	github.com/merliot/target v0.0.0-20231201081641-60e8feeaba42
 )
 
 require (

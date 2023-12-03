@@ -1,7 +1,7 @@
-github.com/gomarkdown/markdown v0.0.0-20231115200524-a660076da3fd h1:PppHBegd3uPZ3Y/Iax/2mlCFJm1w4Qf/zP1MdW4ju2o=
-github.com/gomarkdown/markdown v0.0.0-20231115200524-a660076da3fd/go.mod h1:JDGcbDT52eL4fju3sZ4TeHGsQwhG9nbDV21aMyhwPoA=
 github.com/merliot/dean v0.0.0-20231201053006-c27f801c0c3b h1:LhL/lykrG2vZBdGVXf1lpLSXYVLuXO1Z9MidWuWIyH4=
 github.com/merliot/dean v0.0.0-20231201053006-c27f801c0c3b/go.mod h1:VUXJ/5kx5shVxBvSiZ6Rra5PwpZoJ3DUBpXQdIqtSlU=
+github.com/merliot/target v0.0.0-20231201081641-60e8feeaba42 h1:7g19y1jJKqlHZ/aQwM4/bJd3+8M0EZJRWE0p6RHcAkU=
+github.com/merliot/target v0.0.0-20231201081641-60e8feeaba42/go.mod h1:OdRm1mHT6yPNBcnyajAYpaUx2dRXdq8p5OGxyQ1VIEk=
 golang.org/x/crypto v0.12.0 h1:tFM/ta59kqch6LlvYnPa0yx5a83cL2nHflFhYKvv9Yk=
 golang.org/x/crypto v0.12.0/go.mod h1:NF0Gs7EO5K4qLn+Ylc+fih8BSTeIjAP05siRnAh98yw=
 golang.org/x/net v0.14.0 h1:BONx9s002vGdD9umnlX1Po8vOZmrgH34qlHcD1MfK14=

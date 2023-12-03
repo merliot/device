@@ -3,21 +3,16 @@
 package device
 
 import (
-	"bufio"
 	"embed"
 	"encoding/json"
 	"html/template"
 	"io/fs"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
 	"github.com/merliot/dean"
 )
 
@@ -32,11 +27,11 @@ type deviceOS struct {
 }
 
 func (d *Device) deviceOSInit() {
-	c.PingPeriod = 4
-	//c.PingPeriod = 60
-	c.CompositeFs = dean.NewCompositeFS()
-	c.CompositeFs.AddFS(deviceFs)
-	c.templates = c.CompositeFs.ParseFS("template/*")
+	d.PingPeriod = 4
+	//d.PingPeriod = 60
+	d.CompositeFs = dean.NewCompositeFS()
+	d.CompositeFs.AddFS(deviceFs)
+	d.templates = d.CompositeFs.ParseFS("template/*")
 }
 
 func RenderTemplate(templates *template.Template, w http.ResponseWriter, name string, data any) {
@@ -52,7 +47,7 @@ func RenderTemplate(templates *template.Template, w http.ResponseWriter, name st
 
 func (d *Device) showCode(templates *template.Template, w http.ResponseWriter, r *http.Request) {
 	// Retrieve top-level entries
-	entries, _ := fs.ReadDir(c.CompositeFs, ".")
+	entries, _ := fs.ReadDir(d.CompositeFs, ".")
 	// Collect entry names
 	names := make([]string, 0, len(entries))
 	for _, entry := range entries {
@@ -75,25 +70,25 @@ var scriptFile = regexp.MustCompile("\\.(go|tmpl|js|css)$")
 
 func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *http.Request) {
 
-	id, _, _ := c.Identity()
+	id, _, _ := d.Identity()
 
-	pingPeriod := strconv.Itoa(c.PingPeriod)
-	c.WebSocket = wsScheme + r.Host + "/ws/" + id + "/?ping-period=" + pingPeriod
+	pingPeriod := strconv.Itoa(d.PingPeriod)
+	d.WebSocket = wsScheme + r.Host + "/ws/" + id + "/?ping-period=" + pingPeriod
 
 	path := r.URL.Path
 	switch strings.TrimPrefix(path, "/") {
 	case "", "index.html":
-		RenderTemplate(templates, w, "index.tmpl", c)
+		RenderTemplate(templates, w, "index.tmpl", d)
 	case "download":
-		RenderTemplate(templates, w, "download.tmpl", c)
+		RenderTemplate(templates, w, "download.tmpl", d)
 	case "info":
-		RenderTemplate(templates, w, "info.tmpl", c)
+		RenderTemplate(templates, w, "info.tmpl", d)
 	case "deploy":
-		c.deploy(templates, w, r)
+		d.deploy(templates, w, r)
 	case "code":
-		c.showCode(templates, w, r)
+		d.showCode(templates, w, r)
 	case "state":
-		ShowState(templates, w, c)
+		ShowState(templates, w, d)
 	default:
 		if textFile.MatchString(path) {
 			w.Header().Set("Content-Type", "text/plain")
@@ -101,24 +96,24 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 		if scriptFile.MatchString(path) {
 			w.Header().Set("Content-Type", "application/javascript")
 		}
-		http.FileServer(http.FS(c.CompositeFs)).ServeHTTP(w, r)
+		http.FileServer(http.FS(d.CompositeFs)).ServeHTTP(w, r)
 	}
 }
 
 func (d *Device) Load() {
-	bytes, err := os.ReadFile("devs/" + c.Id + ".json")
+	bytes, err := os.ReadFile("devs/" + d.Id + ".json")
 	if err == nil {
-		json.Unmarshal(bytes, &c.DeployParams)
+		json.Unmarshal(bytes, &d.DeployParams)
 	}
 }
 
 func (d *Device) Save() {
-	bytes, err := json.MarshalIndent(c.DeployParams, "", "\t")
+	bytes, err := json.MarshalIndent(d.DeployParams, "", "\t")
 	if _, err := os.Stat("devs/"); os.IsNotExist(err) {
 		// If the directory doesn't exist, create it
 		os.Mkdir("devs/", os.ModePerm)
 	}
 	if err == nil {
-		os.WriteFile("devs/"+c.Id+".json", bytes, 0600)
+		os.WriteFile("devs/"+d.Id+".json", bytes, 0600)
 	}
 }

@@ -7,17 +7,17 @@ import (
 	"strconv"
 )
 
-func (c *Common) ParseWifiAuth() {
+func (d *Device) ParseWifiAuth() {
 	if ssid, ok := os.LookupEnv("WIFI_SSID"); ok {
 		if passphrase, ok := os.LookupEnv("WIFI_PASSPHRASE"); ok {
-			c.WifiAuth[ssid] = passphrase
+			d.WifiAuth[ssid] = passphrase
 		}
 	}
 	for i := 0; i < 10; i++ {
 		a := strconv.Itoa(i)
 		if ssid, ok := os.LookupEnv("WIFI_SSID_" + a); ok {
 			if passphrase, ok := os.LookupEnv("WIFI_PASSPHRASE_" + a); ok {
-				c.WifiAuth[ssid] = passphrase
+				d.WifiAuth[ssid] = passphrase
 			}
 		}
 	}

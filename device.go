@@ -28,10 +28,10 @@ func New(id, model, name string, targets []string) dean.Thinger {
 	println("NEW COMMON")
 	d := &Device{}
 	d.Thing = dean.NewThing(id, model, name)
-	d.Targets = makeTargets(targets)
+	d.Targets = target.MakeTargets(targets)
 	d.WifiAuth = make(WifiAuth)
 	d.deviceOSInit()
-	return c
+	return d
 }
 
 func (d *Device) ParseDeployParams() url.Values {
