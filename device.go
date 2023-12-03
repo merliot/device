@@ -18,9 +18,9 @@ type Devicer interface {
 
 type Device struct {
 	dean.Thing
-	target.Targets      `json:"-"`
-	WifiAuth     `json:"-"`
-	DeployParams string
+	target.Targets `json:"-"`
+	WifiAuth       `json:"-"`
+	DeployParams   string
 	deviceOS
 }
 
@@ -40,7 +40,7 @@ func (d *Device) ParseDeployParams() url.Values {
 }
 
 func (d *Device) SetDeployParams(params string) {
-       d.DeployParams = html.UnescapeString(params)
+	d.DeployParams = html.UnescapeString(params)
 }
 
 func (d *Device) SetWifiAuth(auth WifiAuth) {

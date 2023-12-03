@@ -13,4 +13,3 @@ func Run(thinger dean.Thinger) {
 	server.AdoptThing(thinger)
 	server.Run()
 }
-
