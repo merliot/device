@@ -1,4 +1,4 @@
-//go:build !tinygo && !prime
+//go:build !tinygo
 
 package device
 
@@ -16,7 +16,7 @@ import (
 	"github.com/merliot/dean"
 )
 
-//go:embed css images js template
+//go:embed css images js template favicon.ico
 var deviceFs embed.FS
 
 type deviceOS struct {
@@ -32,12 +32,6 @@ func (d *Device) deviceOSInit() {
 	d.CompositeFs = dean.NewCompositeFS()
 	d.CompositeFs.AddFS(deviceFs)
 	d.templates = d.CompositeFs.ParseFS("template/*")
-}
-
-func Serve(thinger dean.Thinger) {
-	server := dean.NewServer(thinger)
-	server.Dial()
-	server.Run()
 }
 
 func RenderTemplate(templates *template.Template, w http.ResponseWriter, name string, data any) {
