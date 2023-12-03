@@ -1,4 +1,4 @@
-//go:build !tinygo
+//go:build !tinygo && !prime
 
 package device
 
@@ -32,6 +32,12 @@ func (d *Device) deviceOSInit() {
 	d.CompositeFs = dean.NewCompositeFS()
 	d.CompositeFs.AddFS(deviceFs)
 	d.templates = d.CompositeFs.ParseFS("template/*")
+}
+
+func Serve(thinger dean.Thinger) {
+	server := dean.NewServer(thinger)
+	server.Dial()
+	server.Run()
 }
 
 func RenderTemplate(templates *template.Template, w http.ResponseWriter, name string, data any) {
