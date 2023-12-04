@@ -3,29 +3,19 @@
 package main
 
 import (
-	"github.com/merliot/dean"
-	"github.com/merliot/dean/tinynet"
-	"github.com/merliot/hub/models/{{.model}}"
+	"github.com/merliot/device/runner"
+	"github.com/merliot/{{.model}}"
 )
 
+var cfg = runner.Config{
+	Port: "{{.port}}",
+	User: "{{.user}}",
+	Passwd: "{{.passwd}}",
+	DialURLs: "{{.hub}},{{.backuphub}}",
+}
+
 func main() {
-
-	tinynet.NetConnect("{{.ssid}}", "{{.passphrase}}")
-
 	thing := {{.model}}.New("{{.id}}", "{{.model}}", "{{.name}}").(*{{.model}}.{{.modelStruct}})
-
 	thing.SetDeployParams("{{.deployParams}}")
-
-	runner := dean.NewRunner(thing)
-
-{{template "runner-extras.tmpl" .}}
-	if "{{.hub}}" != "" {
-		runner.DialWebSocket("{{.user}}", "{{.passwd}}", "{{.hub}}", thing.Announce())
-	}
-
-	if "{{.backuphub}}" != "" {
-		runner.DialWebSocket("{{.user}}", "{{.passwd}}", "{{.backupHub}}", thing.Announce())
-	}
-
-	runner.Run()
+	runner.Run(cfg, thing)
 }

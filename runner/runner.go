@@ -6,8 +6,8 @@ import (
 	"github.com/merliot/dean"
 )
 
-func Run(thinger dean.Thinger) {
-	server := dean.NewServer(thinger)
-	server.Dial()
+func Run(cfg Config, thinger dean.Thinger) {
+	server := dean.NewServer(thinger, cfg.User, cfg.Passwd, cfg.Port)
+	server.Dial(cfg.DialURLs)
 	server.Run()
 }
