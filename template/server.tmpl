@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	tinynet.NetConnect("{{.ssid}}", "{{.passphrase}}")
 	thing := {{.model}}.New("{{.id}}", "{{.model}}", "{{.name}}").(*{{.model}}.{{.modelStruct}})
 	thing.SetDeployParams("{{.deployParams}}")
 	server := dean.NewServer(thing, "{{.user}}", "{{.passwd}}", "{{.port}}")
