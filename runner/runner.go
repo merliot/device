@@ -8,7 +8,6 @@ import (
 
 func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs string) {
 	server := dean.NewServer(thinger, user, passwd, port)
-	println(dialURLs)
 	server.Dial(dialURLs)
 	server.Run()
 }
