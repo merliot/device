@@ -7,15 +7,8 @@ import (
 	"github.com/merliot/{{.model}}"
 )
 
-var cfg = runner.Config{
-	Port: "{{.port}}",
-	User: "{{.user}}",
-	Passwd: "{{.passwd}}",
-	DialURLs: "{{.hub}},{{.backuphub}}",
-}
-
 func main() {
 	thing := {{.model}}.New("{{.id}}", "{{.model}}", "{{.name}}").(*{{.model}}.{{.modelStruct}})
 	thing.SetDeployParams("{{.deployParams}}")
-	runner.Run(cfg, thing)
+	runner.Run(thing, "{{.port}}", "", "{{.user}}", "{{.passwd}}", "{{.hub}},{{.backuphub}}")
 }

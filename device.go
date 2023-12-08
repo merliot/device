@@ -3,6 +3,7 @@ package device
 import (
 	"html"
 	"net/url"
+	"strings"
 
 	"github.com/merliot/dean"
 	"github.com/merliot/target"
@@ -43,6 +44,13 @@ func (d *Device) SetDeployParams(params string) {
 	d.DeployParams = html.UnescapeString(params)
 }
 
-func (d *Device) SetWifiAuth(auth WifiAuth) {
-	d.WifiAuth = auth
+func (d *Device) SetWifiAuth(ssids, passphrases string) {
+	d.WifiAuth = make(WifiAuth)
+	keys := strings.Split(ssids, ",")
+	values := strings.Split(passphrases, ",")
+	for i, key := range keys {
+		if i < len(values) {
+			d.WifiAuth[key] = values[i]
+		}
+	}
 }

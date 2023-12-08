@@ -8,8 +8,8 @@ import (
 	_ "github.com/merliot/dean/tinynet/connect"
 )
 
-func Run(cfg Config, thinger dean.Thinger) {
-	runner := dean.NewRunner(thinger, cfg.User, cfg.Passwd)
-	runner.Dial(cfg.DialURLs)
+func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs string) {
+	runner := dean.NewRunner(thinger, user, passwd)
+	runner.Dial(dialURLs)
 	runner.Run()
 }
