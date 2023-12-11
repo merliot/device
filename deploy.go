@@ -164,14 +164,18 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 		values["passphrase"] = d.WifiAuth[ssid]
 	}
 
-	values["hub"] = wsScheme + r.Host + "/ws/?ping-period=4"
+	scheme := "ws://"
+	if r.TLS != nil {
+		scheme = "wss://"
+	}
+	values["hub"] = scheme + r.Host + "/ws/?ping-period=4"
 
 	if values["backuphub"] != "" {
 		u, err := url.Parse(values["backuphub"])
 		if err != nil {
 			return nil, err
 		}
-		scheme := "ws://"
+		scheme = "ws://"
 		if u.Scheme == "https" {
 			scheme = "wss://"
 		}

@@ -72,8 +72,12 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 
 	id, _, _ := d.Identity()
 
+	scheme := "ws://"
+	if r.TLS != nil {
+		scheme = "wss://"
+	}
 	pingPeriod := strconv.Itoa(d.PingPeriod)
-	d.WebSocket = wsScheme + r.Host + "/ws/" + id + "/?ping-period=" + pingPeriod
+	d.WebSocket = scheme + r.Host + "/ws/" + id + "/?ping-period=" + pingPeriod
 
 	path := r.URL.Path
 	switch strings.TrimPrefix(path, "/") {
