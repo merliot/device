@@ -1,29 +1,25 @@
 # syntax=docker/dockerfile:1
 
 # Debian GNU/Linux 12 (bookworm)
-FROM golang:1.21.4
+FROM golang:1.21.5
 
 WORKDIR /app
 
 RUN apt-get update
 RUN apt-get install vim tree build-essential git cmake ninja-build avrdude -y
 
-RUN git clone --recursive https://github.com/scottfeldman/tinygo.git
-#RUN git clone --recursive https://github.com/tinygo-org/tinygo.git
+RUN git clone --branch dev --recursive https://github.com/scottfeldman/tinygo.git
 WORKDIR /app/tinygo
-RUN git checkout dev
-RUN git submodule update --init
-RUN echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-16 main' | tee /etc/apt/sources.list.d/llvm.list
+RUN echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-15 main' | tee /etc/apt/sources.list.d/llvm.list
 RUN wget -4 -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN apt-get update
-RUN apt-get install clang-16 llvm-16-dev lld-16 libclang-16-dev -y
+RUN apt-get install clang-15 llvm-15-dev lld-15 libclang-15-dev -y
 RUN make llvm-source
 RUN make gen-device
-RUN go install
+RUN go install -tags=llvm15
 
 WORKDIR /app
-RUN git clone https://github.com/scottfeldman/tinygo-drivers.git drivers
-#RUN git clone https://github.com/tinygo-org/tinygo-drivers.git drivers
+RUN git clone https://github.com/scottfeldman/drivers.git drivers
 WORKDIR /app/drivers
 RUN git checkout dev
 
