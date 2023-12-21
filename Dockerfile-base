@@ -14,7 +14,7 @@ RUN echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-16 main' | t
 RUN wget -4 -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN apt-get update
 RUN apt-get install clang-16 llvm-16-dev lld-16 libclang-16-dev -y
-RUN make llvm-source llvm-build
+RUN make llvm-source
 RUN make gen-device
 RUN go install
 
