@@ -151,7 +151,7 @@ func (d *Device) deployTinyGoUF2(dir string, values map[string]string, envs []st
 
 	target := values["target"]
 
-	base := target + ".uf2"
+	base := d.Model + "-" + target + ".uf2"
 	installer := d.Id + "-installer.uf2"
 
 	// Re-write the base uf2 file and save as the installer uf2 file.
