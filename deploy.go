@@ -212,7 +212,7 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 		if err != nil {
 			return nil, err
 		}
-		scheme = "ws://"
+		scheme := "ws://"
 		if u.Scheme == "https" {
 			scheme = "wss://"
 		}
