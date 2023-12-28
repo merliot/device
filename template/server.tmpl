@@ -12,5 +12,6 @@ func main() {
 	thing.SetDeployParams("{{.deployParams}}")
 	server := dean.NewServer(thing, "{{.user}}", "{{.passwd}}", "{{.port}}")
 	server.Dial("{{.hub}},{{.backuphub}}")
+	println("{{.hub}}", "{{.backuphub}}")
 	server.Run()
 }
