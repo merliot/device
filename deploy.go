@@ -205,7 +205,6 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 	}
 
 	values["hub"] = wsScheme + r.Host + "/ws/?ping-period=4"
-	println("\n\n\nHUB", values["hub"], "\n\n\n")
 
 	if values["backuphub"] != "" {
 		u, err := url.Parse(values["backuphub"])
