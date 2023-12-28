@@ -17,6 +17,18 @@ type Devicer interface {
 	SetWifiAuth(WifiAuth)
 }
 
+type params struct {
+	Ssid         string
+	Passphrase   string
+	Id           string
+	Model        string
+	Name         string
+	DeployParams string
+	User         string
+	Passwd       string
+	DialURLs     string
+}
+
 type Device struct {
 	dean.Thing
 	target.Targets `json:"-"`

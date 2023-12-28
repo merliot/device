@@ -5,6 +5,7 @@ package device
 import (
 	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -13,6 +14,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/merliot/uf2"
 )
 
 func genFile(templates *template.Template, template string, name string,
@@ -30,6 +33,28 @@ func genFile(templates *template.Template, template string, name string,
 	defer file.Close()
 
 	return tmpl.Execute(file, values)
+}
+
+func (d *Device) serveFile(dir, filename string, w http.ResponseWriter, r *http.Request) error {
+
+	// Calculate MD5 checksum of installer
+	cmd := exec.Command("md5sum", dir+"/"+filename)
+	println(cmd.String())
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%w: %s", err, stdoutStderr)
+	}
+	md5sum := bytes.Fields(stdoutStderr)[0]
+	md5sumBase64 := base64.StdEncoding.EncodeToString(md5sum)
+
+	// Set the Content-Disposition header to suggest the original filename for download
+	w.Header().Set("Content-Disposition", "attachment; filename="+filename)
+	// Set the MD5 checksum header
+	w.Header().Set("Content-MD5", md5sumBase64)
+
+	http.ServeFile(w, r, dir+"/"+filename)
+
+	return nil
 }
 
 func (d *Device) deployGo(dir string, values map[string]string, envs []string,
@@ -79,26 +104,10 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 		return fmt.Errorf("%w: %s", err, stdoutStderr)
 	}
 
-	// Calculate MD5 checksum of installer
-	cmd = exec.Command("md5sum", dir+"/"+installer)
-	println(cmd.String())
-	stdoutStderr, err = cmd.CombinedOutput()
-	if err != nil {
-		return fmt.Errorf("%w: %s", err, stdoutStderr)
-	}
-	md5sum := bytes.Fields(stdoutStderr)[0]
-	md5sumBase64 := base64.StdEncoding.EncodeToString(md5sum)
-
-	// Set the Content-Disposition header to suggest the original filename for download
-	w.Header().Set("Content-Disposition", "attachment; filename="+installer)
-	// Set the MD5 checksum header
-	w.Header().Set("Content-MD5", md5sumBase64)
-
-	http.ServeFile(w, r, dir+"/"+installer)
-
-	return nil
+	return d.serveFile(dir, installer, w, r)
 }
 
+/*
 func (d *Device) deployTinyGo(dir string, values map[string]string, envs []string,
 	templates *template.Template, w http.ResponseWriter, r *http.Request) error {
 
@@ -121,24 +130,55 @@ func (d *Device) deployTinyGo(dir string, values map[string]string, envs []strin
 		return fmt.Errorf("%w: %s", err, stdoutStderr)
 	}
 
-	// Calculate MD5 checksum of installer
-	cmd = exec.Command("md5sum", dir+"/"+installer)
-	println(cmd.String())
-	stdoutStderr, err = cmd.CombinedOutput()
-	if err != nil {
-		return fmt.Errorf("%w: %s", err, stdoutStderr)
+	return d.serveFile(dir, installer, w, r)
+}
+*/
+
+func (d *Device) deployTinyGoUF2(dir string, values map[string]string, envs []string,
+	templates *template.Template, w http.ResponseWriter, r *http.Request) error {
+
+	var p = params{
+		Ssid:         values["ssid"],
+		Passphrase:   values["passphrase"],
+		Id:           values["id"],
+		Model:        values["model"],
+		Name:         values["name"],
+		DeployParams: values["deployParams"],
+		User:         values["user"],
+		Passwd:       values["passwd"],
+		DialURLs:     values["dialUrls"],
 	}
-	md5sum := bytes.Fields(stdoutStderr)[0]
-	md5sumBase64 := base64.StdEncoding.EncodeToString(md5sum)
 
-	// Set the Content-Disposition header to suggest the original filename for download
-	w.Header().Set("Content-Disposition", "attachment; filename="+installer)
-	// Set the MD5 checksum header
-	w.Header().Set("Content-MD5", md5sumBase64)
+	target := values["target"]
 
-	http.ServeFile(w, r, dir+"/"+installer)
+	base := target + ".uf2"
+	installer := d.Id + "-installer.uf2"
 
-	return nil
+	// Re-write the base uf2 file and save as the installer uf2 file.
+	// The paramsMem area is replace by json-encoded params.
+
+	uf2, err := uf2.Read(base)
+	if err != nil {
+		return err
+	}
+
+	oldBytes := bytes.Repeat([]byte{byte('x')}, 2048)
+	newBytes := make([]byte, 2048)
+
+	newParams, err := json.Marshal(p)
+	if err != nil {
+		return err
+	}
+	copy(newBytes, newParams)
+
+	uf2.ReplaceBytes(oldBytes, newBytes)
+
+	err = uf2.Write(dir + "/" + installer)
+	if err != nil {
+		return err
+	}
+
+	return d.serveFile(dir, installer, w, r)
 }
 
 func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
@@ -179,8 +219,10 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 		if u.Scheme == "https" {
 			scheme = "wss://"
 		}
-		values["backupHub"] = scheme + u.Host + "/ws/?ping-period=4"
+		values["backuphub"] = scheme + u.Host + "/ws/?ping-period=4"
 	}
+
+	values["dialUrls"] = values["hub"] + "," + values["backuphub"]
 
 	if user, passwd, ok := r.BasicAuth(); ok {
 		values["user"] = user
@@ -223,7 +265,8 @@ func (d *Device) _deploy(templates *template.Template, w http.ResponseWriter, r 
 	case "demo", "x86-64", "rpi":
 		return d.deployGo(dir, values, envs, templates, w, r)
 	case "nano-rp2040", "wioterminal", "pyportal":
-		return d.deployTinyGo(dir, values, envs, templates, w, r)
+		//return d.deployTinyGo(dir, values, envs, templates, w, r)
+		return d.deployTinyGoUF2(dir, values, envs, templates, w, r)
 	default:
 		return errors.New("Target not supported")
 	}
