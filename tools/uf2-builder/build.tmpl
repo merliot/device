@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	p := device.DeviceParams()
+	p, _ := device.DeviceParams()
 	tinynet.NetConnect(p.Ssid, p.Passphrase)
 	thing := {{.Model}}.New(p.Id, p.Model, p.Name).(*{{.Model}}.{{.ModelStruct}})
 	thing.SetDeployParams(p.DeployParams)
