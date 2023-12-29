@@ -42,14 +42,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Execute the template and write the output to the file
 	err = tmpl.Execute(file, buildConfig)
 	if err != nil {
 		fmt.Printf("Error executing build.tmpl: %v\n", err)
 		os.Exit(1)
 	}
 
-	// Run 'go build' to compile the generated build.go file
+	// Build the uf2 file
 	uf2Name := *model + "-" + *target + ".uf2"
 	cmd := exec.Command("tinygo", "build", "-target", *target, "-o", uf2Name, "-stack-size", "8kb", file.Name())
 	println(cmd.String())
