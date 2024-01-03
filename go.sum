@@ -2,6 +2,8 @@ github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 h1:El6M4kTTCOh6aBiKaU
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510/go.mod h1:pupxD2MaaD3pAXIBCelhxNneeOaAeabZDe5s4K6zSpQ=
 github.com/merliot/dean v0.0.0-20231208003337-ba15b20fe511 h1:UiM82rt2czYQFEzy37mbJaXfDdDbQhfa7/04BKiDOFU=
 github.com/merliot/dean v0.0.0-20231208003337-ba15b20fe511/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
+github.com/merliot/dean v0.0.0-20240103001520-b281562a869b h1:lmOMtHx/CG+BTnowKc//BEQtXyRJLgMiGAYFrlrbTRA=
+github.com/merliot/dean v0.0.0-20240103001520-b281562a869b/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
 github.com/merliot/prime v0.0.0-20231207215615-e07856129c62 h1:sp4BK110UbA6juge13pwUMAdHzCWufSHwDIUtNByekM=
 github.com/merliot/prime v0.0.0-20231207215615-e07856129c62/go.mod h1:vE9nIaIJMAOpJcFUgZ278l4IU4M5kQHHTQ7aFfJASL0=
 github.com/merliot/target v0.0.0-20231208003459-02cacc0ea0c0 h1:T39wsoP3I6RDpB5GD7cCMQGr5OcqBXzrplZ5edpaZw4=
