@@ -91,22 +91,6 @@ function downloadFile(event) {
 		})
 }
 
-function handleBackup(backup, first) {
-	var backupHub = document.getElementById("deploy-backuphub")
-	if (first) {
-		if (backupHub.value !== "") {
-			backup.checked = true
-		}
-	}
-	if (backup.checked) {
-		backupHub.disabled = false;
-		backupHub.name = "backuphub";
-	} else {
-		backupHub.disabled = true;
-		backupHub.name = "";
-	}
-}
-
 function handleHttp(http, first) {
 	var port = document.getElementById("deploy-port")
 	if (first) {
@@ -170,10 +154,6 @@ function stageDeploy(deployParams) {
 	stageFormData(deployParams)
 
 	document.getElementById("download-btn").addEventListener("click", downloadFile)
-
-	var backup = document.getElementById("deploy-backup")
-	backup.addEventListener("change", function() { handleBackup(backup, false) })
-	handleBackup(backup, true)
 
 	var http = document.getElementById("deploy-http")
 	http.addEventListener("change", function() { handleHttp(http, false) })
