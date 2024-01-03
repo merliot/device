@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"net/url"
 	"os"
 	"os/exec"
 	"strings"
@@ -205,20 +204,7 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 	}
 
 	values["hub"] = wsScheme + r.Host + "/ws/?ping-period=4"
-
-	if values["backuphub"] != "" {
-		u, err := url.Parse(values["backuphub"])
-		if err != nil {
-			return nil, err
-		}
-		scheme := "ws://"
-		if u.Scheme == "https" {
-			scheme = "wss://"
-		}
-		values["backuphub"] = scheme + u.Host + "/ws/?ping-period=4"
-	}
-
-	values["dialUrls"] = values["hub"] + "," + values["backuphub"]
+	values["dialUrls"] = values["hub"] + "," + d.DialURLs
 
 	if user, passwd, ok := r.BasicAuth(); ok {
 		values["user"] = user

@@ -34,6 +34,7 @@ type Device struct {
 	target.Targets `json:"-"`
 	WifiAuth       `json:"-"`
 	DeployParams   string
+	DialURLs       string `json:"-"`
 	deviceOS
 }
 
@@ -65,4 +66,8 @@ func (d *Device) SetWifiAuth(ssids, passphrases string) {
 			d.WifiAuth[key] = values[i]
 		}
 	}
+}
+
+func (d *Device) SetDialURLs(urls string) {
+	d.DialURLs = urls
 }
