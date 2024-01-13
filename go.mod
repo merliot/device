@@ -7,7 +7,7 @@ replace tinygo.org/x/drivers => tinygo.org/x/drivers v0.26.1-0.20231206190939-3f
 require (
 	github.com/merliot/dean v0.0.0-20240103014614-b21c48bb120e
 	github.com/merliot/prime v0.0.0-20231207215615-e07856129c62
-	github.com/merliot/target v0.0.0-20231208003459-02cacc0ea0c0
+	github.com/merliot/target v0.0.0-20240113233253-7bc2b49a202d
 )
 
 require (

@@ -12,6 +12,8 @@ github.com/merliot/prime v0.0.0-20231207215615-e07856129c62 h1:sp4BK110UbA6juge1
 github.com/merliot/prime v0.0.0-20231207215615-e07856129c62/go.mod h1:vE9nIaIJMAOpJcFUgZ278l4IU4M5kQHHTQ7aFfJASL0=
 github.com/merliot/target v0.0.0-20231208003459-02cacc0ea0c0 h1:T39wsoP3I6RDpB5GD7cCMQGr5OcqBXzrplZ5edpaZw4=
 github.com/merliot/target v0.0.0-20231208003459-02cacc0ea0c0/go.mod h1:3NQ7HRXxo5b/7IbbDJFI5vo268Lk71vGX9mS/Uw27Vs=
+github.com/merliot/target v0.0.0-20240113233253-7bc2b49a202d h1:9aSTorci+w7SS2Y+wsb++TlBZdM3zZQ+O0dDEQH3QOk=
+github.com/merliot/target v0.0.0-20240113233253-7bc2b49a202d/go.mod h1:3NQ7HRXxo5b/7IbbDJFI5vo268Lk71vGX9mS/Uw27Vs=
 github.com/merliot/uf2 v0.0.0-20231228035705-76e82a789f10 h1:7f2oOPTycOnO7LP8Ryly36zG2d99C7wTY6UIyHN81nU=
 github.com/merliot/uf2 v0.0.0-20231228035705-76e82a789f10/go.mod h1:/qxpkPwSUSxsjzlF39CuBfX+ta1m7s4OFxa6B616xmQ=
 golang.org/x/crypto v0.16.0 h1:mMMrFzRSCF0GvB7Ne27XVtVAaXLrPmgPC7/v0tkwHaY=
