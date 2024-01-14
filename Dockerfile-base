@@ -25,9 +25,11 @@ WORKDIR /app
 COPY --from=base /app/tinygo/build/release.deb release.deb
 RUN dpkg -i release.deb
 
-RUN git clone https://github.com/tinygo-org/tinygo-drivers.git drivers
+#RUN git clone https://github.com/tinygo-org/tinygo-drivers.git drivers
+RUN git clone https://github.com/scottfeldman/drivers.git
 WORKDIR /app/drivers
-RUN git checkout dev
+#RUN git checkout dev
+RUN git checkout wifinina-concur
 
 WORKDIR /app
 RUN go work init
