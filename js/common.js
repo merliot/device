@@ -40,7 +40,7 @@ class WebSocketController {
 		this.conn.onmessage = (evt) => {
 
 			if (evt.data == "pong") {
-				//console.log(prefix, "pong", new Date() - this.pingSent)
+				//console.log(prefix, "PONG", new Date())
 				this.pingAlive = true
 				return
 			}
@@ -73,9 +73,9 @@ class WebSocketController {
 			console.log(prefix, "NOT ALIVE", new Date() - this.pingSent)
 			// This waits for an ACK from server, but the server
 			// may be gone, it may take a bit to close the websocket
-			this.conn.close()
-			clearInterval(this.pingID)
-			return
+			//this.conn.close()
+			//clearInterval(this.pingID)
+			//return
 		}
 		this.pingAlive = false
 		this.conn.send("ping")
