@@ -72,6 +72,7 @@ class WebSocketController {
 	}
 
 	closeWebSocket() {
+		clearInterval(this.pingID);
 		clearTimeout(this.timeoutID)
 		if (this.webSocket) {
 			this.webSocket.close();
