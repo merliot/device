@@ -74,7 +74,7 @@ class WebSocketController {
 	closeWebSocket() {
 		clearInterval(this.pingID);
 		clearTimeout(this.timeoutID)
-		if (this.webSocket) {
+		if (this.webSocket && this.websocket.readyState === 1) {
 			this.webSocket.close();
 		}
 	}
@@ -98,9 +98,11 @@ class WebSocketController {
 			//clearInterval(this.pingID)
 			//return
 		//}
-		this.pingAlive = false
-		this.webSocket.send("ping")
-		this.pingSent = new Date()
+		if (this.webSocket.readyState === 1) {
+			this.pingAlive = false
+			this.webSocket.send("ping")
+			this.pingSent = new Date()
+		}
 	}
 
 	open() {
