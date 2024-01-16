@@ -35,7 +35,6 @@ class WebSocketController {
 			this.close();
 			clearInterval(this.pingID);
 			if (document.visibilityState === 'visible') {
-				clearTimeout(this.timeoutID)
 				this.timeoutID = setTimeout(() => this.initWebSocket(), 2000);
 			}
 		};
