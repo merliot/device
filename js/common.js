@@ -26,7 +26,7 @@ class WebSocketController {
 		this.webSocket.onopen = () => {
 			console.log(this.prefix, 'open');
 			this.webSocket.send(JSON.stringify({Path: "get/state"}));
-			this.pingAlive = true;
+			this.ping()
 			this.pingID = setInterval(() => this.ping(), pingPeriod)
 		};
 
@@ -90,14 +90,14 @@ class WebSocketController {
 	}
 
 	ping() {
-		if (!this.pingAlive) {
-			console.log(this.prefix, "NOT ALIVE", new Date() - this.pingSent)
+		//if (!this.pingAlive) {
+		//	console.log(this.prefix, "NOT ALIVE", new Date() - this.pingSent)
 			// This waits for an ACK from server, but the server
 			// may be gone, it may take a bit to close the websocket
 			//this.webSocket.close()
 			//clearInterval(this.pingID)
 			//return
-		}
+		//}
 		this.pingAlive = false
 		this.webSocket.send("ping")
 		this.pingSent = new Date()
