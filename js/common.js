@@ -22,17 +22,13 @@ class WebSocketController {
 
 		console.log(this.prefix, 'connecting...');
 		if (this.webSocket != null) {
-			console.log(this.prefix, "webSocket is not NULL!", this.webSocket.readyState)
-			//this.timeoutID = setTimeout(() => this.initWebSocket(), 2000);
+			// webSocket is still open...wait for it to close
 			return
 		}
 		this.webSocket = new WebSocket(this.url);
 
 		this.webSocket.onopen = () => {
 			console.log(this.prefix, 'open');
-			if (this.webSocket.readyState !== 1) {
-				console.log(this.prefix, "webSocket not READY!", this.webSocket.readyState)
-			}
 			this.webSocket.send(JSON.stringify({Path: "get/state"}));
 			this.pingID = setInterval(() => this.ping(), pingPeriod)
 		};
@@ -80,20 +76,18 @@ class WebSocketController {
 	}
 
 	closeWebSocket() {
-		clearInterval(this.pingID);
+		clearInterval(this.pingID)
 		clearTimeout(this.timeoutID)
-		if (this.webSocket) {
-			this.webSocket.close(3000, "leaving page");
+		if (this.webSocket && this.webSocket.readyState === 1) {
+			this.webSocket.close()
 		}
 	}
 
 	setupVisibilityChange() {
 		document.addEventListener('visibilitychange', () => {
 			if (document.visibilityState === 'visible') {
-				console.log(this.prefix, "VISIBLE")
 				this.initWebSocket();
 			} else {
-				console.log(this.prefix, "INVISIBLE")
 				this.closeWebSocket();
 			}
 		});
