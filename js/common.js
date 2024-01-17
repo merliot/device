@@ -23,7 +23,7 @@ class WebSocketController {
 		console.log(this.prefix, 'connecting...');
 		if (this.webSocket != null) {
 			console.log(this.prefix, "webSocket is not NULL!", this.webSocket.readyState)
-			this.timeoutID = setTimeout(() => this.initWebSocket(), 2000);
+			//this.timeoutID = setTimeout(() => this.initWebSocket(), 2000);
 			return
 		}
 		this.webSocket = new WebSocket(this.url);
@@ -90,8 +90,10 @@ class WebSocketController {
 	setupVisibilityChange() {
 		document.addEventListener('visibilitychange', () => {
 			if (document.visibilityState === 'visible') {
+				console.log(this.prefix, "VISIBLE")
 				this.initWebSocket();
 			} else {
+				console.log(this.prefix, "INVISIBLE")
 				this.closeWebSocket();
 			}
 		});
