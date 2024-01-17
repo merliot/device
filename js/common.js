@@ -25,6 +25,7 @@ class WebSocketController {
 		}
 
 		console.log(this.prefix, 'connecting...');
+		document.body.style.cursor = 'wait'
 		this.webSocket = new WebSocket(this.url);
 
 		this.webSocket.onopen = () => {
@@ -58,6 +59,7 @@ class WebSocketController {
 				case "state":
 					this.state = msg
 					this.open()
+					document.body.style.cursor = 'default'
 					break
 				case "online":
 					this.state.Online = true
