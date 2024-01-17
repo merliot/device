@@ -23,6 +23,8 @@ class WebSocketController {
 		console.log(this.prefix, 'connecting...');
 		if (this.webSocket != null) {
 			console.log(this.prefix, "webSocket is not NULL!", this.webSocket.readyState)
+			this.timeoutID = setTimeout(() => this.initWebSocket(), 2000);
+			return
 		}
 		this.webSocket = new WebSocket(this.url);
 
@@ -80,7 +82,7 @@ class WebSocketController {
 	closeWebSocket() {
 		clearInterval(this.pingID);
 		clearTimeout(this.timeoutID)
-		if (this.webSocket && this.webSocket.readyState === 1) {
+		if (this.webSocket) {
 			this.webSocket.close(3000, "leaving page");
 		}
 	}
