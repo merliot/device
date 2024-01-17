@@ -21,12 +21,17 @@ class WebSocketController {
 		const pingPeriod = params.get("ping-period") * 1000;
 
 		console.log(this.prefix, 'connecting...');
+		if (this.webSocket != null) {
+			console.log(this.prefix, "webSocket is not NULL!", this.webSocket.readyState)
+		}
 		this.webSocket = new WebSocket(this.url);
 
 		this.webSocket.onopen = () => {
 			console.log(this.prefix, 'open');
+			if (this.webSocket.readyState !== 1) {
+				console.log(this.prefix, "webSocket not READY!", this.webSocket.readyState)
+			}
 			this.webSocket.send(JSON.stringify({Path: "get/state"}));
-			this.ping()
 			this.pingID = setInterval(() => this.ping(), pingPeriod)
 		};
 
@@ -37,6 +42,7 @@ class WebSocketController {
 			if (document.visibilityState === 'visible') {
 				this.timeoutID = setTimeout(() => this.initWebSocket(), 2000);
 			}
+			this.webSocket = null
 		};
 
 		this.webSocket.onmessage = (event) => {
@@ -75,7 +81,7 @@ class WebSocketController {
 		clearInterval(this.pingID);
 		clearTimeout(this.timeoutID)
 		if (this.webSocket && this.webSocket.readyState === 1) {
-			this.webSocket.close();
+			this.webSocket.close(3000, "leaving page");
 		}
 	}
 
