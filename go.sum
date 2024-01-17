@@ -18,6 +18,10 @@ github.com/merliot/dean v0.0.0-20240116075248-2f439f0681ec h1:ZL9U7isXu2+KIdlf8j
 github.com/merliot/dean v0.0.0-20240116075248-2f439f0681ec/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
 github.com/merliot/dean v0.0.0-20240117031211-00e7b8b01bfd h1:UBy/BurIp6CQ3ymlksTqqYwhwuTCkCDSumhcTQaPPzE=
 github.com/merliot/dean v0.0.0-20240117031211-00e7b8b01bfd/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
+github.com/merliot/dean v0.0.0-20240117192854-89bc7715688e h1:PtKFrs/Af4ybvoEkyr8FhD1Duq470Hs84yV8dd8jstU=
+github.com/merliot/dean v0.0.0-20240117192854-89bc7715688e/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
+github.com/merliot/dean v0.0.0-20240117194605-79a37431f285 h1:r0nf5/aym09QK+uU6YqFoVmtX6amEjqm6Q7PCa9Yw6I=
+github.com/merliot/dean v0.0.0-20240117194605-79a37431f285/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
 github.com/merliot/prime v0.0.0-20231207215615-e07856129c62 h1:sp4BK110UbA6juge13pwUMAdHzCWufSHwDIUtNByekM=
 github.com/merliot/prime v0.0.0-20231207215615-e07856129c62/go.mod h1:vE9nIaIJMAOpJcFUgZ278l4IU4M5kQHHTQ7aFfJASL0=
 github.com/merliot/prime v0.0.0-20240115201907-80e31bed9365 h1:+Bq4kKlGKD7kxFstCPpwJaZ6D2zNDr/G4dbWgqsyk70=

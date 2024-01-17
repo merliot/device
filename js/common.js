@@ -6,7 +6,6 @@ class WebSocketController {
 		this.state = null;
 		this.webSocket = null;
 		this.pingID = null;
-		this.pingAlive = false;
 		this.pingSent = null;
 		this.timeoutID = null;
 		this.stat = document.getElementById("status");
@@ -20,34 +19,35 @@ class WebSocketController {
 		const params = new URLSearchParams(url.search);
 		const pingPeriod = params.get("ping-period") * 1000;
 
-		console.log(this.prefix, 'connecting...');
 		if (this.webSocket != null) {
 			// webSocket is still open...wait for it to close
 			return
 		}
+
+		console.log(this.prefix, 'connecting...');
 		this.webSocket = new WebSocket(this.url);
 
 		this.webSocket.onopen = () => {
 			console.log(this.prefix, 'open');
 			this.webSocket.send(JSON.stringify({Path: "get/state"}));
+			// Start ping
 			this.pingID = setInterval(() => this.ping(), pingPeriod)
 		};
 
 		this.webSocket.onclose = () => {
 			console.log(this.prefix, 'close');
-			this.close();
 			clearInterval(this.pingID);
 			if (document.visibilityState === 'visible') {
+				// Schedule reconnect in 2 seconds
 				this.timeoutID = setTimeout(() => this.initWebSocket(), 2000);
 			}
 			this.webSocket = null
+			this.close();
 		};
 
 		this.webSocket.onmessage = (event) => {
 
 			if (event.data == "pong") {
-				//console.log(this.prefix, "PONG", new Date())
-				this.pingAlive = true
 				return
 			}
 
@@ -94,16 +94,7 @@ class WebSocketController {
 	}
 
 	ping() {
-		//if (!this.pingAlive) {
-		//	console.log(this.prefix, "NOT ALIVE", new Date() - this.pingSent)
-			// This waits for an ACK from server, but the server
-			// may be gone, it may take a bit to close the websocket
-			//this.webSocket.close()
-			//clearInterval(this.pingID)
-			//return
-		//}
 		if (this.webSocket.readyState === 1) {
-			this.pingAlive = false
 			this.webSocket.send("ping")
 			this.pingSent = new Date()
 		}
@@ -126,7 +117,7 @@ class WebSocketController {
 	}
 
 	offline() {
-		if (this.stat !== null) {
+		if (this.stat !== null && document.visibilityState === 'visible') {
 			this.stat.innerHTML = "Offline"
 			this.stat.style.border = "solid"
 			this.stat.style.color = "red"
