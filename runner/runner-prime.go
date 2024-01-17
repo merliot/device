@@ -4,7 +4,7 @@ package runner
 
 import (
 	"github.com/merliot/dean"
-	"github.com/merliot/prime"
+	"github.com/merliot/device/prime"
 )
 
 func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs string) {

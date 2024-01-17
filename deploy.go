@@ -14,7 +14,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/merliot/uf2"
+	"github.com/merliot/device/uf2"
 )
 
 func genFile(templates *template.Template, template string, name string,

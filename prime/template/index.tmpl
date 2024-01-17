@@ -1,0 +1,21 @@
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" type="text/css" href="css/common.css">
+		<link rel="stylesheet" type="text/css" href="css/{{.Model}}.css">
+
+	</head>
+
+	<body>
+		<div id="all">
+			<object id="view"></object>
+		</div>
+
+		<script type="module">
+			import { run } from "./js/{{.Model}}.js"
+			run("[{{.Model}} {{.Id}}]", "{{.WebSocket}}")
+		</script>
+
+	</body>
+</html>

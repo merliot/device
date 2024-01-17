@@ -19,6 +19,8 @@ import (
 //go:embed css images js template favicon.ico
 var deviceFs embed.FS
 
+const defaultPingPeriod int = 4
+
 type deviceOS struct {
 	WebSocket   string            `json:"-"`
 	PingPeriod  int               `json:"-"`
@@ -27,8 +29,7 @@ type deviceOS struct {
 }
 
 func (d *Device) deviceOSInit() {
-	d.PingPeriod = 4
-	//d.PingPeriod = 60
+	d.PingPeriod = defaultPingPeriod
 	d.CompositeFs = dean.NewCompositeFS()
 	d.CompositeFs.AddFS(deviceFs)
 	d.templates = d.CompositeFs.ParseFS("template/*")

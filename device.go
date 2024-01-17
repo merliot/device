@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/merliot/dean"
-	"github.com/merliot/target"
+	"github.com/merliot/device/target"
 )
 
 // key: ssid; value: passphrase
