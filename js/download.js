@@ -1,5 +1,5 @@
 function stageFormData(deployParams) {
-	var form = document.getElementById("deploy-form")
+	var form = document.getElementById("download-form")
 	const params = new URLSearchParams(deployParams)
 
 	params.forEach((value, key) => {
@@ -26,8 +26,8 @@ function stageFormData(deployParams) {
 	});
 }
 
-function deployLink() {
-	var form = document.getElementById("deploy-form")
+function downloadLink() {
+	var form = document.getElementById("download-form")
 
 	var currentURL = window.location.href
 	var lastIndex = currentURL.lastIndexOf('/');
@@ -35,7 +35,7 @@ function deployLink() {
 
 	var formData = new FormData(form)
 	var query = new URLSearchParams(formData).toString()
-	var linkURL = "/deploy?" + query
+	var linkURL = "/download?" + query
 
 	return baseURL + linkURL
 }
@@ -49,7 +49,7 @@ function downloadFile(event) {
 	var gopher = document.getElementById("gopher")
 	gopher.style.display = "block"
 
-	fetch(deployLink())
+	fetch(downloadLink())
 		.then(response => {
 			if (!response.ok) {
 				// If we didn't get a 2xx response, throw an error with the response text
@@ -92,7 +92,7 @@ function downloadFile(event) {
 }
 
 function handleHttp(http, first) {
-	var port = document.getElementById("deploy-port")
+	var port = document.getElementById("download-port")
 	if (first) {
 		if (port.value !== "") {
 			http.checked = true
@@ -108,8 +108,8 @@ function handleHttp(http, first) {
 }
 
 function updateHttp(target) {
-	var div = document.getElementById('deploy-http-div')
-	var http = document.getElementById('deploy-http')
+	var div = document.getElementById('download-http-div')
+	var http = document.getElementById('download-http')
 	switch (target) {
 		case "demo":
 		case "x86-64":
@@ -126,8 +126,8 @@ function updateHttp(target) {
 }
 
 function updateSsid(target) {
-	var div = document.getElementById('deploy-ssid-div')
-	var ssid = document.getElementById('deploy-ssid')
+	var div = document.getElementById('download-ssid-div')
+	var ssid = document.getElementById('download-ssid')
 	switch (target) {
 		case "demo":
 		case "x86-64":
@@ -155,12 +155,12 @@ function stageDeploy(deployParams) {
 
 	document.getElementById("download-btn").addEventListener("click", downloadFile)
 
-	var http = document.getElementById("deploy-http")
+	var http = document.getElementById("download-http")
 	http.addEventListener("change", function() { handleHttp(http, false) })
 	handleHttp(http, true)
 
-	// Attach an event listener to the deploy-target dropdown
-	var target = document.getElementById('deploy-target')
+	// Attach an event listener to the download-target dropdown
+	var target = document.getElementById('download-target')
 	target.addEventListener('change', function() { handleTarget(this.value) })
 	handleTarget(target.value)
 }

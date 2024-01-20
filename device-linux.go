@@ -80,12 +80,12 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 	switch strings.TrimPrefix(path, "/") {
 	case "", "index.html":
 		RenderTemplate(templates, w, "index.tmpl", d)
-	case "download":
+	case "download-dialog":
 		RenderTemplate(templates, w, "download.tmpl", d)
-	case "info":
-		RenderTemplate(templates, w, "info.tmpl", d)
-	case "deploy":
+	case "download":
 		d.deploy(templates, w, r)
+	case "info-dialog":
+		RenderTemplate(templates, w, "info.tmpl", d)
 	case "code":
 		d.showCode(templates, w, r)
 	case "state":

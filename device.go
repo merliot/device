@@ -39,7 +39,7 @@ type Device struct {
 }
 
 func New(id, model, name string, targets []string) dean.Thinger {
-	println("NEW COMMON")
+	println("NEW DEVICE")
 	d := &Device{}
 	d.Thing = dean.NewThing(id, model, name)
 	d.Targets = target.MakeTargets(targets)

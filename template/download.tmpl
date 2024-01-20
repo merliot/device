@@ -2,10 +2,11 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>Deploy {{.Model}}</title>
+		<title>Download {{.Model}}</title>
 
 		<link rel="stylesheet" type="text/css" href="css/common.css">
 		<link rel="stylesheet" type="text/css" href="css/download.css">
+		<link rel="stylesheet" type="text/css" href="css/download-device.css">
 
 	</head>
 
@@ -26,36 +27,36 @@
 				<span>Download</span>
 			</div>
 
-			<form id="deploy-form">
+			<form id="download-form">
 				<div class="divFlexCol">
-					<div class="divFlexRow">
-						<label for="deploy-target">Target:</label>
-						<select name="target" id="deploy-target">
+					<div class="divFlexRow" id="download-target-div">
+						<label for="download-target">Target:</label>
+						<select name="target" id="download-target">
 {{ range $key, $value := .Targets }}
 							<option value="{{ $key }}">{{ $value.FullName }}</option>
 {{ end }}
 						</select>
 					</div>
-					<div class="divFlexRow" id="deploy-ssid-div">
-						<label for="deploy-ssid">Wifi SSID:</label>
-						<select name="ssid" id="deploy-ssid">
+					<div class="divFlexRow" id="download-ssid-div">
+						<label for="download-ssid">Wifi SSID:</label>
+						<select name="ssid" id="download-ssid">
 {{ range $key, $value := .WifiAuth }}
 							<option value="{{ $key }}">{{ $key }}</option>
 {{ end }}
 						</select>
 					</div>
-					<div class="divFlexRow" id="deploy-http-div">
-						<label for="deploy-http">Run local Web Server:</label>
-						<input type="checkbox" id="deploy-http">
-						<label for="deploy-port">Port:</label>
-						<input type="text" name="port" id="deploy-port">
+					<div class="divFlexRow" id="download-http-div">
+						<label for="download-http">Run local Web Server:</label>
+						<input type="checkbox" id="download-http">
+						<label for="download-port">Port:</label>
+						<input type="text" name="port" id="download-port">
 					</div>
-{{template "deploy-body.tmpl" .}}
-					<div class="divFlexCol">
+{{template "download-device.tmpl" .}}
+					<div class="divFlexCol" id="download-btn-div">
 						<div class="divFlexRow">
+							<button id="download-btn">Download</button>
 							<img id="gopher" src="images/gopher-workout.gif" style="display:none" width=30px>
 						</div>
-						<button id="download-btn">Download</button>
 						<span id="download-response"></span>
 					</div>
 				</div>

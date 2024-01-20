@@ -1,13 +1,23 @@
-#deploy-http-div {
-    display: none;
+#download-target-div {
+	margin-bottom: 10px;
 }
 
-#deploy-port {
+#download-http-div {
+	display: none;
+	margin-bottom: 10px;
+}
+
+#download-port {
 	width: 64px;
 }
 
-#deploy-ssid-div {
-    display: none;
+#download-ssid-div {
+	display: none;
+	margin-bottom: 10px;
+}
+
+#download-btn-div {
+	margin-top: 20px;
 }
 
 #download-btn {
@@ -18,8 +28,13 @@
 	height: 35;
 	width: 100px;
 	font-size: medium;
+	margin-right: 16px;
 }
 
 #download-response {
 	padding-top: 20px;
+}
+
+hr {
+	margin-bottom: 16px;
 }
