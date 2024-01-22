@@ -5,5 +5,5 @@ package device
 import "github.com/merliot/device/target"
 
 func (d *Device) Pins() target.GpioPins {
-	return r.Targets["wioterminal"].GpioPins
+	return d.Targets["wioterminal"].GpioPins
 }
