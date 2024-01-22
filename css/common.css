@@ -65,3 +65,15 @@ hr {
   margin-left: 0;
   margin-right: 0;
 }
+
+.visible {
+	display: block;
+}
+
+.visibleFlex {
+	display: flex;
+}
+
+.hidden {
+	display: none;
+}
