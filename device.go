@@ -14,7 +14,7 @@ type WifiAuth map[string]string
 
 type Devicer interface {
 	Load()
-	SetWifiAuth(WifiAuth)
+	CopyWifiAuth(WifiAuth)
 }
 
 type params struct {
@@ -66,6 +66,10 @@ func (d *Device) SetWifiAuth(ssids, passphrases string) {
 			d.WifiAuth[key] = values[i]
 		}
 	}
+}
+
+func (d *Device) CopyWifiAuth(auth WifiAuth) {
+	d.WifiAuth = auth
 }
 
 func (d *Device) SetDialURLs(urls string) {
