@@ -9,16 +9,16 @@
 
 	</head>
 
-	<body class="divFlexCol">
+	<body>
 
-		<div id="header" class="divFlexRow">
-			<div class="divFlexRow">
-				<img id="device-icon" src="images/icon.png"></img>
-				<span id="title">{{.Name}}</span>
+		<header>
+			<div>
+				<img class="device-icon" src="images/icon.png"></img>
+				<span class="device-title">{{.Name}}</span>
 			</div>
-		</div>
+		</header>
 
-		<div class="panel divFlexCol">
+		<section class="panel divFlexCol">
 			<div class="back divFlexRow">
 				<a href="javascript:window.history.back()">
 					<img class="icon" src="images/back-icon.png">
@@ -40,7 +40,6 @@
 					<td>{{.Name}}</td>
 				</tr>
 			</table>
-		</div>
+		</section>
 	</body>
 </html>
-

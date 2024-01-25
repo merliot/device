@@ -1,0 +1,10 @@
+body {
+	background-color: lightgrey;
+}
+
+#view {
+	background-color: white;
+	border-radius: 15px 15px 0 0;
+	height: calc(100vh - 70px);
+	width: 100%;
+}

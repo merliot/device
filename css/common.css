@@ -6,41 +6,20 @@ body {
 }
 
 header {
-}
-
-section {
-}
-
-footer {
-	font-size: small;
-	padding: 10px;
-}
-
-#header {
-	padding: 15px;
+	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 15px;
 }
 
-#header div {
+header div {
+	display: flex;
 	align-items: center;
 }
 
-#device-icon {
-	width: 40px;
-	height: 40px;
-}
-
-#title {
-	padding-left: 20px;
-	padding-right: 20px;
-	font-size: large;
-	font-weight: bold;
-}
-
-#status {
-	border-radius: 15px;
-	padding: 5px 10px;
+hr {
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .icon {
@@ -71,11 +50,6 @@ footer {
 	flex-direction: column;
 }
 
-hr {
-  margin-left: 0;
-  margin-right: 0;
-}
-
 .visible {
 	display: block;
 }
@@ -86,4 +60,21 @@ hr {
 
 .hidden {
 	display: none;
+}
+
+.device-icon {
+	width: 40px;
+	height: 40px;
+}
+
+.device-title {
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: large;
+	font-weight: bold;
+}
+
+.device-status {
+	border-radius: 15px;
+	padding: 5px 10px;
 }

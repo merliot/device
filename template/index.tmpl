@@ -11,23 +11,25 @@
 
 	</head>
 
-	<body class="divFlexCol">
+	<body>
 
-		<div id="header" class="divFlexRow">
-			<div class="divFlexRow">
-				<img id="device-icon" src="images/icon.png"></img>
-				<span id="title">{{.Name}}</span>
+		<header>
+			<div>
+				<img class="device-icon" src="images/icon.png"></img>
+				<span class="device-title">{{.Name}}</span>
 			</div>
-			<div class="divFlexRow">
-				<span id="status"></span>
+			<div>
+				<span class="device-status"></span>
 			</div>
-			<div class="divFlexRow">
+			<div>
 				<a href="download-dialog"><img class="icon" src="images/download-icon.png"></a>
 				<a href="info-dialog"><img class="icon" src="images/info-icon.png"></a>
 			</div>
-		</div>
+		</header>
 
+		<section>
 {{template "index-body.tmpl" .}}
+		</section>
 
 		<script type="module">
 			import { run } from "./js/{{.Model}}.js"
