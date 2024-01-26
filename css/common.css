@@ -50,6 +50,11 @@ hr {
 	flex-direction: column;
 }
 
+.divFlexWrap {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 .visible {
 	display: block;
 }
