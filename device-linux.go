@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -24,6 +25,7 @@ type deviceOS struct {
 	WebSocket   string            `json:"-"`
 	PingPeriod  int               `json:"-"`
 	CompositeFs *dean.CompositeFS `json:"-"`
+	filePath    string
 	templates   *template.Template
 }
 
@@ -108,20 +110,24 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 	}
 }
 
-func (d *Device) Load() {
-	bytes, err := os.ReadFile("devs/" + d.Id + ".json")
+func (d *Device) Load(filePath string) error {
+	d.filePath = filePath
+	bytes, err := os.ReadFile(d.filePath)
 	if err == nil {
 		json.Unmarshal(bytes, &d.DeployParams)
 	}
+	return err
 }
 
-func (d *Device) Save() {
-	bytes, err := json.MarshalIndent(d.DeployParams, "", "\t")
-	if _, err := os.Stat("devs/"); os.IsNotExist(err) {
-		// If the directory doesn't exist, create it
-		os.Mkdir("devs/", os.ModePerm)
-	}
+func (d *Device) Save() error {
+	dir := filepath.Dir(d.filePath)
+	err := os.MkdirAll(dir, os.ModePerm)
 	if err == nil {
-		os.WriteFile("devs/"+d.Id+".json", bytes, 0600)
+		var bytes []byte
+		bytes, err = json.MarshalIndent(d.DeployParams, "", "\t")
+		if err == nil {
+			err = os.WriteFile(d.filePath, bytes, 0600)
+		}
 	}
+	return err
 }
