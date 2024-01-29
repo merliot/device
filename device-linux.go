@@ -6,7 +6,6 @@ import (
 	"embed"
 	"encoding/json"
 	"html/template"
-	"io/fs"
 	"net/http"
 	"os"
 	"regexp"
@@ -46,6 +45,7 @@ func RenderTemplate(templates *template.Template, w http.ResponseWriter, name st
 	}
 }
 
+/*
 func (d *Device) showCode(templates *template.Template, w http.ResponseWriter, r *http.Request) {
 	// Retrieve top-level entries
 	entries, _ := fs.ReadDir(d.CompositeFs, ".")
@@ -57,6 +57,7 @@ func (d *Device) showCode(templates *template.Template, w http.ResponseWriter, r
 	w.Header().Set("Content-Type", "text/html")
 	RenderTemplate(templates, w, "code.tmpl", names)
 }
+*/
 
 func ShowState(templates *template.Template, w http.ResponseWriter, data any) {
 	state, _ := json.MarshalIndent(data, "", "\t")
@@ -64,10 +65,10 @@ func ShowState(templates *template.Template, w http.ResponseWriter, data any) {
 }
 
 // Set Content-Type: "text/plain" on go, css, and template files
-var textFile = regexp.MustCompile("\\.(go|tmpl|js|css)$")
+var textFile = regexp.MustCompile("\\.(go|tmpl|css)$")
 
 // Set Content-Type: "application/javascript" on js files
-var scriptFile = regexp.MustCompile("\\.(go|tmpl|js|css)$")
+var scriptFile = regexp.MustCompile("\\.js$")
 
 func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *http.Request) {
 
@@ -79,6 +80,10 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 	path := r.URL.Path
 	switch strings.TrimPrefix(path, "/") {
 	case "", "index.html":
+		d.ViewMode = ViewFull
+		RenderTemplate(templates, w, "index.tmpl", d)
+	case "tile":
+		d.ViewMode = ViewTile
 		RenderTemplate(templates, w, "index.tmpl", d)
 	case "download-dialog":
 		RenderTemplate(templates, w, "download.tmpl", d)
@@ -86,8 +91,10 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 		d.deploy(templates, w, r)
 	case "info-dialog":
 		RenderTemplate(templates, w, "info.tmpl", d)
-	case "code":
-		d.showCode(templates, w, r)
+		/*
+			case "code":
+				d.showCode(templates, w, r)
+		*/
 	case "state":
 		ShowState(templates, w, d)
 	default:

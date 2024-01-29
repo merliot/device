@@ -29,12 +29,22 @@ type params struct {
 	DialURLs     string
 }
 
+type ViewMode int
+
+const (
+	ViewFull ViewMode = iota
+	ViewTile
+	ViewTileVert
+	ViewTileHorz
+)
+
 type Device struct {
 	dean.Thing
 	target.Targets `json:"-"`
 	WifiAuth       `json:"-"`
-	DeployParams   string
 	DialURLs       string `json:"-"`
+	DeployParams   string
+	ViewMode       `json:"-"`
 	deviceOS
 }
 

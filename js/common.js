@@ -1,14 +1,23 @@
+const ViewMode = {
+	ViewFull: "0",
+	ViewTile: "1",
+	ViewTileVert: "2",
+	ViewTileHorz: "3",
+}
+
+export { ViewMode };
+
 class WebSocketController {
 
-	constructor(prefix, url) {
+	constructor(prefix, url, viewMode) {
 		this.prefix = prefix
 		this.url = url
+		this.viewMode = viewMode
 		this.state = null;
 		this.webSocket = null;
 		this.pingID = null;
 		this.pingSent = null;
 		this.timeoutID = null;
-		this.stat = document.getElementById("status");
 		this.setupVisibilityChange();
 		this.initWebSocket();
 	}
@@ -111,19 +120,11 @@ class WebSocketController {
 	}
 
 	online() {
-		if (this.stat !== null) {
-			this.stat.innerHTML = ""
-			this.stat.style.border = "none"
-			this.stat.style.color = "none"
-		}
+		document.body.classList.replace("offline", "online")
 	}
 
 	offline() {
-		if (this.stat !== null && document.visibilityState === 'visible') {
-			this.stat.innerHTML = "Offline"
-			this.stat.style.border = "solid"
-			this.stat.style.color = "red"
-		}
+		document.body.classList.replace("online", "offline")
 	}
 
 	handle(msg) {

@@ -28,13 +28,54 @@ hr {
 	padding: 0px 10px;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .panel {
-	background-color: #fff;
+	background-color: white;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	padding: 20px;
 	margin: 0px 15px 15px 15px;
 	box-sizing: border-box;
+}
+
+.tile {
+	width: 160px;
+	height: 160px;
+	border-radius: 12px;
+	border: 1px solid darkgrey;
+	overflow: hidden;
+}
+
+.offline .tile {
+	border-color: red;
+}
+
+.tile-body {
+	background-color: white;
+	height: 120px;
+}
+
+.tile-icon {
+	width: 20px;
+	height: 20px;
+	margin: 0 15px;
+}
+
+.offline .tile-name {
+	color: white;
+}
+
+.tile-footer {
+	height: 40px;
+	align-items: center;
+	background-color: lightgrey;
+}
+
+.offline .tile-footer {
+	background-color: red;
 }
 
 .back {
@@ -79,7 +120,14 @@ hr {
 	font-weight: bold;
 }
 
-.device-status {
+.device-offline {
+	display: none;
 	border-radius: 15px;
+	border: 3px solid red;
+	color: red;
 	padding: 5px 10px;
+}
+
+.offline .device-offline {
+	display: block;
 }
