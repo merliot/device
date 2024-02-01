@@ -13,7 +13,7 @@ import (
 type WifiAuth map[string]string
 
 type Devicer interface {
-	Load()
+	Load(string) error
 	CopyWifiAuth(WifiAuth)
 }
 
