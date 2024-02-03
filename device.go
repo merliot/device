@@ -17,6 +17,11 @@ type Devicer interface {
 	CopyWifiAuth(WifiAuth)
 }
 
+type Modeler interface {
+	Icon() []byte
+	DescHtml() []byte
+}
+
 type params struct {
 	Ssid         string
 	Passphrase   string
