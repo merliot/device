@@ -155,6 +155,7 @@ function stageDeploy(deployParams) {
 
 	document.getElementById("download-btn").addEventListener("click", downloadFile)
 
+	// Attach an event listener to the download-http
 	var http = document.getElementById("download-http")
 	http.addEventListener("change", function() { handleHttp(http, false) })
 	handleHttp(http, true)
@@ -163,6 +164,12 @@ function stageDeploy(deployParams) {
 	var target = document.getElementById('download-target')
 	target.addEventListener('change', function() { handleTarget(this.value) })
 	handleTarget(target.value)
+
+	var back = document.getElementById('download-back')
+	back.onclick = () => {
+		window.history.back()
+	}
+
 }
 
 export { stageDeploy };
