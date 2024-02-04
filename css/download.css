@@ -20,17 +20,6 @@
 	margin-top: 20px;
 }
 
-#download-btn {
-	color: white;
-	background: blue;
-	border: none;
-	border-radius: 3px;
-	height: 35;
-	width: 100px;
-	font-size: medium;
-	margin-right: 16px;
-}
-
 #download-response {
 	padding-top: 20px;
 }

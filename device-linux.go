@@ -131,3 +131,16 @@ func (d *Device) Save() error {
 	}
 	return err
 }
+
+func (d *Device) Icon() []byte {
+	icon, _ := deviceFs.ReadFile("images/icon.png")
+	return icon
+}
+
+func (d *Device) DescHtml() []byte {
+	return []byte("Missing DescHtml()")
+}
+
+func (d *Device) SupportedTargets() string {
+	return "Missing SupportedTargets()"
+}

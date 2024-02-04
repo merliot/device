@@ -20,6 +20,7 @@ type Devicer interface {
 type Modeler interface {
 	Icon() []byte
 	DescHtml() []byte
+	SupportedTargets() string
 }
 
 type params struct {

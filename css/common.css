@@ -32,6 +32,16 @@ hr {
 	cursor: pointer;
 }
 
+.btn {
+	border-radius: 5px;
+	margin-left: 10px;
+	padding: 7px 20px;
+}
+
+.btns {
+	justify-content: flex-end;
+}
+
 .panel {
 	background-color: white;
 	border-radius: 8px;
