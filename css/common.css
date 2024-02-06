@@ -69,6 +69,14 @@ hr {
 	height: 120px;
 }
 
+#tile-nodef {
+	font-style: italic;
+	align-items: center;
+	justify-content: center;
+	background-color: #f4f4f4;
+	height: 120px;
+}
+
 .tile-icon {
 	width: 20px;
 	height: 20px;
@@ -143,4 +151,10 @@ hr {
 	align-items: center;
 	cursor: pointer;
 	margin: 0 0 20px 0;
+}
+
+#full-nodef {
+	align-items: center;
+	justify-content: center;
+	height: 250px;
 }

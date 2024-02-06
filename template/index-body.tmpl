@@ -14,16 +14,32 @@
 			</div>
 		</header>
 
+{{if ne .DeployParams ""}}
+		<div class="full-body">
 {{template "index-body-full.tmpl" .}}
+		</div>
+{{else}}
+		<div class="divFlexRow panel" id="full-nodef">
+			<span>Click</span>
+			<a href="download-dialog"><img class="icon" src="images/download-icon.png"></a>
+			<span>to set up {{.Name}}</span>
+		</div>
+{{end}}
 
 {{else if eq .ViewMode 1}}
 
 		<!-- Tile view content -->
 
 		<section class="divFlexCol tile">
+{{if ne .DeployParams ""}}
 			<div class="tile-body">
 {{template "index-body-tile.tmpl" .}}
 			</div>
+{{else}}
+			<div class="divFlexCol" id="tile-nodef">
+				<span>undefined</span>
+			</div>
+{{end}}
 			<div class="divFlexRow tile-footer">
 				<img class="tile-icon" src="images/tile-icon.png"></img>
 				<span class="tile-name">{{.Name}}</span>
