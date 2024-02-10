@@ -2,7 +2,6 @@ package prime
 
 import (
 	"embed"
-	"html/template"
 	"net/http"
 
 	"github.com/merliot/dean"
@@ -21,8 +20,7 @@ type Child struct {
 
 type Prime struct {
 	*device.Device
-	Child     Child
-	templates *template.Template
+	Child Child
 }
 
 var targets = []string{"x86-64", "rpi"}
@@ -30,9 +28,7 @@ var targets = []string{"x86-64", "rpi"}
 func New(id, model, name string) dean.Thinger {
 	println("NEW PRIME")
 	p := &Prime{}
-	p.Device = device.New(id, model, name, targets).(*device.Device)
-	p.CompositeFs.AddFS(fs)
-	p.templates = p.CompositeFs.ParseFS("template/*")
+	p.Device = device.New(id, model, name, fs, targets).(*device.Device)
 	return p
 }
 
@@ -68,5 +64,5 @@ func (p *Prime) Subscribers() dean.Subscribers {
 }
 
 func (p *Prime) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	p.API(p.templates, w, r)
+	p.API(w, r, p)
 }
