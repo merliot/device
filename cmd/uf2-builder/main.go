@@ -50,11 +50,12 @@ func main() {
 
 	// Build the uf2 file
 	uf2Name := *model + "-" + *target + ".uf2"
-	cmd := exec.Command("tinygo", "build", "-target", *target, "-o", uf2Name, "-stack-size", "8kb", file.Name())
+	cmd := exec.Command("tinygo", "build", "-target", *target, "-o", uf2Name, "-stack-size", "8kb", "-size", "full", file.Name())
 	println(cmd.String())
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("%w: %s", err, stdoutStderr)
 		os.Exit(1)
 	}
+	println(stdoutStderr)
 }
