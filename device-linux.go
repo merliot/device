@@ -37,7 +37,7 @@ func (d *Device) deviceOSInit() {
 	d.templates = d.CompositeFs.ParseFS("template/*")
 }
 
-func (d *Device) renderTemplate(w http.ResponseWriter, name string, data any) {
+func (d *Device) RenderTemplate(w http.ResponseWriter, name string, data any) {
 	tmpl := d.templates.Lookup(name)
 	if tmpl != nil {
 		if err := tmpl.Execute(w, data); err != nil {
@@ -58,13 +58,13 @@ func (d *Device) showCode(w http.ResponseWriter, r *http.Request) {
 		names = append(names, entry.Name())
 	}
 	w.Header().Set("Content-Type", "text/html")
-	d.renderTemplate(w, "code.tmpl")
+	d.RenderTemplate(w, "code.tmpl")
 }
 */
 
 func (d *Device) showState(w http.ResponseWriter) {
 	state, _ := json.MarshalIndent(d, "", "\t")
-	d.renderTemplate(w, "state.tmpl", string(state))
+	d.RenderTemplate(w, "state.tmpl", string(state))
 }
 
 // Set Content-Type: "text/plain" on go, css, and template files
@@ -84,16 +84,16 @@ func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 	switch strings.TrimPrefix(path, "/") {
 	case "", "index.html":
 		d.ViewMode = ViewFull
-		d.renderTemplate(w, "index.tmpl", data)
+		d.RenderTemplate(w, "index.tmpl", data)
 	case "tile":
 		d.ViewMode = ViewTile
-		d.renderTemplate(w, "index.tmpl", data)
+		d.RenderTemplate(w, "index.tmpl", data)
 	case "download-dialog":
-		d.renderTemplate(w, "download.tmpl", data)
+		d.RenderTemplate(w, "download.tmpl", data)
 	case "download":
 		d.deploy(w, r)
 	case "info-dialog":
-		d.renderTemplate(w, "info.tmpl", data)
+		d.RenderTemplate(w, "info.tmpl", data)
 		/*
 			case "code":
 				d.showCode(w, r, data)
