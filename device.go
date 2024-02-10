@@ -1,6 +1,7 @@
 package device
 
 import (
+	"embed"
 	"html"
 	"net/url"
 	"strings"
@@ -51,15 +52,17 @@ type Device struct {
 	DialURLs       string `json:"-"`
 	DeployParams   string
 	ViewMode       `json:"-"`
+	fs             embed.FS
 	deviceOS
 }
 
-func New(id, model, name string, targets []string) dean.Thinger {
+func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 	println("NEW DEVICE")
 	d := &Device{}
 	d.Thing = dean.NewThing(id, model, name)
 	d.Targets = target.MakeTargets(targets)
 	d.WifiAuth = make(WifiAuth)
+	d.fs = fs
 	d.deviceOSInit()
 	return d
 }

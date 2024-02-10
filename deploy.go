@@ -256,9 +256,9 @@ func (d *Device) _deploy(templates *template.Template, w http.ResponseWriter, r 
 	return nil
 }
 
-func (d *Device) deploy(templates *template.Template, w http.ResponseWriter, r *http.Request) {
+func (d *Device) deploy(w http.ResponseWriter, r *http.Request) {
 	d.DeployParams = r.URL.RawQuery
-	if err := d._deploy(templates, w, r); err != nil {
+	if err := d._deploy(d.templates, w, r); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

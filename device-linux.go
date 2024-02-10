@@ -33,11 +33,12 @@ func (d *Device) deviceOSInit() {
 	d.PingPeriod = defaultPingPeriod
 	d.CompositeFs = dean.NewCompositeFS()
 	d.CompositeFs.AddFS(deviceFs)
+	d.CompositeFs.AddFS(d.fs)
 	d.templates = d.CompositeFs.ParseFS("template/*")
 }
 
-func RenderTemplate(templates *template.Template, w http.ResponseWriter, name string, data any) {
-	tmpl := templates.Lookup(name)
+func (d *Device) renderTemplate(w http.ResponseWriter, name string, data any) {
+	tmpl := d.templates.Lookup(name)
 	if tmpl != nil {
 		if err := tmpl.Execute(w, data); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -48,7 +49,7 @@ func RenderTemplate(templates *template.Template, w http.ResponseWriter, name st
 }
 
 /*
-func (d *Device) showCode(templates *template.Template, w http.ResponseWriter, r *http.Request) {
+func (d *Device) showCode(w http.ResponseWriter, r *http.Request) {
 	// Retrieve top-level entries
 	entries, _ := fs.ReadDir(d.CompositeFs, ".")
 	// Collect entry names
@@ -57,13 +58,13 @@ func (d *Device) showCode(templates *template.Template, w http.ResponseWriter, r
 		names = append(names, entry.Name())
 	}
 	w.Header().Set("Content-Type", "text/html")
-	RenderTemplate(templates, w, "code.tmpl", names)
+	d.renderTemplate(w, "code.tmpl")
 }
 */
 
-func ShowState(templates *template.Template, w http.ResponseWriter, data any) {
-	state, _ := json.MarshalIndent(data, "", "\t")
-	RenderTemplate(templates, w, "state.tmpl", string(state))
+func (d *Device) showState(w http.ResponseWriter) {
+	state, _ := json.MarshalIndent(d, "", "\t")
+	d.renderTemplate(w, "state.tmpl", string(state))
 }
 
 // Set Content-Type: "text/plain" on go, css, and template files
@@ -72,7 +73,7 @@ var textFile = regexp.MustCompile("\\.(go|tmpl|css)$")
 // Set Content-Type: "application/javascript" on js files
 var scriptFile = regexp.MustCompile("\\.js$")
 
-func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *http.Request) {
+func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 
 	id, _, _ := d.Identity()
 
@@ -83,22 +84,22 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 	switch strings.TrimPrefix(path, "/") {
 	case "", "index.html":
 		d.ViewMode = ViewFull
-		RenderTemplate(templates, w, "index.tmpl", d)
+		d.renderTemplate(w, "index.tmpl", data)
 	case "tile":
 		d.ViewMode = ViewTile
-		RenderTemplate(templates, w, "index.tmpl", d)
+		d.renderTemplate(w, "index.tmpl", data)
 	case "download-dialog":
-		RenderTemplate(templates, w, "download.tmpl", d)
+		d.renderTemplate(w, "download.tmpl", data)
 	case "download":
-		d.deploy(templates, w, r)
+		d.deploy(w, r)
 	case "info-dialog":
-		RenderTemplate(templates, w, "info.tmpl", d)
+		d.renderTemplate(w, "info.tmpl", data)
 		/*
 			case "code":
-				d.showCode(templates, w, r)
+				d.showCode(w, r, data)
 		*/
 	case "state":
-		ShowState(templates, w, d)
+		d.showState(w)
 	default:
 		if textFile.MatchString(path) {
 			w.Header().Set("Content-Type", "text/plain")
@@ -108,6 +109,10 @@ func (d *Device) API(templates *template.Template, w http.ResponseWriter, r *htt
 		}
 		http.FileServer(http.FS(d.CompositeFs)).ServeHTTP(w, r)
 	}
+}
+
+func (d *Device) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	d.API(w, r, d)
 }
 
 func (d *Device) Load(filePath string) error {
