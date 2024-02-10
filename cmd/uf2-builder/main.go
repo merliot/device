@@ -57,5 +57,5 @@ func main() {
 		fmt.Printf("%w: %s", err, stdoutStderr)
 		os.Exit(1)
 	}
-	println(stdoutStderr)
+	println(string(stdoutStderr))
 }
