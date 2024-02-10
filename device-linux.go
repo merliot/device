@@ -138,14 +138,15 @@ func (d *Device) Save() error {
 }
 
 func (d *Device) Icon() []byte {
-	icon, _ := deviceFs.ReadFile("images/icon.png")
+	icon, _ := d.fs.ReadFile("images/icon.png")
 	return icon
 }
 
 func (d *Device) DescHtml() []byte {
-	return []byte("Missing DescHtml()")
+	desc, _ := d.fs.ReadFile("html/desc.html")
+	return desc
 }
 
 func (d *Device) SupportedTargets() string {
-	return "Missing SupportedTargets()"
+	return d.Targets.FullNames()
 }
