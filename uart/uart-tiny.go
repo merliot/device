@@ -9,10 +9,10 @@ type Uart struct {
 }
 
 func New() Uart {
-	u := Uart{machine.UART0}
+	u := Uart{machine.DefaultUART}
 	u.Configure(machine.UARTConfig{
-		TX:       machine.UART0_TX_PIN,
-		RX:       machine.UART0_RX_PIN,
+		TX:       machine.UART_TX_PIN,
+		RX:       machine.UART_RX_PIN,
 		BaudRate: 9600,
 	})
 	return u
