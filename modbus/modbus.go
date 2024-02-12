@@ -10,9 +10,9 @@ type Modbus struct {
 	io.ReadWriter
 }
 
-func New(dev io.ReadWriter) *Modbus {
+func New(rw io.ReadWriter) *Modbus {
 	m := &Modbus{}
-	m.ReadWriter = dev
+	m.ReadWriter = rw
 	return m
 }
 
