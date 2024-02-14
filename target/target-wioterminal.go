@@ -2,7 +2,7 @@
 
 package target
 
-func Pin(pin string) GpioPin {
+func Pin(pin string) (GpioPin, bool) {
 	gpio, ok := supportedTargets["wioterminal"].GpioPins[pin]
 	return gpio, ok
 }
