@@ -6,7 +6,7 @@ import (
 	"gobot.io/x/gobot/v2/platforms/raspi"
 )
 
-var Adapter *raspi.Adapter = raspi.NewAdapter()
+var Adaptor *raspi.Adaptor = raspi.NewAdaptor()
 
 func Pin(pin string) (GpioPin, bool) {
 	gpio, ok := supportedTargets["rpi"].GpioPins[pin]
