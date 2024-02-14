@@ -17,7 +17,7 @@ type Relay struct {
 
 func (r Relay) Configure() {
 	r.pin = machine.NoPin
-	if pin, ok := target.Pin(gpio); ok {
+	if pin, ok := target.Pin(r.Gpio); ok {
 		r.pin = pin
 		r.pin.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	}
