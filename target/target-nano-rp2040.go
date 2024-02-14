@@ -3,5 +3,6 @@
 package target
 
 func Pin(pin string) (GpioPin, bool) {
-	return supportedTargets["nano-rp2040"].GpioPins[pin]
+	gpio, ok := supportedTargets["nano-rp2040"].GpioPins[pin]
+	return gpio, ok
 }
