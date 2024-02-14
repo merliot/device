@@ -9,6 +9,6 @@ import (
 var Adaptor *raspi.Adaptor = raspi.NewAdaptor()
 
 func Pin(pin string) (GpioPin, bool) {
-	gpio, ok := supportedTargets["rpi"].GpioPins[pin]
+	gpio, ok := AllTargets["rpi"].GpioPins[pin]
 	return gpio, ok
 }

@@ -19,7 +19,7 @@ func GenTargetJS(name string) {
 	defer file.Close()
 
 	file.WriteString("const deployTargetGpios = {\n")
-	for k, v := range supportedTargets {
+	for k, v := range AllTargets {
 		gpioKeys := make([]string, 0, len(v.GpioPins))
 		for gpioKey := range v.GpioPins {
 			gpioKeys = append(gpioKeys, fmt.Sprintf(`"%s"`, gpioKey))

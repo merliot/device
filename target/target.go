@@ -18,7 +18,7 @@ type Targets map[string]Target
 func MakeTargets(targets []string) Targets {
 	filtered := make(Targets)
 	for _, target := range targets {
-		if value, ok := supportedTargets[target]; ok {
+		if value, ok := AllTargets[target]; ok {
 			filtered[target] = value
 		}
 	}

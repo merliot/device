@@ -3,7 +3,7 @@ package target
 // NOTE If modified, go run cmd/genjs/main.go to generate new
 // deployTargetGpios.js file.
 
-var supportedTargets = Targets{
+var AllTargets = Targets{
 	"demo": Target{
 		FullName: "Demo Mode",
 		GpioPins: GpioPins{

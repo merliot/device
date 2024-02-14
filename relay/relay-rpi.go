@@ -17,8 +17,8 @@ type Relay struct {
 }
 
 func (r Relay) Configure() {
-	if pin, ok := target.Pin(gpio); ok {
-		spin := strconv.Itoa(pin)
+	if pin, ok := target.Pin(r.Gpio); ok {
+		spin := strconv.Itoa(int(pin))
 		r.driver = gpio.NewRelayDriver(target.Adaptor, spin)
 		r.driver.Start()
 		r.driver.Off()

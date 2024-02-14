@@ -3,6 +3,6 @@
 package target
 
 func Pin(pin string) (GpioPin, bool) {
-	gpio, ok := supportedTargets["wioterminal"].GpioPins[pin]
+	gpio, ok := AllTargets["wioterminal"].GpioPins[pin]
 	return gpio, ok
 }
