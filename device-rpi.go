@@ -11,9 +11,9 @@ import (
 
 // FailSafe by turning off all gpios
 func (d *Device) FailSafe() {
-	for _, pin := range target.Targets["rpi"].GpioPins {
+	for _, pin := range target.AllTargets["rpi"].GpioPins {
 		rpin := strconv.Itoa(int(pin))
-		driver = gpio.NewDirectPinDriver(target.Adaptor, rpin)
+		driver := gpio.NewDirectPinDriver(target.Adaptor, rpin)
 		driver.Start()
 		driver.Off()
 	}
