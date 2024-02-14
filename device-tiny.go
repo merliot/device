@@ -25,3 +25,5 @@ func (d *Device) deviceOSInit() {
 
 func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 }
+
+func (d *Device) FailSafe() {}

@@ -5,7 +5,8 @@ import (
 	"strings"
 )
 
-type GpioPins map[string]int
+type GpioPin int
+type GpioPins map[string]GpioPin
 
 type Target struct {
 	FullName string
