@@ -11,9 +11,9 @@ type Modbus struct {
 }
 
 func New(rw io.ReadWriter) *Modbus {
-	m := &Modbus{}
-	m.ReadWriter = rw
-	return m
+	return &Modbus{
+		ReadWriter: rw,
+	}
 }
 
 // calculateCRC calculates Modbus RTU CRC16
