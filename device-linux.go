@@ -62,8 +62,8 @@ func (d *Device) showCode(w http.ResponseWriter, r *http.Request) {
 }
 */
 
-func (d *Device) showState(w http.ResponseWriter) {
-	state, _ := json.MarshalIndent(d, "", "\t")
+func (d *Device) showState(w http.ResponseWriter, data any) {
+	state, _ := json.MarshalIndent(data, "", "\t")
 	d.RenderTemplate(w, "state.tmpl", string(state))
 }
 
@@ -99,7 +99,7 @@ func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 				d.showCode(w, r, data)
 		*/
 	case "state":
-		d.showState(w)
+		d.showState(w, data)
 	default:
 		if textFile.MatchString(path) {
 			w.Header().Set("Content-Type", "text/plain")
