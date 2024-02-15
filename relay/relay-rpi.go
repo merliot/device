@@ -1,6 +1,6 @@
 //go:build rpi
 
-package relays
+package relay
 
 import (
 	"strconv"
