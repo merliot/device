@@ -28,12 +28,13 @@ cd work
 
 ```
 git clone https://github.com/merliot/hub.git
+cd hub
+go work use .
 ```
 
 ### Run device locally:
 
 ```
-cd hub
 go run ./cmd
 ```
 
