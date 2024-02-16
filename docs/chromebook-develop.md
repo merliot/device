@@ -27,7 +27,7 @@ cd work
 ### Git clone device (using Merliot Hub in this example):
 
 ```
-https://github.com/merliot/hub.git
+git clone https://github.com/merliot/hub.git
 ```
 
 ### Run device locally:
