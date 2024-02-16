@@ -33,6 +33,7 @@ https://github.com/merliot/hub.git
 ### Run device locally:
 
 ```
+cd hub
 go run ./cmd
 ```
 
