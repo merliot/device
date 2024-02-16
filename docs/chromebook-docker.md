@@ -8,3 +8,4 @@ Run a device on a Chromebook using Docker.
 
 These [instructions](https://dvillalobos.github.io/2020/How-to-install-and-run-Docker-on-a-Chromebook/) worked good for me.
 
+### 3. [Continue](docker.md) to run device in docker container
