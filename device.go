@@ -16,6 +16,7 @@ type WifiAuth map[string]string
 type Devicer interface {
 	Load(string) error
 	CopyWifiAuth(WifiAuth)
+	SetWsScheme(string)
 }
 
 type Modeler interface {
@@ -52,7 +53,7 @@ type Device struct {
 	DialURLs       string `json:"-"`
 	DeployParams   string
 	ViewMode       `json:"-"`
-	wsScheme       string
+	WsScheme       string
 	fs             embed.FS
 	deviceOS
 }
@@ -63,7 +64,7 @@ func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 		Thing:    dean.NewThing(id, model, name),
 		Targets:  target.MakeTargets(targets),
 		WifiAuth: make(WifiAuth),
-		wsScheme: "ws://",
+		WsScheme: "ws://",
 		fs:       fs,
 	}
 	d.deviceOSInit()
@@ -99,5 +100,5 @@ func (d *Device) SetDialURLs(urls string) {
 }
 
 func (d *Device) SetWsScheme(scheme string) {
-	d.wsScheme = scheme
+	d.WsScheme = scheme
 }
