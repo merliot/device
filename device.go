@@ -53,7 +53,7 @@ type Device struct {
 	DialURLs       string `json:"-"`
 	DeployParams   string
 	ViewMode       `json:"-"`
-	WsScheme       string
+	WsScheme       string `json:"-"`
 	fs             embed.FS
 	deviceOS
 }
