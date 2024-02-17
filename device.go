@@ -52,17 +52,20 @@ type Device struct {
 	DialURLs       string `json:"-"`
 	DeployParams   string
 	ViewMode       `json:"-"`
+	wsScheme       string
 	fs             embed.FS
 	deviceOS
 }
 
 func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 	println("NEW DEVICE")
-	d := &Device{}
-	d.Thing = dean.NewThing(id, model, name)
-	d.Targets = target.MakeTargets(targets)
-	d.WifiAuth = make(WifiAuth)
-	d.fs = fs
+	d := &Device{
+		Thing:    dean.NewThing(id, model, name),
+		Targets:  target.MakeTargets(targets),
+		WifiAuth: make(WifiAuth),
+		wsScheme: "ws://",
+		fs:       fs,
+	}
 	d.deviceOSInit()
 	return d
 }
@@ -93,4 +96,8 @@ func (d *Device) CopyWifiAuth(auth WifiAuth) {
 
 func (d *Device) SetDialURLs(urls string) {
 	d.DialURLs = urls
+}
+
+func (d *Device) SetWsScheme(scheme string) {
+	d.wsScheme = scheme
 }

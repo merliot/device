@@ -203,7 +203,7 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 		values["passphrase"] = d.WifiAuth[ssid]
 	}
 
-	values["hub"] = wsScheme + r.Host + "/ws/?ping-period=4"
+	values["hub"] = d.wsScheme + r.Host + "/ws/?ping-period=4"
 	values["dialUrls"] = values["hub"] + "," + d.DialURLs
 
 	if user, passwd, ok := r.BasicAuth(); ok {
