@@ -8,7 +8,7 @@ import (
 	_ "github.com/merliot/dean/tinynet/connect"
 )
 
-func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs string) {
+func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs, wsScheme string) {
 	runner := dean.NewRunner(thinger, user, passwd)
 	runner.Dial(dialURLs)
 	runner.Run()
