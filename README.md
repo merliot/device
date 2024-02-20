@@ -7,3 +7,5 @@ Merliot device package is a base [Go](go.dev) package for building Merliot devic
 [Run Device on Chromebook](docs/chromebook-docker.md)
 
 [Run Device on Docker](docs/docker.md)
+
+[Device Environment Variables](docs/environment.md)
