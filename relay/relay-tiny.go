@@ -20,6 +20,7 @@ func (r Relay) Configure() {
 	if pin, ok := target.Pin(r.Gpio); ok {
 		r.pin = machine.Pin(pin)
 		r.pin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+		r.pin.Low()
 	}
 }
 

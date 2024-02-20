@@ -198,6 +198,7 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 	values["model"] = d.Model
 	values["modelStruct"] = strings.Title(d.Model)
 	values["name"] = d.Name
+	values["modulePath"] = d.modulePath
 
 	if ssid, ok := values["ssid"]; ok {
 		values["passphrase"] = d.WifiAuth[ssid]

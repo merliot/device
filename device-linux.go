@@ -3,6 +3,7 @@
 package device
 
 import (
+	"bufio"
 	"embed"
 	"encoding/json"
 	"html/template"
@@ -16,7 +17,7 @@ import (
 	"github.com/merliot/dean"
 )
 
-//go:embed css images html js template favicon.ico
+//go:embed css images go.mod html js template favicon.ico
 var deviceFs embed.FS
 
 const defaultPingPeriod int = 4
@@ -26,6 +27,7 @@ type deviceOS struct {
 	PingPeriod  int               `json:"-"`
 	CompositeFs *dean.CompositeFS `json:"-"`
 	filePath    string
+	modulePath  string
 	templates   *template.Template
 }
 
@@ -35,6 +37,25 @@ func (d *Device) deviceOSInit() {
 	d.CompositeFs.AddFS(deviceFs)
 	d.CompositeFs.AddFS(d.fs)
 	d.templates = d.CompositeFs.ParseFS("template/*")
+	d.modulePath = d.getModulePath()
+}
+
+func (d *Device) getModulePath() string {
+	file, err := d.CompositeFs.Open("go.mod")
+	if err != nil {
+		return "include go.mod in you go:embed files"
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if strings.HasPrefix(line, "module ") {
+			return strings.TrimSpace(strings.TrimPrefix(line, "module "))
+		}
+	}
+
+	return ""
 }
 
 func (d *Device) RenderTemplate(w http.ResponseWriter, name string, data any) {

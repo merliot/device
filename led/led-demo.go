@@ -6,9 +6,7 @@ type Led struct {
 	State bool
 }
 
-func New() Led {
-	return Led{}
-}
-
-func (l Led) Set(state bool) {
-}
+func (l Led) Configure() {}
+func (l Led) Set(bool)   {}
+func (l Led) On()        {}
+func (l Led) Off()       {}
