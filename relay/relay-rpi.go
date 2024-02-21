@@ -16,7 +16,7 @@ type Relay struct {
 	driver *gpio.RelayDriver
 }
 
-func (r Relay) Configure() {
+func (r *Relay) Configure() {
 	if pin, ok := target.Pin(r.Gpio); ok {
 		spin := strconv.Itoa(int(pin))
 		r.driver = gpio.NewRelayDriver(target.Adaptor, spin)

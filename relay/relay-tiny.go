@@ -15,7 +15,7 @@ type Relay struct {
 	pin   machine.Pin
 }
 
-func (r Relay) Configure() {
+func (r *Relay) Configure() {
 	r.pin = machine.NoPin
 	if pin, ok := target.Pin(r.Gpio); ok {
 		r.pin = machine.Pin(pin)
