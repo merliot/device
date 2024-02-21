@@ -9,13 +9,13 @@ type Led struct {
 	pin   machine.Pin
 }
 
-func (l Led) Configure() {
+func (l *Led) Configure() {
 	l.pin = machine.LED
 	l.pin.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	l.pin.Low()
 }
 
-func (l Led) Set(state bool) {
+func (l *Led) Set(state bool) {
 	if state {
 		l.On()
 	} else {
@@ -23,12 +23,12 @@ func (l Led) Set(state bool) {
 	}
 }
 
-func (l Led) On() {
+func (l *Led) On() {
 	l.pin.High()
 	l.State = true
 }
 
-func (l Led) Off() {
+func (l *Led) Off() {
 	l.pin.Low()
 	l.State = false
 }

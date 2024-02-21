@@ -13,7 +13,7 @@ type Vl53l1x struct {
 }
 
 // Configure VL53L1x time-of-flight distance sensor
-func (v Vl53l1x) Configure() {
+func (v *Vl53l1x) Configure() {
 	machine.I2C0.Configure(machine.I2CConfig{
 		Frequency: 400000,
 	})
