@@ -9,8 +9,8 @@ github.com/hashicorp/errwrap v1.1.0 h1:OxrOeh75EUXMY8TBjag2fzXGZ40LB6IKw45YeGUDY
 github.com/hashicorp/errwrap v1.1.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
 github.com/hashicorp/go-multierror v1.1.1 h1:H5DkEtf6CXdFp0N0Em5UCwQpXMWke8IA0+lD48awMYo=
 github.com/hashicorp/go-multierror v1.1.1/go.mod h1:iw975J/qwKPdAO1clOe2L8331t/9/fmwbPZ6JB6eMoM=
-github.com/merliot/dean v0.0.0-20240221075053-323818dff3cb h1:xiFcwZuajWBwn/Rrft2oAIAqBy4mwq8j1LEEZq5dRzc=
-github.com/merliot/dean v0.0.0-20240221075053-323818dff3cb/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
+github.com/merliot/dean v0.0.0-20240221094503-e7aca4f3224e h1:UrO3CvenAIxYym3N2c6vusXbbYb2Bhm8hDi2r86z2Q4=
+github.com/merliot/dean v0.0.0-20240221094503-e7aca4f3224e/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
