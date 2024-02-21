@@ -5,8 +5,9 @@ go 1.21.5
 replace tinygo.org/x/drivers => tinygo.org/x/drivers v0.26.1-0.20231206190939-3fabdc5c9680
 
 require (
-	github.com/merliot/dean v0.0.0-20240214060428-ac508327f99c
+	github.com/merliot/dean v0.0.0-20240221075053-323818dff3cb
 	gobot.io/x/gobot/v2 v2.3.0
+	tinygo.org/x/drivers v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -22,5 +23,4 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	periph.io/x/conn/v3 v3.7.0 // indirect
 	periph.io/x/host/v3 v3.8.2 // indirect
-	tinygo.org/x/drivers v0.0.0-00010101000000-000000000000 // indirect
 )
