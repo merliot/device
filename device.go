@@ -71,6 +71,13 @@ func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 	return d
 }
 
+func (d *Device) ParamFirstValue(values url.Values, key string) string {
+	if v, ok := values[key]; ok {
+		return v[0]
+	}
+	return ""
+}
+
 func (d *Device) ParseDeployParams() url.Values {
 	values, _ := url.ParseQuery(d.DeployParams)
 	return values

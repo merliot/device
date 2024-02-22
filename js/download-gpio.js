@@ -3,7 +3,7 @@ let gpios = deployTargetGpios[target.value];
 
 // Function to refresh all select options based on current selections
 function refreshGpioOptions() {
-    const selects = document.querySelectorAll('.gpio');
+    const selects = document.querySelectorAll('.gpio-selector');
     const usedGpios = [];
 
     // Find all currently selected GPIOs
@@ -32,7 +32,7 @@ function refreshGpioOptions() {
 }
 
 function clearGpioOptions() {
-    const selects = document.querySelectorAll('.gpio');
+    const selects = document.querySelectorAll('.gpio-selector');
     selects.forEach(select => {
         select.value = ""
     });
@@ -49,7 +49,7 @@ target.addEventListener('change', function() {
 });
 
 // Attach event listeners to the gpio dropdowns to ensure no duplicate selections
-document.querySelectorAll('.gpio').forEach(select => {
+document.querySelectorAll('.gpio-selector').forEach(select => {
     select.addEventListener('change', refreshGpioOptions);
 });
 

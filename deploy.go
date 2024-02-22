@@ -212,6 +212,7 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 		values["passwd"] = passwd
 	}
 
+	//fmt.Println(values)
 	return values, nil
 }
 

@@ -4,6 +4,7 @@ package led
 
 type Led struct {
 	State bool
+	Gpio  string
 }
 
 func (l *Led) Configure() {}
