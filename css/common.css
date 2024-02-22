@@ -153,6 +153,16 @@ hr {
 	margin: 0 0 20px 0;
 }
 
+.gpio {
+	background: darkorange;
+	color: white;
+	font-size: smaller;
+	border-radius: 3px;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 20px 0px;
+	height: 15px;
+}
+
 #full-nodef {
 	align-items: center;
 	justify-content: center;
