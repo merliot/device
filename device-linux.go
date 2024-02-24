@@ -96,6 +96,7 @@ var scriptFile = regexp.MustCompile("\\.js$")
 
 func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 
+	println("------------", r.URL.Path)
 	id, _, _ := d.Identity()
 
 	pingPeriod := strconv.Itoa(d.PingPeriod)
