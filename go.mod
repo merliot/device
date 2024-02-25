@@ -5,7 +5,7 @@ go 1.21.5
 replace tinygo.org/x/drivers => tinygo.org/x/drivers v0.26.1-0.20231206190939-3fabdc5c9680
 
 require (
-	github.com/merliot/dean v0.0.0-20240225072451-f61a3443b3b9
+	github.com/merliot/dean v0.0.0-20240225073225-4900114edcea
 	gobot.io/x/gobot/v2 v2.3.0
 	tinygo.org/x/drivers v0.0.0-00010101000000-000000000000
 )
