@@ -42,10 +42,12 @@ var AllTargets = Targets{
 	},
 	"pyportal": Target{
 		FullName: "Adafruit PyPortal",
+		TinyGo:   true,
 		GpioPins: GpioPins{},
 	},
 	"wioterminal": Target{
 		FullName: "Seeed Wio Terminal",
+		TinyGo:   true,
 		GpioPins: GpioPins{
 			"D0": 40,
 			"D1": 41,
@@ -60,6 +62,7 @@ var AllTargets = Targets{
 	},
 	"nano-rp2040": Target{
 		FullName: "Arduino Nano Connect rp2040",
+		TinyGo:   true,
 		GpioPins: GpioPins{
 			// maps label to GPIO
 			"D2":  25,

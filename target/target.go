@@ -11,6 +11,7 @@ type GpioPins map[string]GpioPin
 type Target struct {
 	FullName string
 	GpioPins
+	TinyGo bool
 }
 
 type Targets map[string]Target
@@ -34,4 +35,14 @@ func (targets Targets) FullNames() string {
 	sort.Strings(fullNames)
 	// Concatenate FullNames with commas
 	return strings.Join(fullNames, ", ")
+}
+
+func (targets Targets) TinyGoTargets() Targets {
+	filtered := make(Targets)
+	for key, target := range targets {
+		if target.TinyGo {
+			filtered[key] = target
+		}
+	}
+	return filtered
 }

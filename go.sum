@@ -19,6 +19,8 @@ github.com/merliot/dean v0.0.0-20240225073225-4900114edcea h1:pUegV+7uPymygVehcN
 github.com/merliot/dean v0.0.0-20240225073225-4900114edcea/go.mod h1:YfI3sQq6W43w1sXOfSOLCGEYV9YwJ/hqkKd7MP+kOGo=
 github.com/merliot/dean v0.0.0-20240225172934-0f89e115846c h1:q7WcXJ8Wkf5Ap4nSlOAp46i7+rDJf5khg9eagG6Juhc=
 github.com/merliot/dean v0.0.0-20240225172934-0f89e115846c/go.mod h1:YfI3sQq6W43w1sXOfSOLCGEYV9YwJ/hqkKd7MP+kOGo=
+github.com/merliot/dean v0.0.0-20240227194445-fa196d6f3cbe h1:45XdT0Al2PGlENtyaOVnplXcGJJbkZ0X28XBYaGaqZo=
+github.com/merliot/dean v0.0.0-20240227194445-fa196d6f3cbe/go.mod h1:YfI3sQq6W43w1sXOfSOLCGEYV9YwJ/hqkKd7MP+kOGo=
 github.com/petermattis/goid v0.0.0-20180202154549-b0b1615b78e5 h1:q2e307iGHPdTGp0hoxKjt1H5pDo6utceo3dQVK3I5XQ=
 github.com/petermattis/goid v0.0.0-20180202154549-b0b1615b78e5/go.mod h1:jvVRKCrJTQWu0XVbaOlby/2lO20uSCHEMzzplHXte1o=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

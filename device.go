@@ -23,6 +23,7 @@ type Modeler interface {
 	Icon() []byte
 	DescHtml() []byte
 	SupportedTargets() string
+	GenerateUF2s() error
 }
 
 type params struct {
@@ -49,6 +50,7 @@ const (
 type Device struct {
 	dean.Thing
 	target.Targets `json:"-"`
+	ModelStruct    string `json:"-"`
 	WifiAuth       `json:"-"`
 	DialURLs       string `json:"-"`
 	DeployParams   string
@@ -62,11 +64,12 @@ type Device struct {
 func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 	println("NEW DEVICE")
 	d := &Device{
-		Thing:    dean.NewThing(id, model, name),
-		Targets:  target.MakeTargets(targets),
-		WifiAuth: make(WifiAuth),
-		WsScheme: "ws://",
-		fs:       fs,
+		Thing:       dean.NewThing(id, model, name),
+		Targets:     target.MakeTargets(targets),
+		ModelStruct: strings.Title(model),
+		WifiAuth:    make(WifiAuth),
+		WsScheme:    "ws://",
+		fs:          fs,
 	}
 	d.deviceOSInit()
 	return d

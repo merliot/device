@@ -26,8 +26,8 @@ type deviceOS struct {
 	WebSocket   string            `json:"-"`
 	PingPeriod  int               `json:"-"`
 	CompositeFs *dean.CompositeFS `json:"-"`
+	ModulePath  string            `json:"="`
 	filePath    string
-	modulePath  string
 	templates   *template.Template
 }
 
@@ -36,14 +36,14 @@ func (d *Device) deviceOSInit() {
 	d.CompositeFs = dean.NewCompositeFS()
 	d.CompositeFs.AddFS(deviceFs)
 	d.CompositeFs.AddFS(d.fs)
+	d.ModulePath = d.getModulePath()
 	d.templates = d.CompositeFs.ParseFS("template/*")
-	d.modulePath = d.getModulePath()
 }
 
 func (d *Device) getModulePath() string {
 	file, err := d.CompositeFs.Open("go.mod")
 	if err != nil {
-		return "include go.mod in you go:embed files"
+		return "include go.mod in your go:embed files"
 	}
 	defer file.Close()
 
@@ -96,7 +96,6 @@ var scriptFile = regexp.MustCompile("\\.js$")
 
 func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 
-	println("------------", r.URL.Path)
 	id, _, _ := d.Identity()
 
 	pingPeriod := strconv.Itoa(d.PingPeriod)
