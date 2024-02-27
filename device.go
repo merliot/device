@@ -23,7 +23,7 @@ type Modeler interface {
 	Icon() []byte
 	DescHtml() []byte
 	SupportedTargets() string
-	GenerateUF2s() error
+	GenerateUf2s() error
 }
 
 type params struct {
