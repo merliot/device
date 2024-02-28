@@ -26,7 +26,7 @@ type deviceOS struct {
 	WebSocket   string            `json:"-"`
 	PingPeriod  int               `json:"-"`
 	CompositeFs *dean.CompositeFS `json:"-"`
-	ModulePath  string            `json:"="`
+	ModulePath  string            `json:"-"`
 	filePath    string
 	templates   *template.Template
 }
