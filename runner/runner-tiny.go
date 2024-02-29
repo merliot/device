@@ -6,11 +6,10 @@ import (
 	"github.com/merliot/dean"
 	_ "github.com/merliot/dean/tinynet"
 	_ "github.com/merliot/dean/tinynet/connect"
-	"github.com/merliot/device"
 )
 
-func Run(device *device.Device, port, portPrime, user, passwd, dialURLs, wsScheme string) {
-	runner := dean.NewRunner(device, user, passwd)
+func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs, wsScheme string) {
+	runner := dean.NewRunner(thinger, user, passwd)
 	runner.Dial(dialURLs)
 	runner.Run()
 }
