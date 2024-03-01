@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
-func (d *Device) generateUf2(target string) error {
+func (d *Device) generateUf2(dir, target string) error {
 
 	file, err := os.CreateTemp("", "build-*.go")
 	if err != nil {
@@ -28,7 +29,8 @@ func (d *Device) generateUf2(target string) error {
 
 	// Build the uf2 file
 	uf2Name := d.Model + "-" + target + ".uf2"
-	cmd := exec.Command("tinygo", "build", "-target", target, "-o", uf2Name, "-stack-size", "8kb", "-size", "short", file.Name())
+	output := filepath.Join(dir, uf2Name)
+	cmd := exec.Command("tinygo", "build", "-target", target, "-o", output, "-stack-size", "8kb", "-size", "short", file.Name())
 	println(cmd.String())
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
@@ -39,9 +41,9 @@ func (d *Device) generateUf2(target string) error {
 	return nil
 }
 
-func (d *Device) GenerateUf2s() error {
+func (d *Device) GenerateUf2s(dir string) error {
 	for target, _ := range d.Targets.TinyGoTargets() {
-		if err := d.generateUf2(target); err != nil {
+		if err := d.generateUf2(dir, target); err != nil {
 			return err
 		}
 	}
