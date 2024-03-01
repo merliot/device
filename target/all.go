@@ -1,6 +1,6 @@
 package target
 
-// NOTE If modified, go run cmd/genjs/main.go to generate new
+// NOTE If modified, go generate ./... to generate new
 // deployTargetGpios.js file.
 
 var AllTargets = Targets{
