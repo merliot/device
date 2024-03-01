@@ -28,7 +28,7 @@ func (d *Device) generateUf2(target string) error {
 
 	// Build the uf2 file
 	uf2Name := d.Model + "-" + target + ".uf2"
-	cmd := exec.Command("tinygo", "build", "-target", target, "-o", uf2Name, "-stack-size", "8kb", "-size", "full", file.Name())
+	cmd := exec.Command("tinygo", "build", "-target", target, "-o", uf2Name, "-stack-size", "8kb", "-size", "short", file.Name())
 	println(cmd.String())
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
