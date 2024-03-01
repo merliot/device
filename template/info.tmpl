@@ -24,7 +24,7 @@
 				<span>Info</span>
 			</div>
 
-			<table id="info">
+			<table class="info">
 				<tr>
 					<th>ID</th>
 					<td>{{.Id}}</td>
@@ -37,6 +37,33 @@
 					<th>Name</th>
 					<td>{{.Name}}</td>
 				</tr>
+
+				<tr class="hr-row">
+					<td colspan="2"><hr></td>
+				</tr>
+
+				<tr>
+					<th>Module Path</th>
+					<td>{{.Module.Path}}</td>
+				</tr>
+{{ $first := true }}
+{{ range $key, $value := .Module.Require }}
+	{{ if not $value.Indirect }}
+				<tr>
+		{{ if $first }}
+					<th>Requires</th>
+		{{ else }}
+					<th></th>
+		{{ end }}
+		{{ $first = false }}
+					<td>{{ $value.Mod.Path }}</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td>@{{ $value.Mod.Version }}</td>
+				</tr>
+	{{ end }}
+{{ end }}
 			</table>
 		</section>
 	</body>

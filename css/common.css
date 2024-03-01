@@ -168,3 +168,12 @@ hr {
 	justify-content: center;
 	height: 250px;
 }
+
+table.info {
+	border-collapse: separate;
+	border-spacing: 20px 0;
+}
+
+table.info th {
+	text-align: right;
+}

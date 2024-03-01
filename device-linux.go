@@ -3,7 +3,6 @@
 package device
 
 import (
-	"bufio"
 	"embed"
 	"encoding/json"
 	"html/template"
@@ -26,7 +25,7 @@ type deviceOS struct {
 	WebSocket   string            `json:"-"`
 	PingPeriod  int               `json:"-"`
 	CompositeFs *dean.CompositeFS `json:"-"`
-	ModulePath  string            `json:"-"`
+	Module      `json:"-"`
 	filePath    string
 	templates   *template.Template
 }
@@ -36,26 +35,8 @@ func (d *Device) deviceOSInit() {
 	d.CompositeFs = dean.NewCompositeFS()
 	d.CompositeFs.AddFS(deviceFs)
 	d.CompositeFs.AddFS(d.fs)
-	d.ModulePath = d.getModulePath()
+	d.Module = d.LoadModule()
 	d.templates = d.CompositeFs.ParseFS("template/*")
-}
-
-func (d *Device) getModulePath() string {
-	file, err := d.CompositeFs.Open("go.mod")
-	if err != nil {
-		return "include go.mod in your go:embed files"
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		if strings.HasPrefix(line, "module ") {
-			return strings.TrimSpace(strings.TrimPrefix(line, "module "))
-		}
-	}
-
-	return ""
 }
 
 func (d *Device) RenderTemplate(w http.ResponseWriter, name string, data any) {
