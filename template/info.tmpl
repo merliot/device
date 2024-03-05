@@ -44,7 +44,7 @@
 
 				<tr>
 					<th>Module Path</th>
-					<td>{{.Module.Path}}</td>
+					<td><a href="https://{{ .Module.Path }}">{{ .Module.Path }}</a></td>
 				</tr>
 {{ $first := true }}
 {{ range $key, $value := .Module.Require }}
@@ -56,7 +56,7 @@
 					<th></th>
 		{{ end }}
 		{{ $first = false }}
-					<td>{{ $value.Mod.Path }}</td>
+					<td><a href="https://{{ $value.Mod.Path }}">{{ $value.Mod.Path }}</a></td>
 				</tr>
 				<tr>
 					<th></th>
