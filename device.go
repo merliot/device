@@ -17,6 +17,7 @@ type Devicer interface {
 	CopyWifiAuth(WifiAuth)
 	SetWsScheme(string)
 	SetDialURLs(string)
+	GetDeployParams() string
 	SetDeployParams(string)
 }
 
@@ -81,6 +82,10 @@ func (d *Device) ParamFirstValue(key string) string {
 		return v[0]
 	}
 	return ""
+}
+
+func (d *Device) GetDeployParams() string {
+	return d.DeployParams
 }
 
 func (d *Device) SetDeployParams(params string) {
