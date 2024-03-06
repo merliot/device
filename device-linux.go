@@ -7,8 +7,6 @@ import (
 	"encoding/json"
 	"html/template"
 	"net/http"
-	"os"
-	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -26,7 +24,6 @@ type deviceOS struct {
 	PingPeriod  int               `json:"-"`
 	CompositeFs *dean.CompositeFS `json:"-"`
 	Module      `json:"-"`
-	filePath    string
 	templates   *template.Template
 }
 
@@ -115,28 +112,6 @@ func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 
 func (d *Device) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	d.API(w, r, d)
-}
-
-func (d *Device) Load(filePath string) error {
-	d.filePath = filePath
-	bytes, err := os.ReadFile(d.filePath)
-	if err == nil {
-		json.Unmarshal(bytes, &d.DeployParams)
-	}
-	return err
-}
-
-func (d *Device) Save() error {
-	dir := filepath.Dir(d.filePath)
-	err := os.MkdirAll(dir, os.ModePerm)
-	if err == nil {
-		var bytes []byte
-		bytes, err = json.MarshalIndent(d.DeployParams, "", "\t")
-		if err == nil {
-			err = os.WriteFile(d.filePath, bytes, 0600)
-		}
-	}
-	return err
 }
 
 func (d *Device) Icon() []byte {

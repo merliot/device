@@ -14,9 +14,10 @@ import (
 type WifiAuth map[string]string
 
 type Devicer interface {
-	Load(string) error
 	CopyWifiAuth(WifiAuth)
 	SetWsScheme(string)
+	SetDialURLs(string)
+	SetDeployParams(string)
 }
 
 type Modeler interface {
