@@ -22,6 +22,10 @@ hr {
 	margin-right: 0;
 }
 
+.copyright {
+	font-size: smaller;
+}
+
 .icon {
 	width: 20px;
 	height: 20px;
