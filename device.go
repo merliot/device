@@ -2,6 +2,7 @@ package device
 
 import (
 	"embed"
+	"html"
 	"net/url"
 	"strings"
 
@@ -88,8 +89,8 @@ func (d *Device) GetDeployParams() string {
 }
 
 func (d *Device) SetDeployParams(params string) {
-	d.DeployParams = params
-	d.deployValues, _ = url.ParseQuery(params)
+	d.DeployParams = html.UnescapeString(params)
+	d.deployValues, _ = url.ParseQuery(d.DeployParams)
 }
 
 func (d *Device) SetWifiAuth(ssids, passphrases string) {
