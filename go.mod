@@ -3,8 +3,9 @@ module github.com/merliot/device
 go 1.21.5
 
 require (
-	github.com/merliot/dean v0.0.0-20240301075820-e91242dd8159
+	github.com/merliot/dean v0.0.0-20240317004447-c998d95f1d2d
 	gobot.io/x/gobot/v2 v2.3.0
+	golang.org/x/mod v0.8.0
 	tinygo.org/x/drivers v0.27.0
 )
 
@@ -13,8 +14,6 @@ require (
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/petermattis/goid v0.0.0-20180202154549-b0b1615b78e5 // indirect
-	github.com/sasha-s/go-deadlock v0.3.1 // indirect
 	github.com/sigurn/crc8 v0.0.0-20220107193325-2243fe600f9f // indirect
 	github.com/warthog618/gpiod v0.8.2 // indirect
 	golang.org/x/crypto v0.18.0 // indirect
