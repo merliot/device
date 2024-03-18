@@ -1,3 +1,5 @@
+// Device Linux-specific code
+
 //go:build !tinygo
 
 package device
@@ -20,7 +22,10 @@ var deviceFs embed.FS
 const defaultPingPeriod int = 4
 
 type deviceOS struct {
-	WebSocket   string            `json:"-"`
+	// WebSocket is the websocket address for a client to dial back into
+	// the device
+	WebSocket string `json:"-"`
+	// PingPeriod is the ping period, measured in seconds
 	PingPeriod  int               `json:"-"`
 	CompositeFs *dean.CompositeFS `json:"-"`
 	Module      `json:"-"`

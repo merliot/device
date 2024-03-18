@@ -1,3 +1,5 @@
+// Package device is the Merliot base device.
+
 package device
 
 import (
@@ -10,8 +12,8 @@ import (
 	"github.com/merliot/device/target"
 )
 
-// key: ssid; value: passphrase
-type WifiAuth map[string]string
+// WIfiAuth is a map of SSID:PASSPHRASE pairs
+type WifiAuth map[string]string // key: ssid; value: passphrase
 
 type Devicer interface {
 	CopyWifiAuth(WifiAuth)
@@ -40,6 +42,7 @@ type params struct {
 	DialURLs     string
 }
 
+// ViewMode is how the device is being viewed
 type ViewMode int
 
 const (
@@ -50,19 +53,32 @@ const (
 )
 
 type Device struct {
+	// Device is a Thing
 	dean.Thing
+	// Targets supported by device
 	target.Targets `json:"-"`
-	ModelStruct    string `json:"-"`
-	WifiAuth       `json:"-"`
-	DialURLs       string `json:"-"`
-	DeployParams   string
-	deployValues   url.Values
-	ViewMode       `json:"-"`
-	WsScheme       string `json:"-"`
-	fs             embed.FS
+	// ModelStruct is the model with first letter upper-case
+	ModelStruct string `json:"-"`
+	// WIfiAuth is a map of SSID:PASSPHRASE pairs
+	WifiAuth `json:"-"`
+	// DialURLs is a comma seperated list of URLs the device will dial into
+	DialURLs string `json:"-"`
+	// DeployParams are device deploy configuration in an html param format
+	DeployParams string
+	deployValues url.Values
+	// ViewMode is current device view mode
+	ViewMode `json:"-"`
+	// WsScheme is the websocket scheme to use to call back into the
+	// device.  Default is ws://, which is sutable for an http:// device.
+	// Set to wss:// if dialing back into an https:// device.
+	WsScheme string `json:"-"`
+	fs       embed.FS
 	deviceOS
 }
 
+// New returns a new device identified with [id, model, name] tuple.  fs is the
+// device's embedded file system.  targets is a list of targets support by the
+// device.
 func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 	println("NEW DEVICE")
 	d := &Device{
@@ -73,10 +89,12 @@ func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 		WsScheme:    "ws://",
 		fs:          fs,
 	}
+	// Do any OS-specific initialization
 	d.deviceOSInit()
 	return d
 }
 
+// ParamFirstValue returns the first value os html param named by key
 func (d *Device) ParamFirstValue(key string) string {
 	if v, ok := d.deployValues[key]; ok {
 		return v[0]
