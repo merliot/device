@@ -11,6 +11,8 @@ github.com/hashicorp/go-multierror v1.1.1 h1:H5DkEtf6CXdFp0N0Em5UCwQpXMWke8IA0+l
 github.com/hashicorp/go-multierror v1.1.1/go.mod h1:iw975J/qwKPdAO1clOe2L8331t/9/fmwbPZ6JB6eMoM=
 github.com/merliot/dean v0.0.0-20240317004447-c998d95f1d2d h1:3JHsj1MITIGIekwdEp6epwPGTQ6Nqt28FHnX5mZ+bfI=
 github.com/merliot/dean v0.0.0-20240317004447-c998d95f1d2d/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
+github.com/merliot/dean v0.0.0-20240319184459-ba1ddb67bf5e h1:qjqXtHkUtm6wcW5o+NTCQxMoNgg91e4Kz7BAgnFjDec=
+github.com/merliot/dean v0.0.0-20240319184459-ba1ddb67bf5e/go.mod h1:uoIGfhAx8rt/TB3mDZcZWvO/+ajvNitFYYHSHBqqBrE=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
