@@ -21,17 +21,22 @@ var deviceFs embed.FS
 
 const defaultPingPeriod int = 4
 
+// Linux device structure
 type deviceOS struct {
 	// WebSocket is the websocket address for a client to dial back into
 	// the device
 	WebSocket string `json:"-"`
 	// PingPeriod is the ping period, measured in seconds
-	PingPeriod  int               `json:"-"`
+	PingPeriod int `json:"-"`
+	// CompositeFs is the device's fs.  Derived devices will overlay
+	// their fs onto this fs.
 	CompositeFs *dean.CompositeFS `json:"-"`
-	Module      `json:"-"`
-	templates   *template.Template
+	// Module is extracted go.mod info
+	Module    `json:"-"`
+	templates *template.Template
 }
 
+// Linux device struct init
 func (d *Device) deviceOSInit() {
 	d.PingPeriod = defaultPingPeriod
 	d.CompositeFs = dean.NewCompositeFS()
@@ -41,6 +46,7 @@ func (d *Device) deviceOSInit() {
 	d.templates = d.CompositeFs.ParseFS("template/*")
 }
 
+// RenderTemplate writes the rendered template name using data to writer
 func (d *Device) RenderTemplate(w http.ResponseWriter, name string, data any) {
 	tmpl := d.templates.Lookup(name)
 	if tmpl != nil {
@@ -77,6 +83,8 @@ var textFile = regexp.MustCompile("\\.(go|tmpl|css)$")
 // Set Content-Type: "application/javascript" on js files
 var scriptFile = regexp.MustCompile("\\.js$")
 
+// API is the base device's API.  Derived devices can have their own API
+// function to overide or extend this API.
 func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 
 	id, _, _ := d.Identity()
@@ -115,20 +123,25 @@ func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 	}
 }
 
+// ServeHTTP is the base device's web server handler for /.  Derived devices
+// can override or extend with their own ServeHTTP function.
 func (d *Device) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	d.API(w, r, d)
 }
 
+// Icon is the base device's icon image
 func (d *Device) Icon() []byte {
 	icon, _ := d.fs.ReadFile("images/icon.png")
 	return icon
 }
 
+// DescHtml is the base device's description
 func (d *Device) DescHtml() []byte {
 	desc, _ := d.fs.ReadFile("html/desc.html")
 	return desc
 }
 
+// Supported Targets is the base device's targets in full format
 func (d *Device) SupportedTargets() string {
 	return d.Targets.FullNames()
 }

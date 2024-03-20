@@ -76,9 +76,11 @@ type Device struct {
 	deviceOS
 }
 
+const defaultWsScheme = "ws://"
+
 // New returns a new device identified with [id, model, name] tuple.  fs is the
 // device's embedded file system.  targets is a list of targets support by the
-// device.
+// device.  e.g. ["rpi", "nano-rp2040"].
 func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 	println("NEW DEVICE")
 	d := &Device{
@@ -86,7 +88,7 @@ func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 		Targets:     target.MakeTargets(targets),
 		ModelStruct: strings.Title(model),
 		WifiAuth:    make(WifiAuth),
-		WsScheme:    "ws://",
+		WsScheme:    defaultWsScheme,
 		fs:          fs,
 	}
 	// Do any OS-specific initialization
