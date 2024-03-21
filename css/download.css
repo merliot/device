@@ -24,6 +24,10 @@
 	padding-top: 20px;
 }
 
+#deploy-instructions {
+	font-size: small;
+}
+
 hr {
 	margin-bottom: 16px;
 }

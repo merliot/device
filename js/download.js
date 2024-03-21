@@ -147,16 +147,14 @@ function updateSsid(target) {
 function updateInstructions(target) {
 	var instructions = document.getElementById('deploy-instructions')
 	var xhr = new XMLHttpRequest();
-	var url = "html/deploy-instructions-" + target + ".md"
-	xhr.open('GET', url, true);
-	xhr.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			instructions.innerHTML = this.responseText;
-		} else {
-			instructions.innerHTML = "missing " + url + "?"
-		}
-	};
-	xhr.send();
+	var url = target + "/instructions"
+	xhr.open('GET', url, false);
+	xhr.send(null);
+	if (xhr.readyState == 4 && xhr.status == 200) {
+		instructions.innerHTML = xhr.responseText;
+	} else {
+		instructions.innerHTML = "missing " + url + "?"
+	}
 }
 
 function handleTarget(target) {
