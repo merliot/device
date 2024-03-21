@@ -1,11 +1,16 @@
-##### Instructions
+#### Instructions
 
-Target Demo Mode is for trying out the device without the device hardware.
+Target Demo Mode is for trying out the device without the device.
 
-Demo mode is a Linux amd64 application.
+Demo Mode runs as a Linux (amd64) application.
 
-1. Click the Download button to download the demo installer file.
-2. Copy the installer file to a Linux amd64 system and run:
+##### Step 1
+
+Click the Download button to download the demo installer file.
+
+##### Step 2
+
+Copy the installer file to a Linux system and run:
 
 ```
 chmod +x <installer>
