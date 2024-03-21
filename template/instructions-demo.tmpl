@@ -2,13 +2,17 @@
 
 <hr>
 
-<p>Demo Mode simulates the device in software.  Demo Mode is for trying out the device without the device.</p>
+<p>Demo Mode simulates a {{.Model}} device in software.  Demo Mode is for trying out the {{.Model}} device without the hardware.</p>
 
 <p>Demo Mode runs as a Linux (amd64) application.</p>
 
 <h5>Step 1</h5>
 
-<p>Click the Download button to download the demo installer file.  The installer file is named:</p>
+{{template "instructions-demo-step1.tmpl" .}}
+
+<h5>Step 2</h5>
+
+<p>Click the Download button to download the demo installer file.  The installer file name is:</p>
 
 <pre>
 <code>
@@ -16,9 +20,9 @@
 </code>
 </pre>
 
-<h5>Step 2 (Optional)</h5>
+<h5>Step 3 (Optional)</h5>
 
-<p>Verify the MD5 checksum.</p>
+<p>Verify the MD5 checksum:</p>
 
 <pre>
 <code>
@@ -26,7 +30,7 @@
 </code>
 </pre>
 
-<h5>Step 3</h5>
+<h5>Step 4</h5>
 
 <p>Copy the installer file to a Linux system and run:</p>
 
