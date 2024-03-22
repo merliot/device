@@ -4,6 +4,15 @@
 
 <p>Use an <a target="_blank" href="https://docs.arduino.cc/hardware/nano-rp2040-connect/">Arduino Nano rp2040 Connect</a> microcontroller to build a {{.Model}} device.</p>
 
+<center>
+       <img src="images/nano-rp2040-{{.Model}}.png" width="100%"></img>
+</center>
+
+<h5>Parts List</h5>
+
+{{template "instructions-nano-rp2040-parts.tmpl" .}}
+
+
 <h5>Step 1</h5>
 
 {{template "instructions-nano-rp2040-step1.tmpl" .}}
@@ -37,5 +46,5 @@
 <p>Copy the UF2 firmware image to the "RPI-RP2" drive.  The firmware is installed on the device and the device restarts.</p>
 
 <center>
-<img src="images/rpi-rp2-install.png">
+	<img src="images/rpi-rp2-install.png" width="100%"></img>
 </center>
