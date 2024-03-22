@@ -19,10 +19,12 @@
 		</header>
 
 		<section class="divFlexCol panel">
-			<div class="divFlexRow device-back" id="info-back" onclick="window.location.replace(document.referrer)">
-				<img class="icon" src="images/back-icon.png">
-				<span>Info</span>
-			</div>
+			<a href="/{{.Id}}/" class="no-underline" id="info-back">
+				<div class="divFlexRow device-back">
+					<img class="icon" src="images/back-icon.png">
+					<span>Info</span>
+				</div>
+			</a>
 
 			<table class="info">
 				<tr>

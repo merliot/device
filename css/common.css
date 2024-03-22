@@ -157,6 +157,11 @@ hr {
 	margin: 0 0 20px 0;
 }
 
+.no-underline {
+	text-decoration: none;
+	color: black;
+}
+
 .gpio {
 	background: darkorange;
 	color: white;
