@@ -11,6 +11,6 @@ func main() {
 	thing := {{.model}}.New("{{.id}}", "{{.model}}", "{{.name}}").(*{{.model}}.{{.modelStruct}})
 	thing.SetDeployParams("{{.deployParams}}")
 	server := dean.NewServer(thing, "{{.user}}", "{{.passwd}}", "{{.port}}")
-	server.Dial("{{.hub}},{{.backuphub}}")
+	server.Dial("{{.dialUrls}}")
 	server.Run()
 }

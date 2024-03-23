@@ -133,10 +133,14 @@ func (d *Device) deployTinyGo(dir string, values map[string]string, envs []strin
 }
 */
 
+// Random string to embed in UF2 we can search for later to locate params
+const UF2Magic = "Call the Doctor!  Miss you Dan."
+
 func (d *Device) deployTinyGoUF2(dir string, values map[string]string, envs []string,
 	templates *template.Template, w http.ResponseWriter, r *http.Request) error {
 
 	var p = params{
+		Magic:        UF2Magic,
 		Ssid:         values["ssid"],
 		Passphrase:   values["passphrase"],
 		Id:           values["id"],

@@ -8,9 +8,8 @@ import (
 )
 
 func main() {
-	// Check if there are two command-line arguments
 	if len(os.Args) != 5 {
-		log.Fatal("Usage: program input-file output-file from-string to-string")
+		log.Fatal("Usage: program uf2-input-file uf2-output-file from-string to-string")
 	}
 
 	input := os.Args[1]

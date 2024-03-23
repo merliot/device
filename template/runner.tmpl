@@ -13,6 +13,6 @@ func main() {
 	thing := {{.model}}.New("{{.id}}", "{{.model}}", "{{.name}}").(*{{.model}}.{{.modelStruct}})
 	thing.SetDeployParams("{{.deployParams}}")
 	runner := dean.NewRunner(thing, "{{.user}}", "{{.passwd}}")
-	runner.Dial("{{.hub}},{{.backuphub}}")
+	runner.Dial("{{.dialUrls}}")
 	runner.Run()
 }

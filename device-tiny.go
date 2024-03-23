@@ -17,13 +17,8 @@ func DeviceParams() (params, error) {
 	return p, err
 }
 
-type deviceOS struct {
-}
+type deviceOS struct{}
 
-func (d *Device) deviceOSInit() {
-}
-
-func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
-}
-
-func (d *Device) FailSafe() {}
+func (d *Device) deviceOSInit()                                        {}
+func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {}
+func (d *Device) FailSafe()                                            {}

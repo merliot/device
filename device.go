@@ -31,6 +31,7 @@ type Modeler interface {
 }
 
 type params struct {
+	Magic        string
 	Ssid         string
 	Passphrase   string
 	Id           string
