@@ -3,9 +3,9 @@ module github.com/merliot/device
 go 1.21.5
 
 require (
-	github.com/merliot/dean v0.0.0-20240319184459-ba1ddb67bf5e
+	github.com/merliot/dean v0.0.0-20240324064202-5ff7aeedf16a
 	gobot.io/x/gobot/v2 v2.3.0
-	golang.org/x/mod v0.8.0
+	golang.org/x/mod v0.16.0
 	tinygo.org/x/drivers v0.27.0
 )
 
@@ -15,10 +15,10 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/sigurn/crc8 v0.0.0-20220107193325-2243fe600f9f // indirect
-	github.com/warthog618/gpiod v0.8.2 // indirect
-	golang.org/x/crypto v0.18.0 // indirect
-	golang.org/x/net v0.20.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	github.com/warthog618/gpiod v0.8.3 // indirect
+	golang.org/x/crypto v0.21.0 // indirect
+	golang.org/x/net v0.22.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	periph.io/x/conn/v3 v3.7.0 // indirect
 	periph.io/x/host/v3 v3.8.2 // indirect
