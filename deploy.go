@@ -140,7 +140,7 @@ func (d *Device) deployTinyGoUF2(dir string, values map[string]string, envs []st
 	templates *template.Template, w http.ResponseWriter, r *http.Request) error {
 
 	var p = params{
-		Magic:        UF2Magic,
+		MagicStart:   UF2Magic,
 		Ssid:         values["ssid"],
 		Passphrase:   values["passphrase"],
 		Id:           values["id"],
@@ -150,6 +150,7 @@ func (d *Device) deployTinyGoUF2(dir string, values map[string]string, envs []st
 		User:         values["user"],
 		Passwd:       values["passwd"],
 		DialURLs:     values["dialUrls"],
+		MagicEnd:     UF2Magic,
 	}
 
 	target := values["target"]

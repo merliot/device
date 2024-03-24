@@ -23,19 +23,21 @@ func main() {
 	}
 
 	data := uf2.Bytes()
-
 	magic := []byte(device.UF2Magic)
+	mlen := len(magic)
 
 	start := bytes.Index(data, magic)
 	if start == -1 {
 		log.Fatal("start UF2Magic sequence not found")
 	}
+	println("start", start)
 
 	// Find the end of the chunk
-	end := bytes.Index(data[start+len(magic):], magic)
+	end := bytes.Index(data[start+mlen:], magic)
 	if end == -1 {
 		log.Fatal("end UF2Magic sequence not found")
 	}
+	println("end", end)
 
-	fmt.Println(string(data[start : end+len(magic)]))
+	fmt.Println(string(data[start-15 : start+mlen+end+mlen+2]))
 }

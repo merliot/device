@@ -31,7 +31,7 @@ type Modeler interface {
 }
 
 type params struct {
-	Magic        string
+	MagicStart   string
 	Ssid         string
 	Passphrase   string
 	Id           string
@@ -41,6 +41,7 @@ type params struct {
 	User         string
 	Passwd       string
 	DialURLs     string
+	MagicEnd     string
 }
 
 // ViewMode is how the device is being viewed
