@@ -28,6 +28,14 @@
 	font-size: small;
 }
 
+#download-wifi-warning {
+	margin: 0 20px;
+}
+
+#download-wifi-missing {
+	color: red;
+}
+
 hr {
 	margin-bottom: 16px;
 }

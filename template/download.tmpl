@@ -40,10 +40,18 @@
 					<div class="divFlexRow" id="download-ssid-div">
 						<label for="download-ssid">Wifi SSID:</label>
 						<select name="ssid" id="download-ssid">
+{{ $optionAdded := false }}
 {{ range $key, $value := .WifiAuth }}
+	{{ if ne $key "" }}
+		{{ $optionAdded = true }}
 							<option value="{{ $key }}">{{ $key }}</option>
+	{{ end }}
 {{ end }}
 						</select>
+{{ if not $optionAdded }}
+						<span class="emoji" id="download-wifi-warning">&#9888;</span>
+						<span id="download-wifi-missing"><a target="_blank" href="">Missing Wifi Settings</a></span>
+{{ end }}
 					</div>
 					<div class="divFlexRow" id="download-http-div">
 						<label for="download-http">Run local Web Server:</label>

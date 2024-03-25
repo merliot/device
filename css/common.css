@@ -33,6 +33,10 @@ hr {
 	cursor: pointer;
 }
 
+.emoji {
+	font-family: emoji;
+}
+
 .pointer {
 	cursor: pointer;
 }
