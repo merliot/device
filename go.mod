@@ -3,7 +3,7 @@ module github.com/merliot/device
 go 1.22.0
 
 require (
-	github.com/merliot/dean v0.0.0-20240325200401-79c08f9d6e71
+	github.com/merliot/dean v0.0.0-20240327040632-9394ea7f9dd9
 	gobot.io/x/gobot/v2 v2.3.0
 	golang.org/x/mod v0.16.0
 	tinygo.org/x/drivers v0.27.0
