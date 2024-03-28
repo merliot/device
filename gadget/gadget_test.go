@@ -21,7 +21,7 @@ var (
 	port   = "8050"
 )
 
-func testHomePage(t *testing.T) {
+func TestHomePage(t *testing.T) {
 	url := fmt.Sprintf("http://%s:%s", host, port)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -42,11 +42,24 @@ func testHomePage(t *testing.T) {
 		t.Errorf("Get %s failed: %s", url, err)
 	}
 
-	contents := strings.TrimSpace(string(body))
-	println(contents)
+	got := strings.TrimSpace(string(body))
+	want := id + " " + model + " " + name
+	if got != want {
+		t.Fatalf("Response '%s' not equal to what we wanted '%s'", got, want)
+	}
 }
 
-func TestBasic(t *testing.T) {
+func TestWebSocket(t *testing.T) {
+	gadget := New(id, model, name)
+	runner := dean.NewRunner(gadget, user, passwd)
+	url := "ws://" + host + ":" + port + "/ws?ping-period=4"
+	runner.Dial(url)
+	runner.Run()
+}
+
+func TestMain(m *testing.M) {
+
+	// Start the gadget as an http web server
 	gadget := New(id, model, name).(*Gadget)
 	server := dean.NewServer(gadget, user, passwd, port)
 	go server.Run()
@@ -54,7 +67,9 @@ func TestBasic(t *testing.T) {
 	// Wait a bit for http server to spin up
 	time.Sleep(time.Second)
 
-	t.Run("TestHomePage", testHomePage)
+	// Run the tests
+	m.Run()
 
+	// Shut down the web server
 	gadget.quit <- true
 }
