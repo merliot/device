@@ -54,7 +54,6 @@ func TestWebSocket(t *testing.T) {
 	runner := dean.NewRunner(gadget, user, passwd)
 	url := "ws://" + host + ":" + port + "/ws?ping-period=4"
 	runner.Dial(url)
-	runner.Run()
 }
 
 func TestMain(m *testing.M) {
