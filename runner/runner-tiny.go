@@ -10,6 +10,6 @@ import (
 
 func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs, wsScheme string) {
 	runner := dean.NewRunner(thinger, user, passwd)
-	runner.Dial(dialURLs)
+	runner.Dials(dialURLs)
 	runner.Run()
 }

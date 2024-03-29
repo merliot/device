@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/merliot/dean"
+	"github.com/merliot/device/prime"
 )
 
 var (
@@ -22,7 +24,7 @@ var (
 )
 
 func TestHomePage(t *testing.T) {
-	url := fmt.Sprintf("http://%s:%s", host, port)
+	url := fmt.Sprintf("http://%s:%s/%s/", host, port, id)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -52,23 +54,32 @@ func TestHomePage(t *testing.T) {
 func TestWebSocket(t *testing.T) {
 	gadget := New(id, model, name)
 	runner := dean.NewRunner(gadget, user, passwd)
-	url := "ws://" + host + ":" + port + "/ws?ping-period=4"
-	runner.Dial(url)
+	url, _ := url.Parse("ws://" + host + ":" + port + "/ws?ping-period=4")
+	ws := runner.Dial(url, 1)
+	runner.Run()
+	ws.Close()
 }
 
 func TestMain(m *testing.M) {
 
-	// Start the gadget as an http web server
+	// Start a new prime web server
+	prime := prime.New("p1", "prime", "p1").(*prime.Prime)
+	server := dean.NewServer(prime, user, passwd, port)
+
+	// Prime adopts new gadget
 	gadget := New(id, model, name).(*Gadget)
-	server := dean.NewServer(gadget, user, passwd, port)
+	server.AdoptThing(gadget)
+
+	// Run prime
 	go server.Run()
 
-	// Wait a bit for http server to spin up
+	// Wait a bit for prime to spin up
 	time.Sleep(time.Second)
 
 	// Run the tests
 	m.Run()
 
-	// Shut down the web server
-	gadget.quit <- true
+	// Cleanup
+	server.Close()
+	prime.Close()
 }

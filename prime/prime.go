@@ -21,15 +21,17 @@ type Child struct {
 type Prime struct {
 	*device.Device
 	Child Child
+	quit  chan bool
 }
 
 var targets = []string{"x86-64", "rpi"}
 
 func New(id, model, name string) dean.Thinger {
 	println("NEW PRIME")
-	p := &Prime{}
-	p.Device = device.New(id, model, name, fs, targets).(*device.Device)
-	return p
+	return &Prime{
+		Device: device.New(id, model, name, fs, targets).(*device.Device),
+		quit:   make(chan bool),
+	}
 }
 
 func (p *Prime) getState(msg *dean.Msg) {
@@ -65,4 +67,14 @@ func (p *Prime) Subscribers() dean.Subscribers {
 
 func (p *Prime) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	p.API(w, r, p)
+}
+
+func (p *Prime) Run(i *dean.Injector) {
+	select {
+	case <-p.quit:
+	}
+}
+
+func (p *Prime) Close() {
+	p.quit <- true
 }
