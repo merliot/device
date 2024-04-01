@@ -15,6 +15,8 @@ github.com/merliot/dean v0.0.0-20240329060554-08ba82e9a659 h1:x+aUkU/kkqs6ZxuJij
 github.com/merliot/dean v0.0.0-20240329060554-08ba82e9a659/go.mod h1:IV6M2XyDXo8F4JPPzOoETvADzo1YHTJOE2t/LDk2iog=
 github.com/merliot/dean v0.0.0-20240330145910-bdc95c8513db h1:y6u1hwbHgDP9dbi0ILInjlzC+5+YrBSs5chX1UfPk3w=
 github.com/merliot/dean v0.0.0-20240330145910-bdc95c8513db/go.mod h1:IV6M2XyDXo8F4JPPzOoETvADzo1YHTJOE2t/LDk2iog=
+github.com/merliot/dean v0.0.0-20240401030714-e9ee5c956a08 h1:jdAEGfCbtY4/oS9kwrdLP6ih4I/GtgwYIXqyOXRojGI=
+github.com/merliot/dean v0.0.0-20240401030714-e9ee5c956a08/go.mod h1:IV6M2XyDXo8F4JPPzOoETvADzo1YHTJOE2t/LDk2iog=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
