@@ -9,5 +9,5 @@ type Relay struct {
 }
 
 func (r *Relay) Configure() {}
-func (r Relay) On()         {}
-func (r Relay) Off()        {}
+func (r *Relay) On()        {}
+func (r *Relay) Off()       {}

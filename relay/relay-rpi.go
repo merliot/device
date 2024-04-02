@@ -25,13 +25,13 @@ func (r *Relay) Configure() {
 	}
 }
 
-func (r Relay) On() {
+func (r *Relay) On() {
 	if r.driver != nil {
 		r.driver.On()
 	}
 }
 
-func (r Relay) Off() {
+func (r *Relay) Off() {
 	if r.driver != nil {
 		r.driver.Off()
 	}

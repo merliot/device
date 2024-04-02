@@ -25,7 +25,7 @@ func (v *Vl53l1x) Configure() {
 	}
 }
 
-func (v Vl53l1x) Distance() (dist int32, ok bool) {
+func (v *Vl53l1x) Distance() (dist int32, ok bool) {
 	if v.device.Connected() {
 		v.device.Read(true)
 		dist = v.device.Distance() // mm

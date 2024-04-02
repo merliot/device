@@ -24,13 +24,13 @@ func (r *Relay) Configure() {
 	}
 }
 
-func (r Relay) On() {
+func (r *Relay) On() {
 	if r.pin != machine.NoPin {
 		r.pin.High()
 	}
 }
 
-func (r Relay) Off() {
+func (r *Relay) Off() {
 	if r.pin != machine.NoPin {
 		r.pin.Low()
 	}

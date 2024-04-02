@@ -5,6 +5,6 @@ package uart
 type Uart struct {
 }
 
-func New() Uart {
-	return Uart{}
+func New() *Uart {
+	return &Uart{}
 }
