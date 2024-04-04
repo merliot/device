@@ -4,6 +4,7 @@ package device
 
 import (
 	"embed"
+	"fmt"
 	"html"
 	"net/url"
 	"strings"
@@ -84,7 +85,7 @@ const defaultWsScheme = "ws://"
 // device's embedded file system.  targets is a list of targets support by the
 // device.  e.g. ["rpi", "nano-rp2040"].
 func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
-	println("NEW DEVICE")
+	fmt.Println("NEW DEVICE")
 	d := &Device{
 		Thing:       dean.NewThing(id, model, name),
 		Targets:     target.MakeTargets(targets),

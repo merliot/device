@@ -38,7 +38,7 @@ func (d *Device) serveFile(dir, filename string, w http.ResponseWriter, r *http.
 
 	// Calculate MD5 checksum of installer
 	cmd := exec.Command("md5sum", dir+"/"+filename)
-	println(cmd.String())
+	fmt.Println(cmd.String())
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%w: %s", err, stdoutStderr)
@@ -85,7 +85,7 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 	target := strings.Replace(values["target"], "-", "_", -1)
 
 	cmd := exec.Command("go", "build", "-o", dir+"/"+d.Model, "-tags", target, dir+"/build.go")
-	println(cmd.String())
+	fmt.Println(cmd.String())
 	cmd.Env = append(cmd.Environ(), envs...)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
@@ -96,7 +96,7 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 
 	installer := d.Id + "-installer"
 	cmd = exec.Command("go", "build", "-o", dir+"/"+installer, dir+"/installer.go")
-	println(cmd.String())
+	fmt.Println(cmd.String())
 	cmd.Env = append(cmd.Environ(), envs...)
 	stdoutStderr, err = cmd.CombinedOutput()
 	if err != nil {
@@ -122,7 +122,7 @@ func (d *Device) deployTinyGo(dir string, values map[string]string, envs []strin
 
 	cmd := exec.Command("tinygo", "build", "-target", target, "-stack-size", "8kb",
 		"-o", dir+"/"+installer, dir+"/build.go")
-	println(cmd.String())
+	fmt.Println(cmd.String())
 	cmd.Env = append(cmd.Environ(), envs...)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
@@ -248,7 +248,7 @@ func (d *Device) _deploy(templates *template.Template, w http.ResponseWriter, r 
 		return err
 	}
 	defer os.RemoveAll(dir)
-	//println(dir)
+	//fmt.Println(dir)
 
 	switch values["target"] {
 	case "demo", "x86-64", "rpi":

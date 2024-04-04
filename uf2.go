@@ -31,12 +31,12 @@ func (d *Device) generateUf2(dir, target string) error {
 	uf2Name := d.Model + "-" + target + ".uf2"
 	output := filepath.Join(dir, uf2Name)
 	cmd := exec.Command("tinygo", "build", "-target", target, "-o", output, "-stack-size", "8kb", "-size", "short", file.Name())
-	println(cmd.String())
+	fmt.Println(cmd.String())
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%w: %s", err, stdoutStderr)
 	}
-	println(string(stdoutStderr))
+	fmt.Println(string(stdoutStderr))
 
 	return nil
 }

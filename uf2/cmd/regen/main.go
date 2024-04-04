@@ -30,14 +30,12 @@ func main() {
 	if start == -1 {
 		log.Fatal("start UF2Magic sequence not found")
 	}
-	println("start", start)
 
 	// Find the end of the chunk
 	end := bytes.Index(data[start+mlen:], magic)
 	if end == -1 {
 		log.Fatal("end UF2Magic sequence not found")
 	}
-	println("end", end)
 
 	fmt.Println(string(data[start-15 : start+mlen+end+mlen+2]))
 }

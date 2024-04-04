@@ -2,6 +2,7 @@ package prime
 
 import (
 	"embed"
+	"fmt"
 	"net/http"
 
 	"github.com/merliot/dean"
@@ -27,7 +28,7 @@ type Prime struct {
 var targets = []string{"x86-64", "rpi"}
 
 func New(id, model, name string) dean.Thinger {
-	println("NEW PRIME")
+	fmt.Println("NEW PRIME")
 	return &Prime{
 		Device: device.New(id, model, name, fs, targets).(*device.Device),
 		quit:   make(chan bool),
