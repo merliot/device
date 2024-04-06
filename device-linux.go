@@ -16,7 +16,7 @@ import (
 	"github.com/merliot/dean"
 )
 
-//go:embed css images go.mod html js template favicon.ico
+//go:embed css images html js template favicon.ico
 var deviceFs embed.FS
 
 const defaultPingPeriod int = 4

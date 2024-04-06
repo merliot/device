@@ -9,6 +9,7 @@ import (
 )
 
 type Dht struct {
+	Sensor      string
 	Gpio        string
 	Temperature float32
 	Humidity    float32

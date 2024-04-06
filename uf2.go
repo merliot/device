@@ -9,13 +9,18 @@ import (
 	"path/filepath"
 )
 
-func (d *Device) generateUf2(dir, target string) error {
+func (d *Device) generateUf2(dir, target string) (err error) {
 
 	file, err := os.CreateTemp("", "build-*.go")
 	if err != nil {
 		return err
 	}
-	defer os.Remove(file.Name())
+	defer func() {
+		if err == nil {
+			os.Remove(file.Name())
+		}
+		// Otherwise leave /tmp/build-*.go file for debugging
+	}()
 
 	tmpl := d.templates.Lookup("build.tmpl")
 	if tmpl == nil {

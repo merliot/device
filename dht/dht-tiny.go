@@ -11,6 +11,7 @@ import (
 )
 
 type Dht struct {
+	Sensor      string
 	Gpio        string
 	Temperature float32
 	Humidity    float32
@@ -19,10 +20,15 @@ type Dht struct {
 }
 
 func (d *Dht) Configure() {
+	sensor := dht.DHT11
+	switch d.Sensor {
+	case "DHT22":
+		sensor = dht.DHT22
+	}
 	d.pin = machine.NoPin
 	if pin, ok := target.Pin(d.Gpio); ok {
 		d.pin = machine.Pin(pin)
-		d.dht = dht.New(d.pin, dht.DHT22)
+		d.dht = dht.New(d.pin, sensor)
 	}
 }
 
