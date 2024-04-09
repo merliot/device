@@ -48,24 +48,6 @@
 					<th>Module Path</th>
 					<td><a target="_blank" href="https://{{ .Module.Path }}">{{ .Module.Path }}</a></td>
 				</tr>
-{{ $first := true }}
-{{ range $key, $value := .Module.Require }}
-	{{ if not $value.Indirect }}
-				<tr>
-		{{ if $first }}
-					<th>Requires</th>
-		{{ else }}
-					<th></th>
-		{{ end }}
-		{{ $first = false }}
-					<td><a target="_blank" href="https://{{ $value.Mod.Path }}">{{ $value.Mod.Path }}</a></td>
-				</tr>
-				<tr>
-					<th></th>
-					<td>@{{ $value.Mod.Version }}</td>
-				</tr>
-	{{ end }}
-{{ end }}
 			</table>
 		</section>
 	</body>
