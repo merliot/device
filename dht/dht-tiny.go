@@ -13,8 +13,8 @@ import (
 type Dht struct {
 	Sensor      string
 	Gpio        string
-	Temperature float32
-	Humidity    float32
+	Temperature float32 // deg C
+	Humidity    float32 // %
 	pin         machine.Pin
 	dht         dht.Device
 }

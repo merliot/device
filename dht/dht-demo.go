@@ -11,8 +11,8 @@ import (
 type Dht struct {
 	Sensor      string
 	Gpio        string
-	Temperature float32
-	Humidity    float32
+	Temperature float32 // deg C
+	Humidity    float32 // %
 }
 
 func (d *Dht) Configure() {
@@ -32,7 +32,7 @@ func randomValue(mean, stddev float64) float32 {
 }
 
 func (d *Dht) Read() error {
-	d.Temperature = randomValue(75.1, 0.05)
+	d.Temperature = randomValue(24.1, 0.05)
 	d.Humidity = randomValue(34.5, 0.05)
 	return nil
 }

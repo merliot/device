@@ -1,29 +1,32 @@
 function stageFormData(deployParams) {
-	var form = document.getElementById("download-form")
+	var formElements = document.getElementById("download-form").elements
 	const params = new URLSearchParams(deployParams)
 
-	params.forEach((value, key) => {
-		let element = form.elements[key];
-		if (element) {
-			switch (element.type) {
-				case 'checkbox':
+	for (let i = 0; i < formElements.length; i++) {
+		var changed = false
+		const element = formElements[i];
+		params.forEach((value, key) => {
+			if (element.name === key) {
+				if (element.type == 'radio') {
+					if (element.value === value) {
+						element.checked = true;
+						changed = true
+					}
+				} else if (element.type == 'checkbox') {
 					element.checked = value === 'on';
-					break;
-				case 'radio':
-					// If there are multiple radio buttons with the
-					// same name, value will determine which one to check
-					element = [...form.elements[key]].find(radio => radio.value === value);
-					if (element) element.checked = true;
-					break;
-				default:
+					changed = true
+				} else {
 					element.value = value;
-					break;
+					changed = true
+				}
 			}
+		});
+		if (changed) {
 			// Manually dispatch a change event
 			let event = new Event('change', {});
 			element.dispatchEvent(event);
 		}
-	});
+	}
 }
 
 function downloadLink() {
