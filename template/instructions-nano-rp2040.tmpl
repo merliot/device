@@ -59,3 +59,11 @@
 <center>
 	<img src="images/rpi-rp2-install.png" width="100%"></img>
 </center>
+
+<p>The device will automatically connect to this hub.  To troubleshoot connectivity issues, use minicom to view device log:</p>
+
+<pre>
+<code>
+	$ minicom -D /dev/ttyACM0 -b 115200
+</code>
+</pre>

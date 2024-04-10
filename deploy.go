@@ -264,6 +264,10 @@ func (d *Device) _deploy(templates *template.Template, w http.ResponseWriter, r 
 }
 
 func (d *Device) deploy(w http.ResponseWriter, r *http.Request) {
+	if d.Locked {
+		http.Error(w, "Refusing to download, device is locked", http.StatusLocked)
+		return
+	}
 	d.DeployParams = r.URL.RawQuery
 	if err := d._deploy(d.templates, w, r); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

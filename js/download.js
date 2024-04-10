@@ -156,7 +156,7 @@ function updateInstructions(target) {
 	if (xhr.readyState == 4 && xhr.status == 200) {
 		instructions.innerHTML = xhr.responseText;
 	} else {
-		instructions.innerHTML = "missing " + url + "?"
+		instructions.innerHTML = "<p style='color: red'>missing " + url + "?</p>"
 	}
 }
 

@@ -20,6 +20,7 @@ type Devicer interface {
 	CopyWifiAuth(WifiAuth)
 	SetWsScheme(string)
 	SetDialURLs(string)
+	SetLocked(bool)
 	GetDeployParams() string
 	SetDeployParams(string)
 }
@@ -76,6 +77,8 @@ type Device struct {
 	// Set to wss:// if dialing back into an https:// device.
 	WsScheme string `json:"-"`
 	fs       embed.FS
+	// Administratively locked
+	Locked bool `json:"-"`
 	deviceOS
 }
 
@@ -137,4 +140,8 @@ func (d *Device) SetDialURLs(urls string) {
 
 func (d *Device) SetWsScheme(scheme string) {
 	d.WsScheme = scheme
+}
+
+func (d *Device) SetLocked(locked bool) {
+	d.Locked = locked
 }
