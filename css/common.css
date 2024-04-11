@@ -131,6 +131,14 @@ hr {
 	display: none;
 }
 
+.nono {
+	cursor: not-allowed;
+}
+
+.nopointer {
+	cursor: default;
+}
+
 .device-icon {
 	width: 40px;
 	height: 40px;
