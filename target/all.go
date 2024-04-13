@@ -18,7 +18,7 @@ var AllTargets = Targets{
 		GpioPins: GpioPins{},
 	},
 	"rpi": Target{
-		FullName: "Raspberry Pi (except Pico)",
+		FullName: "Raspberry Pi 3/4/5",
 		GpioPins: GpioPins{
 			// maps GPIO label to physical pin number (see gobot.io)
 			"GPIO04": 7,

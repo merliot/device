@@ -10,10 +10,10 @@
 			<span class="device-offline">Offline</span>
 			<div>
 {{if .Locked}}
-				<img class="icon nono" src="images/locked-icon.png">
+				<span class="icon nono">&#x1F512;</span>
 {{end}}
-				<a href="download-dialog"><img class="icon" src="images/download-icon.png"></a>
-				<a href="info-dialog"><img class="icon" src="images/info-icon.png"></a>
+				<a class="icon" href="download-dialog">&#x1F4E5;</a>
+				<a class="icon" href="info-dialog">&#x1f6c8;</a>
 			</div>
 		</header>
 
@@ -24,7 +24,7 @@
 {{else}}
 		<div class="divFlexRow panel" id="full-nodef">
 			<span>Click</span>
-			<a href="download-dialog"><img class="icon" src="images/download-icon.png"></a>
+			<a class="icon" href="download-dialog">&#x1F4E5;</a>
 			<span>to download {{.Name}} firmware</span>
 		</div>
 {{end}}
