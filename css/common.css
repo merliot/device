@@ -79,6 +79,7 @@ hr {
 }
 
 #tile-nodef {
+	color: darkgrey;
 	font-style: italic;
 	align-items: center;
 	justify-content: center;
@@ -190,6 +191,7 @@ hr {
 }
 
 #full-nodef {
+	color: darkgrey;
 	align-items: center;
 	justify-content: center;
 	height: 250px;
