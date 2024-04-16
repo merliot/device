@@ -1,7 +1,10 @@
+//go:build !tinygo
+
 package device
 
 import (
 	"encoding/json"
+	"io/fs"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -20,7 +23,6 @@ func (d *Device) RenderTemplate(w http.ResponseWriter, name string, data any) {
 	}
 }
 
-/*
 func (d *Device) showCode(w http.ResponseWriter, r *http.Request) {
 	// Retrieve top-level entries
 	entries, _ := fs.ReadDir(d.CompositeFs, ".")
@@ -30,9 +32,8 @@ func (d *Device) showCode(w http.ResponseWriter, r *http.Request) {
 		names = append(names, entry.Name())
 	}
 	w.Header().Set("Content-Type", "text/html")
-	d.RenderTemplate(w, "code.tmpl")
+	d.RenderTemplate(w, "code.tmpl", names)
 }
-*/
 
 func (d *Device) showState(w http.ResponseWriter, data any) {
 	state, _ := json.MarshalIndent(data, "", "\t")
@@ -56,8 +57,8 @@ func reverseSlice(s []string) {
 	}
 }
 
-// Set Content-Type: "text/plain" on go, css, and template files
-var textFile = regexp.MustCompile("\\.(go|tmpl|css)$")
+// Set Content-Type: "text/plain" on go, mod, css, and template files
+var textFile = regexp.MustCompile("\\.(go|mod|tmpl|css)$")
 
 // Set Content-Type: "application/javascript" on js files
 var scriptFile = regexp.MustCompile("\\.js$")
@@ -89,10 +90,8 @@ func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 		d.showInstructions(w, parts, data)
 	case "info-dialog":
 		d.RenderTemplate(w, "info.tmpl", data)
-		/*
-			case "code":
-				d.showCode(w, r, data)
-		*/
+	case "code":
+		d.showCode(w, r)
 	case "state":
 		d.showState(w, data)
 	default:
