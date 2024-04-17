@@ -1,0 +1,12 @@
+table.info {
+	border-collapse: separate;
+	border-spacing: 20px 0;
+}
+
+table.info th {
+	text-align: right;
+}
+
+#buttons {
+	margin-top: 30px;
+}

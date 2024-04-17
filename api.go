@@ -75,8 +75,14 @@ func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 	path := r.URL.Path
 	parts := strings.Split(path, "/")
 	reverseSlice(parts)
+
 	switch parts[0] {
-	case "", "index.html":
+	case "":
+		if len(parts) > 1 && parts[1] != "" {
+			// Must be a directory
+			http.FileServer(http.FS(d.CompositeFs)).ServeHTTP(w, r)
+			return
+		}
 		d.ViewMode = ViewFull
 		d.RenderTemplate(w, "index.tmpl", data)
 	case "tile":
