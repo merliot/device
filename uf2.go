@@ -43,14 +43,6 @@ func (d *Device) generateUf2(dir, target string) (err error) {
 	}
 	fmt.Println(string(stdoutStderr))
 
-	// For trying to repo TinyGO Issue #4206
-	rmcmd := exec.Command("rm", "-f", "~/.cache/tinygo/obj-*")
-	fmt.Println(rmcmd.String())
-	out, err := rmcmd.CombinedOutput()
-	if err != nil {
-		return fmt.Errorf("%w: %s", err, out)
-	}
-
 	return nil
 }
 
