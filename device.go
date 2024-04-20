@@ -79,6 +79,7 @@ type Device struct {
 	fs       embed.FS
 	// Administratively locked
 	Locked bool `json:"-"`
+	// OS-specific members
 	deviceOS
 }
 
