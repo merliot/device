@@ -1,9 +1,15 @@
 package modbus
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"time"
+)
+
+var (
+	ErrPortNotOpen = errors.New("Port not open")
+	ErrTimeout     = errors.New("Timeout")
 )
 
 type Modbus struct {
@@ -35,7 +41,7 @@ func calculateCRC(data []byte) []byte {
 }
 
 func readRegisterReq(start, words uint16) []byte {
-	req := []byte{1, 3,
+	req := []byte{1, 4,
 		byte(start >> 8), byte(start & 0xff),
 		byte(words >> 8), byte(words & 0xff)}
 	crc := calculateCRC(req)
@@ -53,23 +59,19 @@ func (m *Modbus) ReadRegisters(start, words uint16) ([]byte, error) {
 			start, words, err)
 	}
 
-	var res = make([]byte, 5+words*2)
-	for i := 0; i < 10; i++ {
-		time.Sleep(100 * time.Millisecond)
+	var want = int(5 + words*2)
+	var res = make([]byte, want)
+	var pos = 0
 
-		n, err := m.Read(res)
+	for want > 0 {
+		n, err := m.Read(res[pos:])
 		if err != nil {
-			return nil, fmt.Errorf("Error reading response start %d words %d err %s",
+			return nil, fmt.Errorf("Error reading request start %d words %d err %s",
 				start, words, err)
 		}
-		switch n {
-		case 5:
-			return nil, fmt.Errorf("Error reading response exception code %d", res[2])
-		case int(5 + words*2):
-			// TODO validate CRC
-			return res[3 : n-2], nil
-		}
+		pos += n
+		want -= n
 	}
 
-	return nil, fmt.Errorf("Timeout reading registers")
+	return res[3 : pos-2], nil
 }
