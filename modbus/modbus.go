@@ -2,22 +2,20 @@ package modbus
 
 import (
 	"errors"
-	"fmt"
 	"io"
 	"time"
 )
 
 var (
-	ErrPortNotOpen = errors.New("Port not open")
-	ErrTimeout     = errors.New("Timeout")
+	ErrTimeout = errors.New("Timeout")
 )
 
 type Modbus struct {
 	io.ReadWriter
 }
 
-func New(rw io.ReadWriter) *Modbus {
-	return &Modbus{
+func New(rw io.ReadWriter) Modbus {
+	return Modbus{
 		ReadWriter: rw,
 	}
 }
@@ -55,8 +53,7 @@ func (m *Modbus) ReadRegisters(start, words uint16) ([]byte, error) {
 	req := readRegisterReq(start, words)
 	_, err := m.Write(req)
 	if err != nil {
-		return nil, fmt.Errorf("Error writing request start %d words %d err %s",
-			start, words, err)
+		return nil, err
 	}
 
 	var want = int(5 + words*2)
@@ -66,8 +63,7 @@ func (m *Modbus) ReadRegisters(start, words uint16) ([]byte, error) {
 	for want > 0 {
 		n, err := m.Read(res[pos:])
 		if err != nil {
-			return nil, fmt.Errorf("Error reading request start %d words %d err %s",
-				start, words, err)
+			return nil, err
 		}
 		pos += n
 		want -= n
