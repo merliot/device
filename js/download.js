@@ -52,7 +52,10 @@ function downloadFile(event) {
 	var gopher = document.getElementById("gopher")
 	gopher.style.display = "block"
 
-	fetch(downloadLink())
+	let dl = downloadLink()
+	console.log(dl)
+
+	fetch(dl)
 		.then(response => {
 			if (!response.ok) {
 				// If we didn't get a 2xx response, throw an error with the response text
@@ -113,17 +116,22 @@ function handleHttp(http, first) {
 function updateHttp(target) {
 	var div = document.getElementById('download-http-div')
 	var http = document.getElementById('download-http')
+	var port = document.getElementById("download-port")
 	switch (target) {
 		case "demo":
 		case "x86-64":
 		case "rpi":
 			div.style.display = "flex"
 			http.disabled = false
+			port.disabled = false
+			port.name = "port"
 			break
 		default:
 			div.style.display = "none"
 			http.disabled = true
 			http.checked = false
+			port.disabled = true
+			port.name = ""
 			break
 	}
 }
