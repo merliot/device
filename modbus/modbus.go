@@ -11,6 +11,7 @@ var (
 )
 
 type Modbus struct {
+	// Read() should be blocking with timeout
 	io.ReadWriter
 }
 
@@ -61,6 +62,7 @@ func (m *Modbus) ReadRegisters(start, words uint16) ([]byte, error) {
 	var pos = 0
 
 	for want > 0 {
+		// Assuming Read() is blocking with timeout err
 		n, err := m.Read(res[pos:])
 		if err != nil {
 			return nil, err
