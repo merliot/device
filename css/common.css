@@ -62,8 +62,8 @@ hr {
 }
 
 .tile {
-	width: 160px;
-	height: 160px;
+	width: 150px;
+	height: 150px;
 	border-radius: 12px;
 	border: 1px solid darkgrey;
 	overflow: hidden;
@@ -91,6 +91,10 @@ hr {
 	width: 20px;
 	height: 20px;
 	margin: 0 15px;
+}
+
+.tile-name {
+	font-size: medium;
 }
 
 .offline .tile-name {
