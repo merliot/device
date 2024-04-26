@@ -62,3 +62,12 @@ hr {
 	font-size: 20px;
 	margin-right: 5px;
 }
+
+.btns {
+	align-items: center;
+}
+
+#download-pacifier {
+	color: darkgrey;
+	margin-right: 20px;
+}

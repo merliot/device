@@ -43,20 +43,52 @@ function downloadLink() {
 	return baseURL + linkURL
 }
 
+// I don't like globals
+let cancelPacifier = false
+
+async function runPacifier() {
+	let gopher = document.getElementById("gopher")
+	gopher.classList.replace("hidden", "visible")
+
+	let pacifier = document.getElementById("download-pacifier")
+	pacifier.classList.replace("hidden", "visible")
+
+	let i = 0
+	while (!cancelPacifier) {
+		switch (i) {
+		case 0:
+			pacifier.innerText = "Making..."
+			break;
+		case 7:
+			pacifier.innerText = "Packaging..."
+			break;
+		case 14:
+			pacifier.innerText = "Downloading..."
+			break;
+		}
+		await new Promise(resolve => setTimeout(resolve, 500));
+		i++
+	}
+
+	gopher.classList.replace("visible", "hidden")
+	pacifier.classList.replace("visible", "hidden")
+	cancelPacifier = false
+}
+
 function downloadFile(event) {
 	event.preventDefault()
 
 	var response = document.getElementById("download-response")
 	response.innerText = ""
 
-	var gopher = document.getElementById("gopher")
-	gopher.style.display = "block"
+	runPacifier()
 
 	let dl = downloadLink()
 	console.log(dl)
 
-	fetch(dl)
+	fetch(dl, { timeout: 30000 }) // 30 sec timeout
 		.then(response => {
+
 			if (!response.ok) {
 				// If we didn't get a 2xx response, throw an error with the response text
 				return response.text().then(text => { throw new Error(text) })
@@ -77,6 +109,7 @@ function downloadFile(event) {
 			return Promise.all([response.blob(), filename, md5sum])
 		})
 		.then(([blob, filename, md5sum]) => {
+
 			// Create a temporary link element to trigger the download
 			const a = document.createElement('a')
 			a.href = URL.createObjectURL(blob)
@@ -85,13 +118,15 @@ function downloadFile(event) {
 			document.body.appendChild(a)
 			a.click();  // Simulate a click on the link
 			document.body.removeChild(a)
-			gopher.style.display = "none"
+
+			cancelPacifier = true
+
 			response.innerText = "MD5: " + md5sum
 			response.style.color = "black"
 		})
 		.catch(error => {
 			console.error('Error downloading file:', error)
-			gopher.style.display = "none"
+			cancelPacifier = true
 			response.innerText = error
 			response.style.color = "red"
 		})
