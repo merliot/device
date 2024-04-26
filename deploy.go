@@ -84,7 +84,7 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 	// substitute "-" for "_" in target, ala TinyGo, when using as tag
 	target := strings.Replace(values["target"], "-", "_", -1)
 
-	cmd := exec.Command("go", "build", "-o", dir+"/"+d.Model, "-tags", target, dir+"/build.go")
+	cmd := exec.Command("go", "build", "-ldflags", "-s -w", "-o", dir+"/"+d.Model, "-tags", target, dir+"/build.go")
 	fmt.Println(cmd.String())
 	cmd.Env = append(cmd.Environ(), envs...)
 	stdoutStderr, err := cmd.CombinedOutput()
@@ -95,7 +95,7 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 	// Build installer and serve as download-able file
 
 	installer := d.Id + "-installer"
-	cmd = exec.Command("go", "build", "-o", dir+"/"+installer, dir+"/installer.go")
+	cmd = exec.Command("go", "build", "-ldflags", "-s -w", "-o", dir+"/"+installer, dir+"/installer.go")
 	fmt.Println(cmd.String())
 	cmd.Env = append(cmd.Environ(), envs...)
 	stdoutStderr, err = cmd.CombinedOutput()
