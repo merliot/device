@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/merliot/device/uf2"
@@ -37,7 +38,7 @@ func genFile(templates *template.Template, template string, name string,
 func (d *Device) serveFile(dir, filename string, w http.ResponseWriter, r *http.Request) error {
 
 	// Calculate MD5 checksum of installer
-	cmd := exec.Command("md5sum", dir+"/"+filename)
+	cmd := exec.Command("md5sum", filepath.Join(dir, filename))
 	fmt.Println(cmd.String())
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
@@ -51,7 +52,7 @@ func (d *Device) serveFile(dir, filename string, w http.ResponseWriter, r *http.
 	// Set the MD5 checksum header
 	w.Header().Set("Content-MD5", md5sumBase64)
 
-	http.ServeFile(w, r, dir+"/"+filename)
+	http.ServeFile(w, r, filepath.Join(dir, filename))
 
 	return nil
 }
@@ -60,22 +61,22 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 	templates *template.Template, w http.ResponseWriter, r *http.Request) error {
 
 	// Generate build.go from server.tmpl
-	if err := genFile(templates, "server.tmpl", dir+"/build.go", values); err != nil {
+	if err := genFile(templates, "server.tmpl", filepath.Join(dir, "build.go"), values); err != nil {
 		return err
 	}
 
 	// Generate installer.go from installer.tmpl
-	if err := genFile(templates, "installer.tmpl", dir+"/installer.go", values); err != nil {
+	if err := genFile(templates, "installer.tmpl", filepath.Join(dir, "installer.go"), values); err != nil {
 		return err
 	}
 
 	// Generate model.service from service.tmpl
-	if err := genFile(templates, "service.tmpl", dir+"/"+d.Model+".service", values); err != nil {
+	if err := genFile(templates, "service.tmpl", filepath.Join(dir, d.Model+".service"), values); err != nil {
 		return err
 	}
 
 	// Generate model.conf from log.tmpl
-	if err := genFile(templates, "log.tmpl", dir+"/"+d.Model+".conf", values); err != nil {
+	if err := genFile(templates, "log.tmpl", filepath.Join(dir, d.Model+".conf"), values); err != nil {
 		return err
 	}
 
@@ -84,7 +85,8 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 	// substitute "-" for "_" in target, ala TinyGo, when using as tag
 	target := strings.Replace(values["target"], "-", "_", -1)
 
-	cmd := exec.Command("go", "build", "-ldflags", "-s -w", "-o", dir+"/"+d.Model, "-tags", target, dir+"/build.go")
+	cmd := exec.Command("go", "build", "-ldflags", "-s -w", "-o", filepath.Join(dir, d.Model),
+		"-tags", target, filepath.Join(dir, "build.go"))
 	fmt.Println(cmd.String())
 	cmd.Env = append(cmd.Environ(), envs...)
 	stdoutStderr, err := cmd.CombinedOutput()
@@ -95,7 +97,7 @@ func (d *Device) deployGo(dir string, values map[string]string, envs []string,
 	// Build installer and serve as download-able file
 
 	installer := d.Id + "-installer"
-	cmd = exec.Command("go", "build", "-ldflags", "-s -w", "-o", dir+"/"+installer, dir+"/installer.go")
+	cmd = exec.Command("go", "build", "-ldflags", "-s -w", "-o", filepath.Join(dir, installer), filepath.Join(dir, "installer.go"))
 	fmt.Println(cmd.String())
 	cmd.Env = append(cmd.Environ(), envs...)
 	stdoutStderr, err = cmd.CombinedOutput()
@@ -177,7 +179,7 @@ func (d *Device) deployTinyGoUF2(dir string, values map[string]string, envs []st
 
 	uf2.ReplaceBytes(oldBytes, newBytes)
 
-	err = uf2.Write(dir + "/" + installer)
+	err = uf2.Write(filepath.Join(dir, installer))
 	if err != nil {
 		return err
 	}
