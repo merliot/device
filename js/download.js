@@ -65,6 +65,18 @@ async function runPacifier() {
 		case 14:
 			pacifier.innerText = "Downloading..."
 			break;
+		case 21:
+			pacifier.innerText = "Still downloading..."
+			break;
+		case 28:
+			pacifier.innerText = "Hmmm..."
+			break;
+		case 35:
+			pacifier.innerText = "Ok, still downloading..."
+			break;
+		case 42:
+			pacifier.innerText = "Almost there..."
+			break;
 		}
 		await new Promise(resolve => setTimeout(resolve, 500));
 		i++

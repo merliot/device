@@ -157,11 +157,11 @@ func (d *Device) deployTinyGoUF2(dir string, values map[string]string, envs []st
 
 	target := values["target"]
 
-	base := d.Model + "-" + target + ".uf2"
+	base := filepath.Join("uf2s", d.Model+"-"+target+".uf2")
 	installer := d.Id + "-installer.uf2"
 
 	// Re-write the base uf2 file and save as the installer uf2 file.
-	// The paramsMem area is replace by json-encoded params.
+	// The paramsMem area is replaced by json-encoded params.
 
 	uf2, err := uf2.Read(base)
 	if err != nil {
