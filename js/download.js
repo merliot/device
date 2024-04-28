@@ -87,12 +87,16 @@ async function runPacifier() {
 	cancelPacifier = false
 }
 
+function setResponse(msg, color) {
+	var response = document.getElementById("download-response")
+	response.innerText = msg
+	response.style.color = color
+}
+
 function downloadFile(event) {
 	event.preventDefault()
 
-	var response = document.getElementById("download-response")
-	response.innerText = ""
-
+	setResponse("", "")
 	runPacifier()
 
 	let dl = downloadLink()
@@ -133,14 +137,12 @@ function downloadFile(event) {
 
 			cancelPacifier = true
 
-			response.innerText = "MD5: " + md5sum
-			response.style.color = "black"
+			setResponse("MD5: " + ms5sum, "black")
 		})
 		.catch(error => {
 			console.error('Error downloading file:', error)
 			cancelPacifier = true
-			response.innerText = error
-			response.style.color = "red"
+			setResponse(error, "red")
 		})
 }
 
@@ -216,6 +218,7 @@ function updateInstructions(target) {
 }
 
 function handleTarget(target) {
+	setResponse("", "")
 	updateHttp(target)
 	updateSsid(target)
 	updateInstructions(target)
