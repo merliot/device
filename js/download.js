@@ -137,7 +137,7 @@ function downloadFile(event) {
 
 			cancelPacifier = true
 
-			setResponse("MD5: " + ms5sum, "black")
+			setResponse("MD5: " + md5sum, "black")
 		})
 		.catch(error => {
 			console.error('Error downloading file:', error)
