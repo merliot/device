@@ -25,13 +25,6 @@ type Devicer interface {
 	SetDeployParams(string)
 }
 
-type Modeler interface {
-	Icon() []byte
-	DescHtml() []byte
-	SupportedTargets() string
-	GenerateUf2s(string) error
-}
-
 type params struct {
 	MagicStart   string
 	Ssid         string

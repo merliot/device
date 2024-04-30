@@ -4,30 +4,40 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"html/template"
+	"net/http"
 	"os"
 
 	"github.com/merliot/dean"
-	"github.com/merliot/device"
 )
+
+type Modeler interface {
+	Icon() []byte
+	DescHtml() []byte
+	SupportedTargets() string
+	GenerateUf2s(string) error
+	ServeHTTP(http.ResponseWriter, *http.Request)
+}
 
 type Model struct {
 	Module           string
 	Maker            string
-	device.Modeler   `json:"-"`
-	Icon             string        `json:"-"`
-	DescHtml         template.HTML `json:"-"`
-	SupportedTargets string        `json:"-"`
+	Modeler          `json:"-"`
+	Icon             string           `json:"-"`
+	DescHtml         template.HTML    `json:"-"`
+	SupportedTargets string           `json:"-"`
+	ServeHTTP        http.HandlerFunc `json:"-"`
 }
 
 type Models map[string]Model // keyed by model
 
 func New(model string, maker dean.ThingMaker) Model {
-	modeler := maker("proto", model, "proto").(device.Modeler)
+	modeler := maker("proto", model, "proto").(Modeler)
 	return Model{
 		Modeler:          modeler,
 		Icon:             base64.StdEncoding.EncodeToString(modeler.Icon()),
 		DescHtml:         template.HTML(modeler.DescHtml()),
 		SupportedTargets: modeler.SupportedTargets(),
+		ServeHTTP:        modeler.ServeHTTP,
 	}
 }
 
