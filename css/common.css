@@ -61,56 +61,6 @@ hr {
 	box-sizing: border-box;
 }
 
-.tile {
-	width: 150px;
-	height: 150px;
-	border-radius: 12px;
-	border: 1px solid darkgrey;
-	overflow: hidden;
-}
-
-.offline .tile {
-	border-color: red;
-}
-
-.tile-body {
-	background-color: #f4f4f4;
-	height: 120px;
-}
-
-#tile-nodef {
-	color: darkgrey;
-	font-style: italic;
-	align-items: center;
-	justify-content: center;
-	background-color: #f4f4f4;
-	height: 120px;
-}
-
-.tile-icon {
-	width: 20px;
-	height: 20px;
-	margin: 0 15px;
-}
-
-.tile-name {
-	font-size: medium;
-}
-
-.offline .tile-name {
-	color: white;
-}
-
-.tile-footer {
-	height: 40px;
-	align-items: center;
-	background-color: lightgrey;
-}
-
-.offline .tile-footer {
-	background-color: red;
-}
-
 .divFlexRow {
 	display: flex;
 }

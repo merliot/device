@@ -6,6 +6,7 @@ import (
 	"embed"
 	"fmt"
 	"html"
+	"html/template"
 	"net/url"
 	"strings"
 
@@ -23,6 +24,7 @@ type Devicer interface {
 	SetLocked(bool)
 	GetDeployParams() string
 	SetDeployParams(string)
+	RenderHTML(string) (template.HTML, error)
 }
 
 type params struct {

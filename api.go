@@ -3,7 +3,11 @@
 package device
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
+	"html/template"
+	"io"
 	"io/fs"
 	"net/http"
 	"regexp"
@@ -11,15 +15,27 @@ import (
 	"strings"
 )
 
+func (d *Device) render(w io.Writer, name string, data any) error {
+	tmpl := d.templates.Lookup(name)
+	if tmpl == nil {
+		return fmt.Errorf("Template '%s' not found", name)
+	}
+	return tmpl.Execute(w, data)
+}
+
+// Render template name to HTML
+func (d *Device) RenderHTML(name string) (template.HTML, error) {
+	var buf bytes.Buffer
+	if err := d.render(&buf, name, d); err != nil {
+		return template.HTML(""), err
+	}
+	return template.HTML(buf.String()), nil
+}
+
 // RenderTemplate writes the rendered template name using data to writer
 func (d *Device) RenderTemplate(w http.ResponseWriter, name string, data any) {
-	tmpl := d.templates.Lookup(name)
-	if tmpl != nil {
-		if err := tmpl.Execute(w, data); err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-		}
-	} else {
-		http.Error(w, "Template '"+name+"' not found", http.StatusBadRequest)
+	if err := d.render(w, name, data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 }
 

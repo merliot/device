@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"html/template"
-	"net/http"
 	"os"
 
 	"github.com/merliot/dean"
@@ -15,17 +14,15 @@ type Modeler interface {
 	DescHtml() []byte
 	SupportedTargets() string
 	GenerateUf2s(string) error
-	ServeHTTP(http.ResponseWriter, *http.Request)
 }
 
 type Model struct {
 	Module           string
 	Maker            string
 	Modeler          `json:"-"`
-	Icon             string           `json:"-"`
-	DescHtml         template.HTML    `json:"-"`
-	SupportedTargets string           `json:"-"`
-	ServeHTTP        http.HandlerFunc `json:"-"`
+	Icon             string        `json:"-"`
+	DescHtml         template.HTML `json:"-"`
+	SupportedTargets string        `json:"-"`
 }
 
 type Models map[string]Model // keyed by model
@@ -37,7 +34,6 @@ func New(model string, maker dean.ThingMaker) Model {
 		Icon:             base64.StdEncoding.EncodeToString(modeler.Icon()),
 		DescHtml:         template.HTML(modeler.DescHtml()),
 		SupportedTargets: modeler.SupportedTargets(),
-		ServeHTTP:        modeler.ServeHTTP,
 	}
 }
 
