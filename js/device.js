@@ -118,7 +118,7 @@ class Trunk {
 		let device = this.devices[msg.Tag]
 		if (device !== undefined && device.visible()) {
 			this.popTag(msg)
-			device.handle(msg)
+			device.handleMsg(msg)
 		}
 	}
 

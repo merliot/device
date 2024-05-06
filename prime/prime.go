@@ -35,25 +35,25 @@ func New(id, model, name string) dean.Thinger {
 	}
 }
 
-func (p *Prime) getState(msg *dean.Msg) {
+func (p *Prime) getState(pkt *dean.Packet) {
 	p.Path = "state"
-	msg.Marshal(p).Reply()
+	pkt.Marshal(p).Reply()
 }
 
-func (p *Prime) online(msg *dean.Msg, online bool) {
+func (p *Prime) online(pkt *dean.Packet, online bool) {
 	p.Child.Online = online
-	msg.Broadcast()
+	pkt.Broadcast()
 }
 
-func (p *Prime) connect(online bool) func(*dean.Msg) {
-	return func(msg *dean.Msg) {
-		p.online(msg, online)
+func (p *Prime) connect(online bool) func(*dean.Packet) {
+	return func(pkt *dean.Packet) {
+		p.online(pkt, online)
 	}
 }
 
-func (p *Prime) adoptedChild(msg *dean.Msg) {
+func (p *Prime) adoptedChild(pkt *dean.Packet) {
 	var adopt dean.ThingMsgAdopted
-	msg.Unmarshal(&adopt)
+	pkt.Unmarshal(&adopt)
 	p.Child = Child{Id: adopt.Id, Model: adopt.Model, Name: adopt.Name}
 }
 

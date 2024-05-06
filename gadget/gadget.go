@@ -30,22 +30,22 @@ type Bottles struct {
 	TakeOneDown int32
 }
 
-func (g *Gadget) save(msg *dean.Msg) {
-	msg.Unmarshal(g).Broadcast()
-	msg.Marshal(&Bottles{"bottles", 99}).Reply()
+func (g *Gadget) save(pkt *dean.Packet) {
+	pkt.Unmarshal(g).Broadcast()
+	pkt.Marshal(&Bottles{"bottles", 99}).Reply()
 }
 
-func (g *Gadget) getState(msg *dean.Msg) {
+func (g *Gadget) getState(pkt *dean.Packet) {
 	g.Path = "state"
-	msg.Marshal(g).Reply()
+	pkt.Marshal(g).Reply()
 }
 
-func (g *Gadget) bottles(msg *dean.Msg) {
+func (g *Gadget) bottles(pkt *dean.Packet) {
 	var bottles Bottles
-	msg.Unmarshal(&bottles)
+	pkt.Unmarshal(&bottles)
 	bottles.TakeOneDown--
 	if bottles.TakeOneDown > 0 {
-		msg.Marshal(&bottles).Reply()
+		pkt.Marshal(&bottles).Reply()
 	} else {
 		g.quit <- true
 	}
