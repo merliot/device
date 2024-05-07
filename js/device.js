@@ -87,7 +87,7 @@ class Trunk {
 
 	getState(tag) {
 		if (this.ws.readyState === 1) {
-			this.ws.send(JSON.stringify({Tag: tag, Path: "get/state"}))
+			this.ws.send(JSON.stringify({Tags: tag, Path: "get/state"}))
 		}
 	}
 
@@ -109,7 +109,7 @@ class Trunk {
 
 	popTag(msg) {
 		const tags = msg.Tags.split('.')
-		tag = tags.pop()
+		const tag = tags.shift()
 		msg.Tags = tags.join('.')
 		return tag
 	}
@@ -124,7 +124,7 @@ class Trunk {
 
 	ping() {
 		if (this.ws.readyState === 1) {
-			this.ws.send(JSON.stringify({Tag: "", Path: "ping"}))
+			this.ws.send(JSON.stringify({Tags: "", Path: "ping"}))
 		}
 	}
 
