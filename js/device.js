@@ -1,7 +1,13 @@
 class DeviceBase {
-	constructor(div) {
+
+	constructor(div, view) {
 		this.div = div
+		this.view = view // 0=full, 1=tile
 		this.state = null;
+	}
+
+	setSender(sender) {
+		this.sender = sender
 	}
 
 	visible() {
@@ -20,6 +26,9 @@ class DeviceBase {
 		)
 	}
 
+	send(msg) {
+		this.sender.send(this.state.Id, msg)
+	}
 
 	open() {
 		this.state.Online ? this.online() : this.offline()
@@ -62,7 +71,7 @@ class DeviceBase {
 	}
 }
 
-class Trunk {
+class Conn {
 
 	constructor(wsUrl) {
 		this.wsUrl = wsUrl
@@ -74,57 +83,9 @@ class Trunk {
 		this.connect()
 	}
 
-	checkVisibility() {
-	}
-
-	registerDevice(tag, deviceInstance) {
-		if (!(deviceInstance instanceof DeviceBase)) {
-			console.error("deviceInstance is not an instance of DeviceBase")
-			return
-		}
-		this.devices[tag] = deviceInstance
-	}
-
-	getState(tag) {
-		if (this.ws.readyState === 1) {
-			this.ws.send(JSON.stringify({Tags: tag, Path: "get/state"}))
-		}
-	}
-
-	getStates() {
-		for (let tag in this.devices) {
-			let device = this.devices[tag]
-			if (device.visible()) {
-				this.getState(tag)
-			}
-		}
-	}
-
-	closeAll() {
-		for (let tag in this.devices) {
-			let device = this.devices[tag]
-			device.close()
-		}
-	}
-
-	popTag(msg) {
-		const tags = msg.Tags.split('.')
-		const tag = tags.shift()
-		msg.Tags = tags.join('.')
-		return tag
-	}
-
-	mux(msg) {
-		let device = this.devices[msg.Tag]
-		if (device !== undefined && device.visible()) {
-			this.popTag(msg)
-			device.handleMsg(msg)
-		}
-	}
-
 	ping() {
 		if (this.ws.readyState === 1) {
-			this.ws.send(JSON.stringify({Tags: "", Path: "ping"}))
+			this.ws.send(JSON.stringify({Path: "ping"}))
 		}
 	}
 
@@ -146,7 +107,7 @@ class Trunk {
 			console.log('ws opened')
 			// Start ping
 			this.pingID = setInterval(() => this.ping(), pingPeriod)
-			this.getStates()
+			this.opened()
 		};
 
 		this.ws.onclose = () => {
@@ -157,16 +118,16 @@ class Trunk {
 				this.timeoutID = setTimeout(() => this.connect(), 2000);
 			}
 			this.ws = null
-			this.closeAll()
+			this.close()
 		};
 
 		this.ws.onmessage = (event) => {
 			var msg = JSON.parse(event.data)
-			console.log(msg)
 			switch(msg.Path) {
 				case "pong":
 					return
 				default:
+					console.log(msg)
 					this.mux(msg)
 					break
 			}
@@ -183,7 +144,6 @@ class Trunk {
 	}
 
 	setupVisibilityChange() {
-		window.addEventListener('resize', () => { this.checkVisibility() })
 		document.addEventListener('visibilitychange', () => {
 			if (document.visibilityState === 'visible') {
 				this.connect()
@@ -192,4 +152,85 @@ class Trunk {
 			}
 		})
 	}
+}
+
+class Single extends Conn {
+
+	constructor(wsUrl, device) {
+		super(wsUrl)
+		this.device = device
+		this.device.setSender(this)
+	}
+
+	opened() {
+		this.ws.send(JSON.stringify({Tags: "", Path: "get/state"}))
+	}
+
+	close() {
+		this.device.close()
+	}
+
+	mux(msg) {
+		device.handleMsg(msg)
+	}
+
+	send(id, msg) {
+		msg.Tags = ""
+		this.ws.send(JSON.stringify(msg))
+	}
+}
+
+class Trunk extends Conn {
+
+	constructor(wsUrl) {
+		super(wsUrl)
+		this.devices = {}
+		window.addEventListener('resize', () => { this.checkVisibility() })
+	}
+
+	checkVisibility() {
+	}
+
+	registerDevice(id, deviceInstance) {
+		if (!(deviceInstance instanceof DeviceBase)) {
+			console.error("deviceInstance is not an instance of DeviceBase")
+			return
+		}
+		this.devices[id] = deviceInstance
+	}
+
+	getState(id) {
+		if (this.ws.readyState === 1) {
+			this.ws.send(JSON.stringify({Tags: id, Path: "get/state"}))
+		}
+	}
+
+	opened() {
+		for (let id in this.devices) {
+			let device = this.devices[id]
+			if (device.visible()) {
+				this.getState(id)
+			}
+		}
+	}
+
+	close() {
+		for (let id in this.devices) {
+			let device = this.devices[id]
+			device.close()
+		}
+	}
+
+	mux(msg) {
+		let device = this.devices[msg.Id]
+		if (device !== undefined && device.visible()) {
+			device.handleMsg(msg)
+		}
+	}
+
+	send(id, msg) {
+		msg.Tags = id
+		this.ws.send(JSON.stringify(msg))
+	}
+
 }

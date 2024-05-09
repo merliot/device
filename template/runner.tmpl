@@ -10,7 +10,7 @@ import (
 
 func main() {
 	tinynet.NetConnect("{{.ssid}}", "{{.passphrase}}")
-	thing := {{.model}}.New("{{.id}}", "{{.model}}", "{{.name}}").(*{{.model}}.{{.modelStruct}})
+	thing := {{.model}}.New("{{.id}}", "{{.model}}", "{{.name}}").(*{{.model}}.{{.modelTitle}})
 	thing.SetDeployParams("{{.deployParams}}")
 	runner := dean.NewRunner(thing, "{{.user}}", "{{.passwd}}")
 	runner.Dials("{{.dialUrls}}")

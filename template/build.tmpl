@@ -12,7 +12,7 @@ import (
 func main() {
 	p, _ := device.DeviceParams()
 	tinynet.NetConnect(p.Ssid, p.Passphrase)
-	thing := {{.Model}}.New(p.Id, p.Model, p.Name).(*{{.Model}}.{{.ModelStruct}})
+	thing := {{.Model}}.New(p.Id, p.Model, p.Name).(*{{.Model}}.{{.ModelTitle}})
 	thing.SetDeployParams(p.DeployParams)
 	runner := dean.NewRunner(thing, p.User, p.Passwd)
 	runner.Dials(p.DialURLs)

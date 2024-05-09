@@ -203,7 +203,7 @@ func (d *Device) buildValues(r *http.Request) (map[string]string, error) {
 	values["deployParams"] = d.DeployParams
 	values["id"] = d.Id
 	values["model"] = d.Model
-	values["modelStruct"] = d.ModelStruct
+	values["modelTitle"] = string(d.ModelTitle())
 	values["name"] = d.Name
 	values["modulePath"] = d.Module.Path
 

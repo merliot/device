@@ -99,11 +99,9 @@ func (d *Device) API(w http.ResponseWriter, r *http.Request, data any) {
 			http.FileServer(http.FS(d.CompositeFs)).ServeHTTP(w, r)
 			return
 		}
-		d.ViewMode = ViewFull
 		d.RenderTemplate(w, "index.tmpl", data)
 	case "tile":
-		d.ViewMode = ViewTile
-		d.RenderTemplate(w, "index.tmpl", data)
+		d.RenderTemplate(w, "index-tile.tmpl", data)
 	case "download-dialog":
 		d.RenderTemplate(w, "download.tmpl", data)
 	case "download":

@@ -41,32 +41,18 @@ type params struct {
 	MagicEnd     string
 }
 
-// ViewMode is how the device is being viewed
-type ViewMode int
-
-const (
-	ViewFull ViewMode = iota
-	ViewTile
-	ViewTileVert
-	ViewTileHorz
-)
-
 type Device struct {
 	// Device is a Thing
 	dean.Thing
 	// Targets supported by device
 	target.Targets `json:"-"`
-	// ModelStruct is the model with first letter upper-case
-	ModelStruct string `json:"-"`
-	// WIfiAuth is a map of SSID:PASSPHRASE pairs
+	// WifiAuth is a map of SSID:PASSPHRASE pairs
 	WifiAuth `json:"-"`
 	// DialURLs is a comma seperated list of URLs the device will dial into
 	DialURLs string `json:"-"`
 	// DeployParams are device deploy configuration in an html param format
 	DeployParams string
 	deployValues url.Values
-	// ViewMode is current device view mode
-	ViewMode `json:"-"`
 	// WsScheme is the websocket scheme to use to call back into the
 	// device.  Default is ws://, which is sutable for an http:// device.
 	// Set to wss:// if dialing back into an https:// device.
@@ -86,12 +72,11 @@ const defaultWsScheme = "ws://"
 func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 	fmt.Println("NEW DEVICE\r")
 	d := &Device{
-		Thing:       dean.NewThing(id, model, name),
-		Targets:     target.MakeTargets(targets),
-		ModelStruct: strings.Title(model),
-		WifiAuth:    make(WifiAuth),
-		WsScheme:    defaultWsScheme,
-		fs:          fs,
+		Thing:    dean.NewThing(id, model, name),
+		Targets:  target.MakeTargets(targets),
+		WifiAuth: make(WifiAuth),
+		WsScheme: defaultWsScheme,
+		fs:       fs,
 	}
 	// Do any OS-specific initialization
 	d.deviceOSInit()

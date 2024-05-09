@@ -15,6 +15,10 @@ import (
 //go:embed css images html js template favicon.ico
 var deviceFs embed.FS
 
+type Modeler interface {
+	GenerateUf2s(string) error
+}
+
 const defaultPingPeriod int = 4
 
 // Linux device structure
