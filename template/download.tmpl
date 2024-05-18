@@ -2,9 +2,9 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>Download {{.Model}}</title>
+		<title>Download {{.Name}}</title>
 
-		<link rel="stylesheet" type="text/css" href="css/common.css">
+		<link rel="stylesheet" type="text/css" href="css/device.css">
 		<link rel="stylesheet" type="text/css" href="css/download.css">
 		<link rel="stylesheet" type="text/css" href="css/download-device.css">
 
@@ -12,15 +12,10 @@
 
 	<body>
 
-		<header>
-			<div>
-				<img class="device-icon" src="images/icon.png"></img>
-				<span class="device-title">{{.Name}}</span>
-			</div>
-		</header>
+{{template "download-header.tmpl" .}}
 
 		<section class="divFlexCol panel">
-			<a href="/{{.Id}}/" class="no-underline" id="download-back">
+			<a href="#" class="no-underline" id="download-back" onclick="history.back(); return false;">
 				<div class="divFlexRow device-back">
 					<span class="icon">&#x2B05;</span>
 					<span>Download</span>

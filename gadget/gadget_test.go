@@ -24,7 +24,8 @@ var (
 )
 
 func TestHomePage(t *testing.T) {
-	url := fmt.Sprintf("http://%s:%s/%s/", host, port, id)
+	url := fmt.Sprintf("http://%s:%s/device/%s/", host, port, id)
+	println(url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -62,16 +63,14 @@ func TestWebSocket(t *testing.T) {
 
 func TestMain(m *testing.M) {
 
-	// Start a new prime web server
-	prime := prime.New("p1", "prime", "p1").(*prime.Prime)
-	server := dean.NewServer(prime, user, passwd, port)
-
-	// Prime adopts new gadget
+	// New gadget
 	gadget := New(id, model, name).(*Gadget)
-	server.AdoptThing(gadget)
+
+	// Start a new prime web server, adopting gadget
+	prime := prime.NewPrime("p1", "prime", "p1", port, user, passwd, gadget).(*prime.Prime)
 
 	// Run prime
-	go server.Run()
+	go prime.Serve()
 
 	// Wait a bit for prime to spin up
 	time.Sleep(time.Second)
@@ -80,6 +79,5 @@ func TestMain(m *testing.M) {
 	m.Run()
 
 	// Cleanup
-	server.Close()
 	prime.Close()
 }

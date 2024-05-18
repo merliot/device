@@ -2,6 +2,7 @@ package gadget
 
 import (
 	"embed"
+	"fmt"
 	"net/http"
 
 	"github.com/merliot/dean"
@@ -19,29 +20,29 @@ type Gadget struct {
 var targets = []string{"demo"}
 
 func New(id, model, name string) dean.Thinger {
+	fmt.Println("NEW GADGET\r")
 	return &Gadget{
 		Device: device.New(id, model, name, fs, targets).(*device.Device),
 		quit:   make(chan bool),
 	}
 }
 
-type Bottles struct {
-	Path        string
+type MsgBottles struct {
 	TakeOneDown int32
 }
 
 func (g *Gadget) save(pkt *dean.Packet) {
+	println("GADGET SAVE")
 	pkt.Unmarshal(g).Broadcast()
-	pkt.Marshal(&Bottles{"bottles", 99}).Reply()
+	pkt.SetPath("bottles").Marshal(&MsgBottles{99}).Reply()
 }
 
 func (g *Gadget) getState(pkt *dean.Packet) {
-	g.Path = "state"
-	pkt.Marshal(g).Reply()
+	pkt.SetPath("state").Marshal(g).Reply()
 }
 
 func (g *Gadget) bottles(pkt *dean.Packet) {
-	var bottles Bottles
+	var bottles MsgBottles
 	pkt.Unmarshal(&bottles)
 	bottles.TakeOneDown--
 	if bottles.TakeOneDown > 0 {

@@ -1,8 +1,9 @@
 class DeviceBase {
 
-	constructor(div, view) {
-		this.div = div
+	constructor(container, view, assets) {
+		this.container = container
 		this.view = view // 0=full, 1=tile
+		this.assets = assets
 		this.state = null;
 	}
 
@@ -11,7 +12,7 @@ class DeviceBase {
 	}
 
 	visible() {
-		const rect = this.div.getBoundingClientRect()
+		const rect = this.container.getBoundingClientRect()
 		const viewportLeft = window.pageXOffset
 		const viewportRight = viewportLeft + window.innerWidth
 		const viewportTop = window.pageYOffset
@@ -26,8 +27,9 @@ class DeviceBase {
 		)
 	}
 
-	send(msg) {
-		this.sender.send(this.state.Id, msg)
+	send(path, msg) {
+		const tags = this.state.Id
+		this.sender.send(tags, path, msg)
 	}
 
 	open() {
@@ -39,21 +41,30 @@ class DeviceBase {
 	}
 
 	online() {
-		document.body.classList.replace("offline", "online")
+		this.container.classList.replace("offline", "online")
 	}
 
 	offline() {
-		document.body.classList.replace("online", "offline")
+		this.container.classList.replace("online", "offline")
 	}
 
-	handle(msg) {
+	handle(path, msg) {
 		// drop msg
 	}
 
-	handleMsg(msg) {
-		switch(msg.Path) {
+	handleMsg(path, msg) {
+
+		switch(path) {
 		case "state":
 			this.state = msg
+			break
+		}
+
+		let prefix = "[" + this.state.Model + " " + this.state.Name + "]"
+		console.log(prefix, path, msg)
+
+		switch(path) {
+		case "state":
 			this.open()
 			break
 		case "online":
@@ -65,7 +76,7 @@ class DeviceBase {
 			this.offline()
 			break
 		default:
-			this.handle(msg)
+			this.handle(path, msg)
 			break
 		}
 	}
@@ -84,8 +95,14 @@ class Conn {
 	}
 
 	ping() {
+		this.send("", "ping", {})
+	}
+
+	send(tags, path, msg) {
+		const payload = btoa(JSON.stringify(msg))
+		const pkt = JSON.stringify({Tags: tags, Path: path, Payload: payload})
 		if (this.ws.readyState === 1) {
-			this.ws.send(JSON.stringify({Path: "ping"}))
+			this.ws.send(pkt)
 		}
 	}
 
@@ -122,17 +139,15 @@ class Conn {
 		};
 
 		this.ws.onmessage = (event) => {
-			var msg = JSON.parse(event.data)
-			switch(msg.Path) {
+			const pkt = JSON.parse(event.data)
+			switch(pkt.Path) {
 				case "pong":
 					return
 				default:
-					console.log(msg)
-					this.mux(msg)
+					this.mux(pkt)
 					break
 			}
 		}
-
 	}
 
 	disconnect() {
@@ -163,20 +178,24 @@ class Single extends Conn {
 	}
 
 	opened() {
-		this.ws.send(JSON.stringify({Tags: "", Path: "get/state"}))
+		this.send("", "get/state", {})
 	}
 
 	close() {
 		this.device.close()
 	}
 
-	mux(msg) {
-		device.handleMsg(msg)
+	send(tags, path, msg) {
+		const payload = btoa(JSON.stringify(msg))
+		const pkt = JSON.stringify({Tags: "", Path: path, Payload: payload})
+		if (this.ws.readyState === 1) {
+			this.ws.send(pkt)
+		}
 	}
 
-	send(id, msg) {
-		msg.Tags = ""
-		this.ws.send(JSON.stringify(msg))
+	mux(pkt) {
+		const msg = JSON.parse(atob(pkt.Payload))
+		this.device.handleMsg(pkt.Path, msg)
 	}
 }
 
@@ -191,46 +210,43 @@ class Trunk extends Conn {
 	checkVisibility() {
 	}
 
-	registerDevice(id, deviceInstance) {
+	registerDevice(tag, deviceInstance) {
 		if (!(deviceInstance instanceof DeviceBase)) {
 			console.error("deviceInstance is not an instance of DeviceBase")
 			return
 		}
-		this.devices[id] = deviceInstance
-	}
-
-	getState(id) {
-		if (this.ws.readyState === 1) {
-			this.ws.send(JSON.stringify({Tags: id, Path: "get/state"}))
-		}
+		this.devices[tag] = deviceInstance
 	}
 
 	opened() {
-		for (let id in this.devices) {
-			let device = this.devices[id]
+		for (let tag in this.devices) {
+			let device = this.devices[tag]
 			if (device.visible()) {
-				this.getState(id)
+				this.send(tag, "get/state", {})
 			}
 		}
 	}
 
 	close() {
-		for (let id in this.devices) {
-			let device = this.devices[id]
+		for (let tag in this.devices) {
+			let device = this.devices[tag]
 			device.close()
 		}
 	}
 
-	mux(msg) {
-		let device = this.devices[msg.Id]
+	popTag(msg) {
+		const tags = msg.Tags.split(".")
+		const tag = tags.shift()
+		msg.Tags = tags.join(".")
+		return tag
+	}
+
+	mux(pkt) {
+		const tag = this.popTag(pkt)
+		const device = this.devices[tag]
 		if (device !== undefined && device.visible()) {
-			device.handleMsg(msg)
+			const msg = JSON.parse(atob(pkt.Payload))
+			device.handleMsg(pkt.Path, msg)
 		}
 	}
-
-	send(id, msg) {
-		msg.Tags = id
-		this.ws.send(JSON.stringify(msg))
-	}
-
 }

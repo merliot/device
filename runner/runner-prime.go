@@ -8,9 +8,7 @@ import (
 )
 
 func Run(thinger dean.Thinger, port, portPrime, user, passwd, dialURLs, wsScheme string) {
-	prime := prime.New("p1", "prime", "p1").(*prime.Prime)
+	prime := prime.NewPrime("p1", "prime", "p1", portPrime, user, passwd, thinger).(*prime.Prime)
 	prime.SetWsScheme(wsScheme)
-	server := dean.NewServer(prime, user, passwd, portPrime)
-	server.AdoptThing(thinger)
-	server.Run()
+	prime.Serve()
 }

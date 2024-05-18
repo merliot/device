@@ -3,7 +3,9 @@ package prime
 import (
 	"embed"
 	"fmt"
+	"html/template"
 	"net/http"
+	"strings"
 
 	"github.com/merliot/dean"
 	"github.com/merliot/device"
@@ -13,16 +15,22 @@ import (
 var fs embed.FS
 
 type Child struct {
-	Id     string
-	Model  string
-	Name   string
-	Online bool
+	Id             string
+	Model          string
+	Name           string
+	Online         bool
+	device.Devicer `json:"-"`
+}
+
+func (c *Child) ModelTitle() template.JS {
+	return template.JS(strings.Title(c.Model))
 }
 
 type Prime struct {
 	*device.Device
-	Child Child
-	quit  chan bool
+	server *dean.Server
+	Child  Child
+	quit   chan bool
 }
 
 var targets = []string{"x86-64", "rpi"}
@@ -35,9 +43,20 @@ func New(id, model, name string) dean.Thinger {
 	}
 }
 
+func NewPrime(id, model, name, portPrime, user, passwd string, thinger dean.Thinger) dean.Thinger {
+	p := New(id, model, name).(*Prime)
+	p.server = dean.NewServer(p, user, passwd, portPrime)
+	p.Child.Devicer = thinger.(device.Devicer)
+	p.server.AdoptThing(thinger)
+	return p
+}
+
+func (p *Prime) Serve() {
+	p.server.Run()
+}
+
 func (p *Prime) getState(pkt *dean.Packet) {
-	p.Path = "state"
-	pkt.Marshal(p).Reply()
+	pkt.SetPath("state").Marshal(p).Reply()
 }
 
 func (p *Prime) online(pkt *dean.Packet, online bool) {
@@ -54,7 +73,13 @@ func (p *Prime) connect(online bool) func(*dean.Packet) {
 func (p *Prime) adoptedChild(pkt *dean.Packet) {
 	var adopt dean.ThingMsgAdopted
 	pkt.Unmarshal(&adopt)
-	p.Child = Child{Id: adopt.Id, Model: adopt.Model, Name: adopt.Name}
+	p.Child.Id = adopt.Id
+	p.Child.Model = adopt.Model
+	p.Child.Name = adopt.Name
+}
+
+func (p *Prime) foo(pkt *dean.Packet) {
+	println("FOO")
 }
 
 func (p *Prime) Subscribers() dean.Subscribers {
@@ -63,6 +88,15 @@ func (p *Prime) Subscribers() dean.Subscribers {
 		"connected":     p.connect(true),
 		"disconnected":  p.connect(false),
 		"adopted/thing": p.adoptedChild,
+		"state":         p.foo,
+	}
+}
+
+// ya, i know, generics
+func reverseSlice(s []string) {
+	for i := 0; i < len(s)/2; i++ {
+		j := len(s) - i - 1
+		s[i], s[j] = s[j], s[i]
 	}
 }
 
@@ -77,5 +111,6 @@ func (p *Prime) Run(i *dean.Injector) {
 }
 
 func (p *Prime) Close() {
+	p.server.Close()
 	p.quit <- true
 }
