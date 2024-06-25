@@ -14,7 +14,7 @@ var fs embed.FS
 
 type Gadget struct {
 	*device.Device
-	quit chan bool
+	Bottles int
 }
 
 var targets = []string{"demo"}
@@ -22,8 +22,8 @@ var targets = []string{"demo"}
 func New(id, model, name string) dean.Thinger {
 	fmt.Println("NEW GADGET\r")
 	return &Gadget{
-		Device: device.New(id, model, name, fs, targets).(*device.Device),
-		quit:   make(chan bool),
+		Device:  device.New(id, model, name, fs, targets).(*device.Device),
+		Bottles: 99,
 	}
 }
 
@@ -31,41 +31,29 @@ type MsgBottles struct {
 	TakeOneDown int32
 }
 
-func (g *Gadget) save(pkt *dean.Packet) {
-	println("GADGET SAVE")
-	pkt.Unmarshal(g).Broadcast()
-	pkt.SetPath("bottles").Marshal(&MsgBottles{99}).Reply()
-}
-
 func (g *Gadget) getState(pkt *dean.Packet) {
 	pkt.SetPath("state").Marshal(g).Reply()
 }
 
-func (g *Gadget) bottles(pkt *dean.Packet) {
-	var bottles MsgBottles
-	pkt.Unmarshal(&bottles)
-	bottles.TakeOneDown--
-	if bottles.TakeOneDown > 0 {
-		pkt.Marshal(&bottles).Reply()
-	} else {
-		g.quit <- true
+func (g *Gadget) save(pkt *dean.Packet) {
+	pkt.Unmarshal(g).Broadcast()
+}
+
+func (g *Gadget) takeone(pkt *dean.Packet) {
+	if g.Bottles > 0 {
+		g.Bottles--
+		pkt.SetPath("tookone").Broadcast()
 	}
 }
 
 func (g *Gadget) Subscribers() dean.Subscribers {
 	return dean.Subscribers{
-		"state":     g.save,
 		"get/state": g.getState,
-		"bottles":   g.bottles,
+		"state":     g.save,
+		"takeone":   g.takeone,
 	}
 }
 
 func (g *Gadget) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	g.API(w, req, g)
-}
-
-func (g *Gadget) Run(i *dean.Injector) {
-	select {
-	case <-g.quit:
-	}
 }

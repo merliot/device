@@ -99,9 +99,9 @@ class Conn {
 	}
 
 	send(tags, path, msg) {
-		const payload = btoa(JSON.stringify(msg))
-		const pkt = JSON.stringify({Tags: tags, Path: path, Payload: payload})
 		if (this.ws.readyState === 1) {
+			const payload = btoa(JSON.stringify(msg))
+			const pkt = JSON.stringify({Tags: tags, Path: path, Payload: payload})
 			this.ws.send(pkt)
 		}
 	}
@@ -169,7 +169,7 @@ class Conn {
 	}
 }
 
-class Single extends Conn {
+class Tagged extends Conn {
 
 	constructor(wsUrl, device) {
 		super(wsUrl)
