@@ -44,6 +44,8 @@ type params struct {
 type Device struct {
 	// Device is a Thing
 	dean.Thing
+	// Data passed to render templates...usually the device parent
+	data any
 	// Targets supported by device
 	target.Targets `json:"-"`
 	// WifiAuth is a map of SSID:PASSPHRASE pairs
@@ -78,9 +80,14 @@ func New(id, model, name string, fs embed.FS, targets []string) dean.Thinger {
 		WsScheme: defaultWsScheme,
 		fs:       fs,
 	}
+	d.data = d
 	// Do any OS-specific initialization
 	d.deviceOSInit()
 	return d
+}
+
+func (d *Device) SetData(data any) {
+	d.data = data
 }
 
 // ParamFirstValue returns the first value os html param named by key

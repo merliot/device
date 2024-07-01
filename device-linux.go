@@ -23,10 +23,11 @@ const defaultPingPeriod int = 4
 
 // Linux device structure
 type deviceOS struct {
-	// WebSocket is the websocket address for a client to dial back into
-	// the device
+	// Device is an http.ServeMux
+	*http.ServeMux `json:"-"`
+	// WebSocket is the websocket address for a client to dial
 	WebSocket string `json:"-"`
-	// PingPeriod is the ping period, measured in seconds
+	// PingPeriod is the ping period, units seconds
 	PingPeriod int `json:"-"`
 	// CompositeFs is the device's fs.  Derived devices will overlay
 	// their fs onto this fs.
@@ -44,12 +45,7 @@ func (d *Device) deviceOSInit() {
 	d.CompositeFs.AddFS(d.fs)
 	d.Module = d.LoadModule()
 	d.templates = d.CompositeFs.ParseFS("template/*")
-}
-
-// ServeHTTP is the base device's web server handler for /.  Derived devices
-// can override or extend with their own ServeHTTP function.
-func (d *Device) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	d.API(w, r, d)
+	d.setupAPI()
 }
 
 // Icon is the base device's icon image

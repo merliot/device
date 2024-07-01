@@ -4,7 +4,6 @@ import (
 	"embed"
 	"fmt"
 	"html/template"
-	"net/http"
 	"strings"
 
 	"github.com/merliot/dean"
@@ -28,9 +27,9 @@ func (c *Child) ModelTitle() template.JS {
 
 type Prime struct {
 	*device.Device
-	server *dean.Server
-	Child  Child
-	quit   chan bool
+	*dean.Server `json:"-"`
+	Child        Child
+	quit         chan bool
 }
 
 var targets = []string{"x86-64", "rpi"}
@@ -45,14 +44,14 @@ func New(id, model, name string) dean.Thinger {
 
 func NewPrime(id, model, name, portPrime, user, passwd string, thinger dean.Thinger) dean.Thinger {
 	p := New(id, model, name).(*Prime)
-	p.server = dean.NewServer(p, user, passwd, portPrime)
+	p.Server = dean.NewServer(p, user, passwd, portPrime)
 	p.Child.Devicer = thinger.(device.Devicer)
-	p.server.AdoptThing(thinger)
+	p.AdoptThing(thinger)
 	return p
 }
 
 func (p *Prime) Serve() {
-	p.server.Run()
+	p.Server.Run()
 }
 
 func (p *Prime) getState(pkt *dean.Packet) {
@@ -79,7 +78,7 @@ func (p *Prime) adoptedChild(pkt *dean.Packet) {
 }
 
 func (p *Prime) foo(pkt *dean.Packet) {
-	println("FOO")
+	println("Prime shouldn't be receiving 'state' msg")
 }
 
 func (p *Prime) Subscribers() dean.Subscribers {
@@ -100,9 +99,11 @@ func reverseSlice(s []string) {
 	}
 }
 
+/*
 func (p *Prime) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	p.API(w, r, p)
 }
+*/
 
 func (p *Prime) Run(i *dean.Injector) {
 	select {
@@ -111,6 +112,6 @@ func (p *Prime) Run(i *dean.Injector) {
 }
 
 func (p *Prime) Close() {
-	p.server.Close()
+	p.Server.Close()
 	p.quit <- true
 }

@@ -4,11 +4,17 @@ class DeviceBase {
 		this.container = container
 		this.view = view // 0=full, 1=tile
 		this.assets = assets
-		this.state = null;
+		this.state = null
+		this.sender = null
+		this.tag = ""
 	}
 
 	setSender(sender) {
 		this.sender = sender
+	}
+
+	setTag(tag) {
+		this.tag = tag
 	}
 
 	visible() {
@@ -28,11 +34,11 @@ class DeviceBase {
 	}
 
 	send(path, msg) {
-		const tags = this.state.Id
-		this.sender.send(tags, path, msg)
+		this.sender.send(this.tag, path, msg)
 	}
 
-	open() {
+	save(msg) {
+		this.state = msg
 		this.state.Online ? this.online() : this.offline()
 	}
 
@@ -56,7 +62,7 @@ class DeviceBase {
 
 		switch(path) {
 		case "state":
-			this.state = msg
+			this.save(msg)
 			break
 		}
 
@@ -65,7 +71,9 @@ class DeviceBase {
 
 		switch(path) {
 		case "state":
-			this.open()
+			if (this.state.DeployParams !== "") {
+				this.open()
+			}
 			break
 		case "online":
 			this.state.Online = true
@@ -89,9 +97,7 @@ class Conn {
 		this.ws = null
 		this.pingID = null
 		this.timeoutID = null
-		this.devices = {}
 		this.setupVisibilityChange()
-		this.connect()
 	}
 
 	ping() {
@@ -169,36 +175,6 @@ class Conn {
 	}
 }
 
-class Tagged extends Conn {
-
-	constructor(wsUrl, device) {
-		super(wsUrl)
-		this.device = device
-		this.device.setSender(this)
-	}
-
-	opened() {
-		this.send("", "get/state", {})
-	}
-
-	close() {
-		this.device.close()
-	}
-
-	send(tags, path, msg) {
-		const payload = btoa(JSON.stringify(msg))
-		const pkt = JSON.stringify({Tags: "", Path: path, Payload: payload})
-		if (this.ws.readyState === 1) {
-			this.ws.send(pkt)
-		}
-	}
-
-	mux(pkt) {
-		const msg = JSON.parse(atob(pkt.Payload))
-		this.device.handleMsg(pkt.Path, msg)
-	}
-}
-
 class Trunk extends Conn {
 
 	constructor(wsUrl) {
@@ -210,12 +186,14 @@ class Trunk extends Conn {
 	checkVisibility() {
 	}
 
-	registerDevice(tag, deviceInstance) {
-		if (!(deviceInstance instanceof DeviceBase)) {
-			console.error("deviceInstance is not an instance of DeviceBase")
+	registerDevice(tag, device) {
+		if (!(device instanceof DeviceBase)) {
+			console.error("device is not an instance of DeviceBase")
 			return
 		}
-		this.devices[tag] = deviceInstance
+		device.setTag(tag)
+		device.setSender(this)
+		this.devices[tag] = device
 	}
 
 	opened() {

@@ -4,9 +4,8 @@
 
 		<title>{{.Model}} - {{.Name}}</title>
 
-		<link rel="stylesheet" type="text/css" href="css/device.css">
-		<link rel="stylesheet" type="text/css" href="css/{{.Model}}.css">
-
+		<link rel="stylesheet" type="text/css" href="model/{{.Model}}/css/device.css">
+		<link rel="stylesheet" type="text/css" href="model/{{.Model}}/css/{{.Model}}.css">
 	</head>
 
 	<body class="online model-{{.Model}}">
@@ -17,14 +16,16 @@
 {{template "index-body.tmpl" .}}
 		</div>
 
-		<script src="js/device.js"></script>
-		<script src="js/{{.Model}}x.js"></script>
+		<script src="model/{{.Model}}/js/device.js"></script>
+		<script src="model/{{.Model}}/js/{{.Model}}x.js"></script>
 
 		<script>
 			const fullView = 0
 			const assets = ""
 			let device = new Device{{.ModelTitle}}(document.body, fullView, assets)
-			let conn = new Single({{.WebSocket}}, device)
+			let trunk = new Trunk({{.WebSocket}})
+			trunk.registerDevice("", device)
+			trunk.connect()
 		</script>
 
 	</body>

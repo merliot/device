@@ -1,0 +1,15 @@
+.wall {
+	height: 200px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#bottle-count {
+	width: 100%;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+#bottles {
+	font-size: 75px;
+}

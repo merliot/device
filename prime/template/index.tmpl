@@ -2,10 +2,11 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" type="text/css" href="css/device.css">
-		<link rel="stylesheet" type="text/css" href="css/{{.Model}}.css">
-		<link rel="stylesheet" type="text/css" href="device/{{.Child.Id}}/css/{{.Child.Model}}.css">
+		<title>[Prime] {{.Child.Model}} - {{.Child.Name}}</title>
 
+		<link rel="stylesheet" type="text/css" href="model/{{.Model}}/css/device.css">
+		<link rel="stylesheet" type="text/css" href="model/{{.Model}}/css/{{.Model}}.css">
+		<link rel="stylesheet" type="text/css" href="model/{{.Child.Model}}/css/{{.Child.Model}}.css">
 	</head>
 
 	<body class="online model-{{.Model}}">
@@ -16,17 +17,19 @@
 {{ .Child.RenderHTML "index-body.tmpl" }}
 		</div>
 
-		<script src="js/device.js"></script>
-		<script src="js/{{.Model}}.js"></script>
-		<script src="device/{{.Child.Id}}/js/{{.Child.Model}}x.js"></script>
+		<script src="model/{{.Model}}/js/device.js"></script>
+		<script src="model/{{.Model}}/js/{{.Model}}.js"></script>
+		<script src="model/{{.Child.Model}}/js/{{.Child.Model}}x.js"></script>
 
 		<script>
 			const fullView = 0
-			const assets = "device/{{.Child.Id}}/"
-			let trunk = new Trunk({{ .WebSocket }})
-			trunk.registerDevice("", new DevicePrime(document.body), fullView, "")
-			let device = new Device{{.Child.ModelTitle}}(document.body, fullView, assets)
-			trunk.registerDevice("{{.Child.Id}}", device)
+			const assets = "model/{{.Child.Model}}/"
+			let trunk = new Trunk({{.WebSocket}})
+			let prime = new DevicePrime(document.body, fullView, "")
+			trunk.registerDevice("", prime)
+			let child = new Device{{.Child.ModelTitle}}(document.body, fullView, assets)
+			trunk.registerDevice("{{.Child.Id}}", child)
+			trunk.connect()
 		</script>
 	</body>
 </html>

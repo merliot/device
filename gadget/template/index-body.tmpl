@@ -1,0 +1,15 @@
+{{- if ne .DeployParams ""}}
+			<div class="panel divFlexCol wall">
+				<div class="divFlexRow" id="bottle-count">
+					<span id="bottles">{{.Bottles}}</span>
+					<span>Bottles of Beer on the Wall</span>
+				</div>
+				<button class="btn" id="takeone">Take One</button>
+			</div>
+{{- else}}
+			<div class="divFlexRow panel" id="full-nodef">
+				<span>Click</span>
+				<a class="icon" href="model/{{.Model}}/download-dialog">&#x1F4E5;</a>
+				<span>to setup and download {{.Name}}</span>
+			</div>
+{{- end}}
